@@ -1,12 +1,13 @@
 import { create } from 'zustand';
-import { GamePhase, Operation, Difficulty, Question, AnswerResult } from '@/lib/engine/types';
-import { generateQuestions } from '@/lib/engine/questionGenerator';
+import { GamePhase, Operation, Difficulty, TimesTable, Question, AnswerResult } from '@/lib/engine/types';
+import { generateQuestions, generateTimesTableQuestions } from '@/lib/engine/questionGenerator';
 import { calculatePoints } from '@/lib/engine/scoring';
 
 interface GameStore {
   phase: GamePhase;
   operation: Operation | null;
   difficulty: Difficulty | null;
+  timesTable: TimesTable | null;
   questions: Question[];
   currentQuestionIndex: number;
   results: AnswerResult[];
@@ -17,6 +18,7 @@ interface GameStore {
 
   setOperation: (op: Operation) => void;
   setDifficulty: (diff: Difficulty) => void;
+  setTimesTable: (table: TimesTable) => void;
   startCountdown: () => void;
   startPlaying: () => void;
   submitAnswer: (userAnswer: number) => void;
@@ -28,6 +30,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   phase: 'selectOperation',
   operation: null,
   difficulty: null,
+  timesTable: null,
   questions: [],
   currentQuestionIndex: 0,
   results: [],
@@ -37,7 +40,11 @@ export const useGameStore = create<GameStore>((set, get) => ({
   questionStartTime: 0,
 
   setOperation: (operation) => {
-    set({ operation, phase: 'selectDifficulty' });
+    if (operation === 'multiplication') {
+      set({ operation, phase: 'selectTimesTable' });
+    } else {
+      set({ operation, phase: 'selectDifficulty' });
+    }
   },
 
   setDifficulty: (difficulty) => {
@@ -45,6 +52,11 @@ export const useGameStore = create<GameStore>((set, get) => ({
     if (!operation) return;
     const questions = generateQuestions(operation, difficulty);
     set({ difficulty, questions, phase: 'countdown' });
+  },
+
+  setTimesTable: (timesTable) => {
+    const questions = generateTimesTableQuestions(timesTable);
+    set({ timesTable, questions, phase: 'countdown' });
   },
 
   startCountdown: () => {
@@ -90,6 +102,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       phase: 'selectOperation',
       operation: null,
       difficulty: null,
+      timesTable: null,
       questions: [],
       currentQuestionIndex: 0,
       results: [],
@@ -101,11 +114,17 @@ export const useGameStore = create<GameStore>((set, get) => ({
   },
 
   goBack: () => {
-    const { phase } = get();
+    const { phase, operation } = get();
     if (phase === 'selectDifficulty') {
       set({ phase: 'selectOperation', operation: null });
+    } else if (phase === 'selectTimesTable') {
+      set({ phase: 'selectOperation', operation: null });
     } else if (phase === 'countdown') {
-      set({ phase: 'selectDifficulty', difficulty: null, questions: [] });
+      if (operation === 'multiplication') {
+        set({ phase: 'selectTimesTable', timesTable: null, questions: [] });
+      } else {
+        set({ phase: 'selectDifficulty', difficulty: null, questions: [] });
+      }
     }
   },
 }));

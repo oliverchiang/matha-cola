@@ -18,7 +18,9 @@ export interface AnswerResult {
   pointsEarned: number;
 }
 
-export type GamePhase = 'selectOperation' | 'selectDifficulty' | 'countdown' | 'playing' | 'finished';
+export type TimesTable = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 'mixed';
+
+export type GamePhase = 'selectOperation' | 'selectDifficulty' | 'selectTimesTable' | 'countdown' | 'playing' | 'finished';
 
 export interface GameState {
   phase: GamePhase;

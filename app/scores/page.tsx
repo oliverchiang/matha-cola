@@ -93,6 +93,10 @@ export default function ScoresPage() {
           <div className="w-full flex flex-col gap-3">
             {entries.map(([key, entry], i) => {
               const [op, diff] = key.split('_');
+              const isTimesTable = diff?.endsWith('x');
+              const label = isTimesTable
+                ? `${diff === 'mixedx' ? 'Mixed' : diff.replace('x', '')} Times Table`
+                : `${operationLabels[op] || op} - ${difficultyLabels[diff] || diff}`;
               return (
                 <motion.div
                   key={key}
@@ -106,7 +110,7 @@ export default function ScoresPage() {
                   </div>
                   <div className="flex-1">
                     <div className="font-bold text-dark">
-                      {operationLabels[op] || op} - {difficultyLabels[diff] || diff}
+                      {label}
                     </div>
                     <div className="text-sm text-dark/50">
                       {entry.correct}/{entry.total} correct

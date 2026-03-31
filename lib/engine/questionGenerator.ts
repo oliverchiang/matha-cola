@@ -1,4 +1,4 @@
-import { Question, Operation, Difficulty } from './types';
+import { Question, Operation, Difficulty, TimesTable } from './types';
 import { getDifficultyConfig } from './difficulty';
 
 function randomInt(min: number, max: number): number {
@@ -64,6 +64,48 @@ export function generateQuestions(operation: Operation, difficulty: Difficulty, 
   } else {
     for (let i = 0; i < count; i++) {
       questions.push(generateSingleQuestion(operation, difficulty, i));
+    }
+  }
+
+  return questions;
+}
+
+export function generateTimesTableQuestions(timesTable: TimesTable, count: number = 10): Question[] {
+  const questions: Question[] = [];
+
+  if (timesTable === 'mixed') {
+    // Pick random tables and random multipliers
+    for (let i = 0; i < count; i++) {
+      const table = randomInt(1, 9);
+      const multiplier = randomInt(1, 12);
+      questions.push({
+        id: i,
+        operand1: table,
+        operand2: multiplier,
+        operation: 'multiplication',
+        answer: table * multiplier,
+      });
+    }
+  } else {
+    // Specific times table: N x 1 through N x 12, shuffled
+    const multipliers: number[] = [];
+    for (let m = 1; m <= 12; m++) {
+      multipliers.push(m);
+    }
+    // Shuffle
+    for (let i = multipliers.length - 1; i > 0; i--) {
+      const j = randomInt(0, i);
+      [multipliers[i], multipliers[j]] = [multipliers[j], multipliers[i]];
+    }
+    for (let i = 0; i < count; i++) {
+      const m = multipliers[i % multipliers.length];
+      questions.push({
+        id: i,
+        operand1: timesTable,
+        operand2: m,
+        operation: 'multiplication',
+        answer: timesTable * m,
+      });
     }
   }
 

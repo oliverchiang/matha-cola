@@ -6,9 +6,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
 import { useGameStore } from '@/lib/stores/gameStore';
 import { useScoreStore } from '@/lib/stores/scoreStore';
-import { Operation, Difficulty } from '@/lib/engine/types';
+import { Operation, Difficulty, TimesTable } from '@/lib/engine/types';
 import OperationCard from '@/components/game/OperationCard';
 import DifficultyCard from '@/components/game/DifficultyCard';
+import TimesTableCard from '@/components/game/TimesTableCard';
 import CountdownOverlay from '@/components/game/CountdownOverlay';
 import ProgressBar from '@/components/game/ProgressBar';
 import StreakCounter from '@/components/game/StreakCounter';
@@ -21,6 +22,7 @@ import { sounds } from '@/lib/sounds';
 
 const operations: Operation[] = ['addition', 'subtraction', 'multiplication', 'division', 'mixed'];
 const difficulties: Difficulty[] = ['easy', 'medium', 'hard'];
+const timesTables: TimesTable[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 'mixed'];
 
 export default function PlayPage() {
   const router = useRouter();
@@ -47,8 +49,10 @@ export default function PlayPage() {
   useEffect(() => {
     if (store.phase === 'finished') {
       // Save score
-      if (store.operation && store.difficulty) {
-        const key = `${store.operation}_${store.difficulty}`;
+      if (store.operation) {
+        const key = store.timesTable
+          ? `multiplication_${store.timesTable}x`
+          : `${store.operation}_${store.difficulty}`;
         const correct = store.results.filter(r => r.correct).length;
         scoreStore.saveScore(key, {
           score: store.score,
@@ -216,6 +220,40 @@ export default function PlayPage() {
                     difficulty={diff}
                     operation={store.operation!}
                     onClick={() => store.setDifficulty(diff)}
+                    index={i}
+                  />
+                ))}
+              </div>
+            </motion.div>
+          )}
+
+          {/* Select Times Table (multiplication only) */}
+          {store.phase === 'selectTimesTable' && (
+            <motion.div
+              key="timestable"
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -50 }}
+              className="w-full flex flex-col items-center gap-6"
+            >
+              <motion.button
+                onClick={() => store.goBack()}
+                whileTap={{ scale: 0.9 }}
+                className="self-start flex items-center gap-1 text-dark/50 hover:text-dark/80 font-medium cursor-pointer"
+              >
+                <ArrowLeft size={20} /> Back
+              </motion.button>
+
+              <h2 className="text-3xl sm:text-4xl font-bold text-dark text-center">
+                Pick Your <span className="text-op-multiplication">Times Table!</span>
+              </h2>
+
+              <div className="grid grid-cols-3 gap-3 w-full">
+                {timesTables.map((table, i) => (
+                  <TimesTableCard
+                    key={String(table)}
+                    table={table}
+                    onClick={() => store.setTimesTable(table)}
                     index={i}
                   />
                 ))}
