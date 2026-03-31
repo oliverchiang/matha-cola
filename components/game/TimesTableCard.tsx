@@ -21,6 +21,9 @@ const tableColors = [
   'bg-success',           // 7
   'bg-fizz-yellow',       // 8
   'bg-op-multiplication', // 9
+  'bg-bubble-blue',      // 10
+  'bg-op-addition',      // 11
+  'bg-cola-red',          // 12
 ];
 
 export default function TimesTableCard({ table, onClick, index }: TimesTableCardProps) {

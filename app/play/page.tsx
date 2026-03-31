@@ -12,11 +12,13 @@ import { Operation, Difficulty, TimesTable } from '@/lib/engine/types';
 import OperationCard from '@/components/game/OperationCard';
 import DifficultyCard from '@/components/game/DifficultyCard';
 import TimesTableCard from '@/components/game/TimesTableCard';
+import MixedRangeSelector from '@/components/game/MixedRangeSelector';
 import CountdownOverlay from '@/components/game/CountdownOverlay';
 import ProgressBar from '@/components/game/ProgressBar';
 import StreakCounter from '@/components/game/StreakCounter';
 import QuestionCard from '@/components/game/QuestionCard';
 import NumberPad from '@/components/game/NumberPad';
+import GameTimer, { formatTime } from '@/components/game/GameTimer';
 import FizzyMascot from '@/components/mascot/FizzyMascot';
 import StarAward from '@/components/results/StarAward';
 import AnimatedButton from '@/components/shared/AnimatedButton';
@@ -26,7 +28,7 @@ import { sounds } from '@/lib/sounds';
 
 const operations: Operation[] = ['addition', 'subtraction', 'multiplication', 'division', 'mixed'];
 const difficulties: Difficulty[] = ['easy', 'medium', 'hard'];
-const timesTables: TimesTable[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 'mixed'];
+const timesTables: TimesTable[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 'mixed'];
 
 export default function PlayPage() {
   const router = useRouter();
@@ -185,6 +187,7 @@ export default function PlayPage() {
   const totalQuestions = store.results.length;
   const stars = getStarCount(store.score);
   const resultMessage = totalQuestions > 0 ? getEncouragingMessage(store.score, correctCount, totalQuestions) : '';
+  const totalTime = store.gameEndTime - store.gameStartTime;
 
   if (store.phase === 'finished') {
     return (
@@ -227,9 +230,15 @@ export default function PlayPage() {
             transition={{ delay: 0.4 }}
             className="bg-white rounded-3xl p-6 shadow-xl w-full"
           >
-            <div className="text-center mb-4">
-              <div className="text-sm font-medium text-dark/50">Total Score</div>
-              <div className="text-5xl font-bold text-cola-red">{store.score}</div>
+            <div className="flex items-center justify-center gap-6 mb-4">
+              <div className="text-center">
+                <div className="text-sm font-medium text-dark/50">Total Score</div>
+                <div className="text-5xl font-bold text-cola-red">{store.score}</div>
+              </div>
+              <div className="text-center">
+                <div className="text-sm font-medium text-dark/50">Time</div>
+                <div className="text-5xl font-bold text-bubble-blue tabular-nums">{formatTime(totalTime)}</div>
+              </div>
             </div>
             <div className="flex gap-3">
               <div className="flex-1 bg-success/10 rounded-2xl p-4 text-center">
@@ -436,6 +445,14 @@ export default function PlayPage() {
             </motion.div>
           )}
 
+          {store.phase === 'selectMixedRange' && (
+            <MixedRangeSelector
+              key="mixedrange"
+              onSelect={(range) => store.setMixedRange(range)}
+              onBack={() => store.goBack()}
+            />
+          )}
+
           {store.phase === 'countdown' && (
             <CountdownOverlay
               key="countdown"
@@ -460,8 +477,11 @@ export default function PlayPage() {
                 <StreakCounter streak={store.streak} />
               </div>
 
-              <div className="text-2xl font-bold text-cola-red">
-                Score: {store.score}
+              <div className="flex items-center justify-center gap-6">
+                <div className="text-2xl font-bold text-cola-red">
+                  Score: {store.score}
+                </div>
+                <GameTimer startTime={store.gameStartTime} />
               </div>
 
               <div className="flex items-center gap-4 w-full justify-center">

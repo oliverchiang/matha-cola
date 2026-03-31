@@ -18,9 +18,14 @@ export interface AnswerResult {
   pointsEarned: number;
 }
 
-export type TimesTable = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 'mixed';
+export type TimesTable = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 'mixed';
 
-export type GamePhase = 'selectOperation' | 'selectDifficulty' | 'selectTimesTable' | 'countdown' | 'playing' | 'finished';
+export interface MixedRange {
+  min: number;
+  max: number;
+}
+
+export type GamePhase = 'selectOperation' | 'selectDifficulty' | 'selectTimesTable' | 'selectMixedRange' | 'countdown' | 'playing' | 'finished';
 
 export interface GameState {
   phase: GamePhase;

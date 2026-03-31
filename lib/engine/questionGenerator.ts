@@ -1,4 +1,4 @@
-import { Question, Operation, Difficulty, TimesTable } from './types';
+import { Question, Operation, Difficulty, TimesTable, MixedRange } from './types';
 import { getDifficultyConfig } from './difficulty';
 
 function randomInt(min: number, max: number): number {
@@ -70,13 +70,15 @@ export function generateQuestions(operation: Operation, difficulty: Difficulty, 
   return questions;
 }
 
-export function generateTimesTableQuestions(timesTable: TimesTable, count: number = 10): Question[] {
+export function generateTimesTableQuestions(timesTable: TimesTable, count: number = 10, mixedRange?: MixedRange): Question[] {
   const questions: Question[] = [];
 
   if (timesTable === 'mixed') {
+    const min = mixedRange?.min ?? 1;
+    const max = mixedRange?.max ?? 12;
     // Pick random tables and random multipliers
     for (let i = 0; i < count; i++) {
-      const table = randomInt(1, 9);
+      const table = randomInt(min, max);
       const multiplier = randomInt(1, 12);
       questions.push({
         id: i,

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { GamePhase, Operation, Difficulty, TimesTable, Question, AnswerResult } from '@/lib/engine/types';
+import { GamePhase, Operation, Difficulty, TimesTable, MixedRange, Question, AnswerResult } from '@/lib/engine/types';
 import { generateQuestions, generateTimesTableQuestions } from '@/lib/engine/questionGenerator';
 import { calculatePoints } from '@/lib/engine/scoring';
 
@@ -8,6 +8,7 @@ interface GameStore {
   operation: Operation | null;
   difficulty: Difficulty | null;
   timesTable: TimesTable | null;
+  mixedRange: MixedRange | null;
   questions: Question[];
   currentQuestionIndex: number;
   results: AnswerResult[];
@@ -15,10 +16,13 @@ interface GameStore {
   streak: number;
   bestStreak: number;
   questionStartTime: number;
+  gameStartTime: number;
+  gameEndTime: number;
 
   setOperation: (op: Operation) => void;
   setDifficulty: (diff: Difficulty) => void;
   setTimesTable: (table: TimesTable) => void;
+  setMixedRange: (range: MixedRange) => void;
   startCountdown: () => void;
   startPlaying: () => void;
   submitAnswer: (userAnswer: number) => void;
@@ -31,6 +35,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   operation: null,
   difficulty: null,
   timesTable: null,
+  mixedRange: null,
   questions: [],
   currentQuestionIndex: 0,
   results: [],
@@ -38,6 +43,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
   streak: 0,
   bestStreak: 0,
   questionStartTime: 0,
+  gameStartTime: 0,
+  gameEndTime: 0,
 
   setOperation: (operation) => {
     if (operation === 'multiplication') {
@@ -55,8 +62,17 @@ export const useGameStore = create<GameStore>((set, get) => ({
   },
 
   setTimesTable: (timesTable) => {
-    const questions = generateTimesTableQuestions(timesTable);
-    set({ timesTable, questions, phase: 'countdown' });
+    if (timesTable === 'mixed') {
+      set({ timesTable, phase: 'selectMixedRange' });
+    } else {
+      const questions = generateTimesTableQuestions(timesTable);
+      set({ timesTable, questions, phase: 'countdown' });
+    }
+  },
+
+  setMixedRange: (mixedRange) => {
+    const questions = generateTimesTableQuestions('mixed', 10, mixedRange);
+    set({ mixedRange, questions, phase: 'countdown' });
   },
 
   startCountdown: () => {
@@ -64,7 +80,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   },
 
   startPlaying: () => {
-    set({ phase: 'playing', questionStartTime: Date.now() });
+    set({ phase: 'playing', questionStartTime: Date.now(), gameStartTime: Date.now() });
   },
 
   submitAnswer: (userAnswer) => {
@@ -92,7 +108,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       streak: newStreak,
       bestStreak: Math.max(bestStreak, newStreak),
       ...(isLastQuestion
-        ? { phase: 'finished' }
+        ? { phase: 'finished', gameEndTime: Date.now() }
         : { currentQuestionIndex: currentQuestionIndex + 1, questionStartTime: Date.now() }),
     });
   },
@@ -103,6 +119,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       operation: null,
       difficulty: null,
       timesTable: null,
+      mixedRange: null,
       questions: [],
       currentQuestionIndex: 0,
       results: [],
@@ -110,18 +127,26 @@ export const useGameStore = create<GameStore>((set, get) => ({
       streak: 0,
       bestStreak: 0,
       questionStartTime: 0,
+      gameStartTime: 0,
+      gameEndTime: 0,
     });
   },
 
   goBack: () => {
-    const { phase, operation } = get();
+    const { phase, operation, timesTable } = get();
     if (phase === 'selectDifficulty') {
       set({ phase: 'selectOperation', operation: null });
     } else if (phase === 'selectTimesTable') {
       set({ phase: 'selectOperation', operation: null });
+    } else if (phase === 'selectMixedRange') {
+      set({ phase: 'selectTimesTable', timesTable: null, mixedRange: null });
     } else if (phase === 'countdown') {
       if (operation === 'multiplication') {
-        set({ phase: 'selectTimesTable', timesTable: null, questions: [] });
+        if (timesTable === 'mixed') {
+          set({ phase: 'selectMixedRange', questions: [] });
+        } else {
+          set({ phase: 'selectTimesTable', timesTable: null, questions: [] });
+        }
       } else {
         set({ phase: 'selectDifficulty', difficulty: null, questions: [] });
       }
