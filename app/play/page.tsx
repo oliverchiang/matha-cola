@@ -33,6 +33,7 @@ export default function PlayPage() {
   const feedbackTimeout = useRef<ReturnType<typeof setTimeout>>(null);
   const userAnswerRef = useRef(userAnswer);
   userAnswerRef.current = userAnswer;
+  const scoreSaved = useRef(false);
 
   // Load high scores
   useEffect(() => {
@@ -42,12 +43,14 @@ export default function PlayPage() {
   // Reset game state on mount
   useEffect(() => {
     store.reset();
+    scoreSaved.current = false;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Navigate to results when finished
   useEffect(() => {
-    if (store.phase === 'finished') {
+    if (store.phase === 'finished' && !scoreSaved.current) {
+      scoreSaved.current = true;
       // Save score
       if (store.operation) {
         const key = store.timesTable
@@ -68,7 +71,7 @@ export default function PlayPage() {
       }, 500);
       return () => clearTimeout(timer);
     }
-  }, [store.phase, store.operation, store.difficulty, store.score, store.results, scoreStore, router]);
+  }, [store.phase, store.operation, store.difficulty, store.timesTable, store.score, store.results, scoreStore, router]);
 
   const handleSubmit = useCallback(() => {
     const currentAnswer = userAnswerRef.current;
