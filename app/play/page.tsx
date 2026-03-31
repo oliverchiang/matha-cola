@@ -179,12 +179,155 @@ export default function PlayPage() {
   // Mascot state
   const mascotState = feedback === 'correct' ? 'cheer' : feedback === 'wrong' ? 'encourage' : 'idle';
 
+  // Results data (computed always, only rendered when finished)
+  const correctCount = store.results.filter(r => r.correct).length;
+  const incorrectCount = store.results.length - correctCount;
+  const totalQuestions = store.results.length;
+  const stars = getStarCount(store.score);
+  const resultMessage = totalQuestions > 0 ? getEncouragingMessage(store.score, correctCount, totalQuestions) : '';
+
+  if (store.phase === 'finished') {
+    return (
+      <div className="flex flex-col items-center min-h-screen relative px-4 py-6">
+        <BubbleBackground />
+        <div className="relative z-10 w-full max-w-lg flex flex-col items-center gap-5">
+          {/* Title */}
+          <motion.h2
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-4xl sm:text-5xl font-bold text-center"
+          >
+            {stars >= 3 ? (
+              <span className="text-fizz-yellow">Amazing!</span>
+            ) : stars >= 2 ? (
+              <span className="text-success">Great Job!</span>
+            ) : stars >= 1 ? (
+              <span className="text-bubble-blue">Nice Try!</span>
+            ) : (
+              <span className="text-cola-red">Keep Going!</span>
+            )}
+          </motion.h2>
+
+          {/* Mascot */}
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: 0.2, type: 'spring' }}
+          >
+            <FizzyMascot state={stars >= 2 ? 'celebrate' : stars >= 1 ? 'cheer' : 'encourage'} size={90} />
+          </motion.div>
+
+          {/* Stars */}
+          <StarAward count={stars} />
+
+          {/* Score + Correct/Incorrect */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.4 }}
+            className="bg-white rounded-3xl p-6 shadow-xl w-full"
+          >
+            <div className="text-center mb-4">
+              <div className="text-sm font-medium text-dark/50">Total Score</div>
+              <div className="text-5xl font-bold text-cola-red">{store.score}</div>
+            </div>
+            <div className="flex gap-3">
+              <div className="flex-1 bg-success/10 rounded-2xl p-4 text-center">
+                <div className="flex items-center justify-center gap-1 mb-1">
+                  <Check size={20} className="text-success" strokeWidth={3} />
+                  <span className="text-sm font-medium text-success">Correct</span>
+                </div>
+                <div className="text-4xl font-bold text-success">{correctCount}</div>
+                <div className="text-xs text-dark/40">out of {totalQuestions}</div>
+              </div>
+              <div className="flex-1 bg-cola-red/10 rounded-2xl p-4 text-center">
+                <div className="flex items-center justify-center gap-1 mb-1">
+                  <X size={20} className="text-cola-red" strokeWidth={3} />
+                  <span className="text-sm font-medium text-cola-red">Incorrect</span>
+                </div>
+                <div className="text-4xl font-bold text-cola-red">{incorrectCount}</div>
+                <div className="text-xs text-dark/40">out of {totalQuestions}</div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Message */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.8 }}
+            className="text-lg text-dark/70 font-medium text-center"
+          >
+            {resultMessage}
+          </motion.p>
+
+          {/* Question Review */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1 }}
+            className="w-full"
+          >
+            <div className="text-sm font-medium text-dark/50 mb-2">Question Review</div>
+            <div className="bg-white rounded-2xl shadow-md overflow-hidden divide-y divide-dark/5">
+              {store.results.map((result, i) => {
+                const symbol = getOperationSymbol(result.question.operation);
+                return (
+                  <div
+                    key={i}
+                    className={`flex items-center gap-3 px-4 py-3 ${result.correct ? '' : 'bg-cola-red/5'}`}
+                  >
+                    <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 ${
+                      result.correct ? 'bg-success' : 'bg-cola-red'
+                    }`}>
+                      {result.correct
+                        ? <Check size={16} className="text-white" strokeWidth={3} />
+                        : <X size={16} className="text-white" strokeWidth={3} />
+                      }
+                    </div>
+                    <div className="flex-1 font-medium text-dark">
+                      {result.question.operand1} {symbol} {result.question.operand2} = {result.question.answer}
+                    </div>
+                    {!result.correct && (
+                      <div className="text-sm text-cola-red/70">
+                        You said {result.userAnswer}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </motion.div>
+
+          {/* Done Button */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.2 }}
+            className="w-full mt-2 pb-4"
+          >
+            <AnimatedButton
+              onClick={() => {
+                sounds.click();
+                store.reset();
+                scoreSaved.current = false;
+                router.push('/');
+              }}
+              className="w-full bg-cola-red text-white font-bold text-xl py-5 rounded-2xl shadow-lg flex items-center justify-center gap-2"
+            >
+              <Home size={24} /> Done
+            </AnimatedButton>
+          </motion.div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col items-center min-h-screen relative px-4 py-6">
       <BubbleBackground />
 
       <div className="relative z-10 w-full max-w-lg flex flex-col items-center">
-        {/* Select Operation */}
         <AnimatePresence mode="wait">
           {store.phase === 'selectOperation' && (
             <motion.div
@@ -226,7 +369,6 @@ export default function PlayPage() {
             </motion.div>
           )}
 
-          {/* Select Difficulty */}
           {store.phase === 'selectDifficulty' && (
             <motion.div
               key="difficulty"
@@ -261,7 +403,6 @@ export default function PlayPage() {
             </motion.div>
           )}
 
-          {/* Select Times Table (multiplication only) */}
           {store.phase === 'selectTimesTable' && (
             <motion.div
               key="timestable"
@@ -295,7 +436,6 @@ export default function PlayPage() {
             </motion.div>
           )}
 
-          {/* Countdown */}
           {store.phase === 'countdown' && (
             <CountdownOverlay
               key="countdown"
@@ -303,7 +443,6 @@ export default function PlayPage() {
             />
           )}
 
-          {/* Gameplay */}
           {store.phase === 'playing' && (
             <motion.div
               key="playing"
@@ -311,7 +450,6 @@ export default function PlayPage() {
               animate={{ opacity: 1 }}
               className="w-full flex flex-col items-center gap-5"
             >
-              {/* Top bar */}
               <div className="w-full flex items-center justify-between gap-4">
                 <div className="flex-1">
                   <ProgressBar
@@ -322,12 +460,10 @@ export default function PlayPage() {
                 <StreakCounter streak={store.streak} />
               </div>
 
-              {/* Score display */}
               <div className="text-2xl font-bold text-cola-red">
                 Score: {store.score}
               </div>
 
-              {/* Mascot + Question */}
               <div className="flex items-center gap-4 w-full justify-center">
                 <div className="hidden sm:block">
                   <FizzyMascot state={mascotState} size={80} />
@@ -341,7 +477,6 @@ export default function PlayPage() {
                 </div>
               </div>
 
-              {/* Number Pad */}
               <NumberPad
                 onDigit={handleDigit}
                 onDelete={handleDelete}
@@ -351,120 +486,6 @@ export default function PlayPage() {
               />
             </motion.div>
           )}
-
-          {/* Results */}
-          {store.phase === 'finished' && (() => {
-            const correctCount = store.results.filter(r => r.correct).length;
-            const incorrectCount = store.results.filter(r => !r.correct).length;
-            const total = store.results.length;
-            const stars = getStarCount(store.score);
-            const message = getEncouragingMessage(store.score, correctCount, total);
-
-            return (
-              <motion.div
-                key="finished"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="w-full flex flex-col items-center gap-5"
-              >
-                {/* Title */}
-                <h2 className="text-4xl sm:text-5xl font-bold text-center">
-                  {stars >= 3 ? (
-                    <span className="text-fizz-yellow">Amazing!</span>
-                  ) : stars >= 2 ? (
-                    <span className="text-success">Great Job!</span>
-                  ) : stars >= 1 ? (
-                    <span className="text-bubble-blue">Nice Try!</span>
-                  ) : (
-                    <span className="text-cola-red">Keep Going!</span>
-                  )}
-                </h2>
-
-                {/* Mascot */}
-                <FizzyMascot state={stars >= 2 ? 'celebrate' : stars >= 1 ? 'cheer' : 'encourage'} size={90} />
-
-                {/* Stars */}
-                <StarAward count={stars} />
-
-                {/* Score + Correct/Incorrect */}
-                <div className="bg-white rounded-3xl p-6 shadow-xl w-full">
-                  <div className="text-center mb-4">
-                    <div className="text-sm font-medium text-dark/50">Total Score</div>
-                    <div className="text-5xl font-bold text-cola-red">{store.score}</div>
-                  </div>
-                  <div className="flex gap-3">
-                    <div className="flex-1 bg-success/10 rounded-2xl p-4 text-center">
-                      <div className="flex items-center justify-center gap-1 mb-1">
-                        <Check size={20} className="text-success" strokeWidth={3} />
-                        <span className="text-sm font-medium text-success">Correct</span>
-                      </div>
-                      <div className="text-4xl font-bold text-success">{correctCount}</div>
-                      <div className="text-xs text-dark/40">out of {total}</div>
-                    </div>
-                    <div className="flex-1 bg-cola-red/10 rounded-2xl p-4 text-center">
-                      <div className="flex items-center justify-center gap-1 mb-1">
-                        <X size={20} className="text-cola-red" strokeWidth={3} />
-                        <span className="text-sm font-medium text-cola-red">Incorrect</span>
-                      </div>
-                      <div className="text-4xl font-bold text-cola-red">{incorrectCount}</div>
-                      <div className="text-xs text-dark/40">out of {total}</div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Message */}
-                <p className="text-lg text-dark/70 font-medium text-center">{message}</p>
-
-                {/* Question Review */}
-                <div className="w-full">
-                  <div className="text-sm font-medium text-dark/50 mb-2">Question Review</div>
-                  <div className="bg-white rounded-2xl shadow-md overflow-hidden divide-y divide-dark/5">
-                    {store.results.map((result, i) => {
-                      const symbol = getOperationSymbol(result.question.operation);
-                      return (
-                        <div
-                          key={i}
-                          className={`flex items-center gap-3 px-4 py-3 ${result.correct ? '' : 'bg-cola-red/5'}`}
-                        >
-                          <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 ${
-                            result.correct ? 'bg-success' : 'bg-cola-red'
-                          }`}>
-                            {result.correct
-                              ? <Check size={16} className="text-white" strokeWidth={3} />
-                              : <X size={16} className="text-white" strokeWidth={3} />
-                            }
-                          </div>
-                          <div className="flex-1 font-medium text-dark">
-                            {result.question.operand1} {symbol} {result.question.operand2} = {result.question.answer}
-                          </div>
-                          {!result.correct && (
-                            <div className="text-sm text-cola-red/70">
-                              You said {result.userAnswer}
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* Done Button */}
-                <div className="w-full mt-2 pb-4">
-                  <AnimatedButton
-                    onClick={() => {
-                      sounds.click();
-                      store.reset();
-                      scoreSaved.current = false;
-                      router.push('/');
-                    }}
-                    className="w-full bg-cola-red text-white font-bold text-xl py-5 rounded-2xl shadow-lg flex items-center justify-center gap-2"
-                  >
-                    <Home size={24} /> Done
-                  </AnimatedButton>
-                </div>
-              </motion.div>
-            );
-          })()}
         </AnimatePresence>
       </div>
     </div>
