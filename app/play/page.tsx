@@ -132,6 +132,17 @@ export default function PlayPage() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [store.phase, feedback, handleSubmit]);
 
+  // Auto-submit when the typed answer matches the correct answer
+  useEffect(() => {
+    if (store.phase !== 'playing' || feedback || !userAnswer) return;
+    const question = store.questions[store.currentQuestionIndex];
+    if (!question) return;
+    const typed = parseInt(userAnswer, 10);
+    if (typed === question.answer) {
+      handleSubmit();
+    }
+  }, [userAnswer, store.phase, store.questions, store.currentQuestionIndex, feedback, handleSubmit]);
+
   const handleDigit = (digit: string) => {
     if (feedback) return;
     setUserAnswer(prev => {
