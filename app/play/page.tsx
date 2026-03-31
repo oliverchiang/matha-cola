@@ -3,9 +3,11 @@
 import { useEffect, useCallback, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Home, Check, X } from 'lucide-react';
 import { useGameStore } from '@/lib/stores/gameStore';
 import { useScoreStore } from '@/lib/stores/scoreStore';
+import { getStarCount, getEncouragingMessage } from '@/lib/engine/scoring';
+import { getOperationSymbol } from '@/lib/engine/questionGenerator';
 import { Operation, Difficulty, TimesTable } from '@/lib/engine/types';
 import OperationCard from '@/components/game/OperationCard';
 import DifficultyCard from '@/components/game/DifficultyCard';
@@ -16,6 +18,8 @@ import StreakCounter from '@/components/game/StreakCounter';
 import QuestionCard from '@/components/game/QuestionCard';
 import NumberPad from '@/components/game/NumberPad';
 import FizzyMascot from '@/components/mascot/FizzyMascot';
+import StarAward from '@/components/results/StarAward';
+import AnimatedButton from '@/components/shared/AnimatedButton';
 import BubbleBackground from '@/components/shared/BubbleBackground';
 import confetti from 'canvas-confetti';
 import { sounds } from '@/lib/sounds';
@@ -47,11 +51,10 @@ export default function PlayPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Navigate to results when finished
+  // Save score when finished
   useEffect(() => {
     if (store.phase === 'finished' && !scoreSaved.current) {
       scoreSaved.current = true;
-      // Save score
       if (store.operation) {
         const key = store.timesTable
           ? `multiplication_${store.timesTable}x`
@@ -65,13 +68,30 @@ export default function PlayPage() {
         });
         scoreStore.incrementStats(correct);
       }
-
-      const timer = setTimeout(() => {
-        router.push('/results');
-      }, 500);
-      return () => clearTimeout(timer);
     }
-  }, [store.phase, store.operation, store.difficulty, store.timesTable, store.score, store.results, scoreStore, router]);
+  }, [store.phase, store.operation, store.difficulty, store.timesTable, store.score, store.results, scoreStore]);
+
+  // Celebration confetti when finished
+  useEffect(() => {
+    if (store.phase !== 'finished') return;
+    const stars = getStarCount(store.score);
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    for (let i = 0; i < stars; i++) {
+      timers.push(setTimeout(() => sounds.starDing(i), 800 + i * 300 + 300));
+    }
+    if (stars >= 2) {
+      timers.push(setTimeout(() => {
+        sounds.celebration();
+        confetti({
+          particleCount: 100 + stars * 50,
+          spread: 90,
+          origin: { y: 0.4 },
+          colors: ['#E63946', '#FFD166', '#4ECDC4', '#06D6A0', '#7B2CBF'],
+        });
+      }, 2000));
+    }
+    return () => timers.forEach(clearTimeout);
+  }, [store.phase, store.score]);
 
   const handleSubmit = useCallback(() => {
     const currentAnswer = userAnswerRef.current;
@@ -331,6 +351,120 @@ export default function PlayPage() {
               />
             </motion.div>
           )}
+
+          {/* Results */}
+          {store.phase === 'finished' && (() => {
+            const correctCount = store.results.filter(r => r.correct).length;
+            const incorrectCount = store.results.filter(r => !r.correct).length;
+            const total = store.results.length;
+            const stars = getStarCount(store.score);
+            const message = getEncouragingMessage(store.score, correctCount, total);
+
+            return (
+              <motion.div
+                key="finished"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="w-full flex flex-col items-center gap-5"
+              >
+                {/* Title */}
+                <h2 className="text-4xl sm:text-5xl font-bold text-center">
+                  {stars >= 3 ? (
+                    <span className="text-fizz-yellow">Amazing!</span>
+                  ) : stars >= 2 ? (
+                    <span className="text-success">Great Job!</span>
+                  ) : stars >= 1 ? (
+                    <span className="text-bubble-blue">Nice Try!</span>
+                  ) : (
+                    <span className="text-cola-red">Keep Going!</span>
+                  )}
+                </h2>
+
+                {/* Mascot */}
+                <FizzyMascot state={stars >= 2 ? 'celebrate' : stars >= 1 ? 'cheer' : 'encourage'} size={90} />
+
+                {/* Stars */}
+                <StarAward count={stars} />
+
+                {/* Score + Correct/Incorrect */}
+                <div className="bg-white rounded-3xl p-6 shadow-xl w-full">
+                  <div className="text-center mb-4">
+                    <div className="text-sm font-medium text-dark/50">Total Score</div>
+                    <div className="text-5xl font-bold text-cola-red">{store.score}</div>
+                  </div>
+                  <div className="flex gap-3">
+                    <div className="flex-1 bg-success/10 rounded-2xl p-4 text-center">
+                      <div className="flex items-center justify-center gap-1 mb-1">
+                        <Check size={20} className="text-success" strokeWidth={3} />
+                        <span className="text-sm font-medium text-success">Correct</span>
+                      </div>
+                      <div className="text-4xl font-bold text-success">{correctCount}</div>
+                      <div className="text-xs text-dark/40">out of {total}</div>
+                    </div>
+                    <div className="flex-1 bg-cola-red/10 rounded-2xl p-4 text-center">
+                      <div className="flex items-center justify-center gap-1 mb-1">
+                        <X size={20} className="text-cola-red" strokeWidth={3} />
+                        <span className="text-sm font-medium text-cola-red">Incorrect</span>
+                      </div>
+                      <div className="text-4xl font-bold text-cola-red">{incorrectCount}</div>
+                      <div className="text-xs text-dark/40">out of {total}</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Message */}
+                <p className="text-lg text-dark/70 font-medium text-center">{message}</p>
+
+                {/* Question Review */}
+                <div className="w-full">
+                  <div className="text-sm font-medium text-dark/50 mb-2">Question Review</div>
+                  <div className="bg-white rounded-2xl shadow-md overflow-hidden divide-y divide-dark/5">
+                    {store.results.map((result, i) => {
+                      const symbol = getOperationSymbol(result.question.operation);
+                      return (
+                        <div
+                          key={i}
+                          className={`flex items-center gap-3 px-4 py-3 ${result.correct ? '' : 'bg-cola-red/5'}`}
+                        >
+                          <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 ${
+                            result.correct ? 'bg-success' : 'bg-cola-red'
+                          }`}>
+                            {result.correct
+                              ? <Check size={16} className="text-white" strokeWidth={3} />
+                              : <X size={16} className="text-white" strokeWidth={3} />
+                            }
+                          </div>
+                          <div className="flex-1 font-medium text-dark">
+                            {result.question.operand1} {symbol} {result.question.operand2} = {result.question.answer}
+                          </div>
+                          {!result.correct && (
+                            <div className="text-sm text-cola-red/70">
+                              You said {result.userAnswer}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Done Button */}
+                <div className="w-full mt-2 pb-4">
+                  <AnimatedButton
+                    onClick={() => {
+                      sounds.click();
+                      store.reset();
+                      scoreSaved.current = false;
+                      router.push('/');
+                    }}
+                    className="w-full bg-cola-red text-white font-bold text-xl py-5 rounded-2xl shadow-lg flex items-center justify-center gap-2"
+                  >
+                    <Home size={24} /> Done
+                  </AnimatedButton>
+                </div>
+              </motion.div>
+            );
+          })()}
         </AnimatePresence>
       </div>
     </div>
