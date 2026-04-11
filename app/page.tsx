@@ -56,7 +56,7 @@ export default function Home() {
     <div className="flex flex-col items-center justify-center min-h-screen relative overflow-hidden px-4">
       <BubbleBackground />
 
-      <div className="relative z-10 flex flex-col items-center gap-8 w-full max-w-md">
+      <div className="relative z-10 flex flex-col items-center gap-4 landscape:gap-3 w-full max-w-md landscape:max-w-3xl">
         {/* Title */}
         <motion.div
           initial={{ y: -50, opacity: 0 }}
@@ -64,7 +64,7 @@ export default function Home() {
           transition={{ type: 'spring', stiffness: 200, damping: 15 }}
           className="text-center"
         >
-          <h1 className="text-6xl sm:text-8xl font-bold tracking-tight">
+          <h1 className="text-6xl sm:text-8xl landscape:text-5xl font-bold tracking-tight">
             <span className="text-cola-red">MATHA</span>
             <span className="text-dark">-</span>
             <span className="text-bubble-blue">COLA</span>
@@ -73,7 +73,7 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
-            className="text-lg sm:text-xl text-dark/60 mt-2 font-medium"
+            className="text-lg sm:text-xl landscape:text-base text-dark/60 mt-1 font-medium"
           >
             Fizzy Fun Math for Kids!
           </motion.p>
@@ -114,80 +114,81 @@ export default function Home() {
           </motion.div>
         )}
 
-        {/* Active profile home screen */}
+        {/* Active profile home screen — landscape-friendly layout */}
         {view === 'home' && profile && (
           <>
-            {/* Greeting */}
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
-              className="text-xl font-bold text-dark/70"
-            >
-              Hey {profile.name}!
-            </motion.p>
-
-            {/* Avatar */}
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.3, type: 'spring', stiffness: 200, damping: 12 }}
-            >
-              <AvatarRenderer avatar={profile.avatar} state="idle" size={140} />
-            </motion.div>
-
-            {/* Challenge banner */}
-            {(() => {
-              const pending = challengeStore.getPendingForProfile(profile.id);
-              return pending.length > 0 ? (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 }}
-                  className="w-full"
+            <div className="w-full flex flex-col landscape:flex-row landscape:items-center landscape:justify-center landscape:gap-10 items-center gap-4">
+              {/* Left side: avatar + greeting */}
+              <div className="flex flex-col items-center gap-2 landscape:gap-3">
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.3 }}
+                  className="text-xl font-bold text-dark/70"
                 >
-                  <ChallengeBanner challenges={pending} />
-                </motion.div>
-              ) : null;
-            })()}
-
-            {/* Bottle cap count */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="flex items-center gap-2 bg-white/80 rounded-full px-4 py-2 shadow-sm"
-            >
-              <BottleCapIcon size={24} />
-              <span className="text-lg font-bold text-dark">{profile.bottleCaps}</span>
-              <span className="text-sm text-dark/50">bottle caps</span>
-            </motion.div>
-
-            {/* Play Button */}
-            <motion.div
-              initial={{ y: 30, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.6 }}
-            >
-              <Link href="/play">
+                  Hey {profile.name}!
+                </motion.p>
                 <motion.div
-                  whileHover={{ scale: 1.08 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="pulse-gentle bg-cola-red text-white text-3xl font-bold px-16 py-5 rounded-full shadow-xl
-                    cursor-pointer hover:shadow-2xl transition-shadow"
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 0.3, type: 'spring', stiffness: 200, damping: 12 }}
                 >
-                  PLAY!
+                  <AvatarRenderer avatar={profile.avatar} state="idle" size={110} />
                 </motion.div>
-              </Link>
-            </motion.div>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.5 }}
+                  className="flex items-center gap-2 bg-white/80 rounded-full px-3 py-1.5 shadow-sm"
+                >
+                  <BottleCapIcon size={20} />
+                  <span className="text-base font-bold text-dark">{profile.bottleCaps}</span>
+                  <span className="text-xs text-dark/50">caps</span>
+                </motion.div>
+              </div>
 
-            {/* Bottom links */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.9 }}
-              className="flex items-center gap-6"
-            >
+              {/* Right side: actions */}
+              <div className="flex flex-col items-center gap-4">
+                {/* Challenge banner */}
+                {(() => {
+                  const pending = challengeStore.getPendingForProfile(profile.id);
+                  return pending.length > 0 ? (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.4 }}
+                      className="w-full max-w-xs"
+                    >
+                      <ChallengeBanner challenges={pending} />
+                    </motion.div>
+                  ) : null;
+                })()}
+
+                {/* Play Button */}
+                <motion.div
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.6 }}
+                >
+                  <Link href="/play">
+                    <motion.div
+                      whileHover={{ scale: 1.08 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="pulse-gentle bg-cola-red text-white text-2xl landscape:text-3xl font-bold px-12 landscape:px-16 py-4 landscape:py-5 rounded-full shadow-xl
+                        cursor-pointer hover:shadow-2xl transition-shadow"
+                    >
+                      PLAY!
+                    </motion.div>
+                  </Link>
+                </motion.div>
+
+                {/* Nav links */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.9 }}
+                  className="flex items-center gap-5"
+                >
               <Link href="/shop">
                 <motion.div
                   whileHover={{ scale: 1.05 }}
@@ -219,6 +220,8 @@ export default function Home() {
                 </motion.div>
               </Link>
             </motion.div>
+              </div>
+            </div>
           </>
         )}
       </div>

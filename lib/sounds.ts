@@ -2,15 +2,41 @@ let audioCtx: AudioContext | null = null;
 let muted = false;
 let bgmGain: GainNode | null = null;
 let bgmPlaying = false;
+let unlocked = false;
 
 function getCtx(): AudioContext {
   if (!audioCtx) {
-    audioCtx = new AudioContext();
+    audioCtx = new (window.AudioContext || (window as unknown as Record<string, typeof AudioContext>).webkitAudioContext)();
   }
   if (audioCtx.state === 'suspended') {
     audioCtx.resume();
   }
   return audioCtx;
+}
+
+// iPad/Safari requires AudioContext to be unlocked during a user gesture.
+// We create a silent buffer and play it — this permanently unlocks audio.
+function unlockAudio() {
+  if (unlocked) return;
+  const ctx = getCtx();
+  const buffer = ctx.createBuffer(1, 1, 22050);
+  const source = ctx.createBufferSource();
+  source.buffer = buffer;
+  source.connect(ctx.destination);
+  source.start(0);
+  if (ctx.state === 'suspended') {
+    ctx.resume();
+  }
+  unlocked = true;
+}
+
+if (typeof window !== 'undefined') {
+  const events = ['touchstart', 'touchend', 'mousedown', 'keydown'];
+  const handler = () => {
+    unlockAudio();
+    events.forEach(e => document.removeEventListener(e, handler, true));
+  };
+  events.forEach(e => document.addEventListener(e, handler, true));
 }
 
 function playTone(frequency: number, duration: number, type: OscillatorType = 'sine', volume = 0.3) {

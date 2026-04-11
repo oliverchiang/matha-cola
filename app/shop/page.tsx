@@ -130,30 +130,32 @@ export default function ShopPage() {
           <h1 className="text-3xl font-bold text-dark">Shop</h1>
         </motion.div>
 
-        {/* Avatar preview with PREVIEW badge */}
-        <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ type: 'spring', stiffness: 200, damping: 12 }}
-          className="relative"
-        >
-          <AvatarRenderer avatar={previewAvatar} state="idle" size={100} />
-          {isPreviewing && (
+        {/* Sticky avatar + tabs bar */}
+        <div className="sticky top-0 z-20 bg-cream/95 backdrop-blur-sm pb-3 w-full flex flex-col items-center gap-3 -mx-4 px-4 pt-2">
+          <div className="flex items-center gap-4">
             <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="absolute top-1/2 -translate-y-1/2 -right-20 bg-fizz-yellow text-dark text-xs font-bold px-3 py-1 rounded-full shadow-md"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ type: 'spring', stiffness: 200, damping: 12 }}
+              className="relative"
             >
-              PREVIEW
+              <AvatarRenderer avatar={previewAvatar} state="idle" size={70} />
+              {isPreviewing && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="absolute -top-1 -right-16 bg-fizz-yellow text-dark text-[10px] font-bold px-2 py-0.5 rounded-full shadow-md"
+                >
+                  PREVIEW
+                </motion.div>
+              )}
             </motion.div>
-          )}
-        </motion.div>
-
-        {/* Category tabs */}
-        <ShopCategoryTabs selected={category} onSelect={setCategory} />
+          </div>
+          <ShopCategoryTabs selected={category} onSelect={setCategory} />
+        </div>
 
         {/* Items grid */}
-        <div className="grid grid-cols-2 gap-3 w-full pb-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 w-full pb-6">
           {items.map((item, i) => (
             <ShopItemCard
               key={item.id}
