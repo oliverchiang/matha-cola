@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Fredoka } from "next/font/google";
 import "./globals.css";
 import SoundToggle from "@/components/shared/SoundToggle";
+import ProfileBadge from "@/components/profile/ProfileBadge";
 
 const fredoka = Fredoka({
   subsets: ["latin"],
@@ -23,6 +24,7 @@ export default function RootLayout({
     <html lang="en" className={`${fredoka.variable} h-full`}>
       <body className="min-h-screen flex flex-col font-[family-name:var(--font-fredoka)]">
         <SoundToggle />
+        <ProfileBadge />
         {children}
       </body>
     </html>

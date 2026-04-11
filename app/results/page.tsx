@@ -4,10 +4,11 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { useGameStore } from '@/lib/stores/gameStore';
+import { useProfileStore } from '@/lib/stores/profileStore';
 import { getStarCount, getEncouragingMessage } from '@/lib/engine/scoring';
 import { getOperationSymbol } from '@/lib/engine/questionGenerator';
 import StarAward from '@/components/results/StarAward';
-import FizzyMascot from '@/components/mascot/FizzyMascot';
+import AvatarRenderer from '@/components/avatar/AvatarRenderer';
 import BubbleBackground from '@/components/shared/BubbleBackground';
 import AnimatedButton from '@/components/shared/AnimatedButton';
 import confetti from 'canvas-confetti';
@@ -17,6 +18,13 @@ import { sounds } from '@/lib/sounds';
 export default function ResultsPage() {
   const router = useRouter();
   const store = useGameStore();
+  const profileStore = useProfileStore();
+
+  useEffect(() => {
+    if (!profileStore.loaded) profileStore.load();
+  }, [profileStore]);
+
+  const profile = profileStore.getActiveProfile();
 
   const correct = store.results.filter(r => r.correct).length;
   const incorrect = store.results.filter(r => !r.correct).length;
@@ -84,7 +92,7 @@ export default function ResultsPage() {
           animate={{ scale: 1 }}
           transition={{ delay: 0.2, type: 'spring' }}
         >
-          <FizzyMascot state={stars >= 2 ? 'celebrate' : stars >= 1 ? 'cheer' : 'encourage'} size={90} />
+          <AvatarRenderer avatar={profile?.avatar} state={stars >= 2 ? 'celebrate' : stars >= 1 ? 'cheer' : 'encourage'} size={90} />
         </motion.div>
 
         {/* Stars */}

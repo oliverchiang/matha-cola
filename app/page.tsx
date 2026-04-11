@@ -1,17 +1,62 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import FizzyMascot from '@/components/mascot/FizzyMascot';
+import { useProfileStore } from '@/lib/stores/profileStore';
+import { useChallengeStore } from '@/lib/stores/challengeStore';
+import AvatarRenderer from '@/components/avatar/AvatarRenderer';
+import ChallengeBanner from '@/components/challenge/ChallengeBanner';
+import ProfileSelector from '@/components/profile/ProfileSelector';
+import ProfileCreator from '@/components/profile/ProfileCreator';
+import BottleCapIcon from '@/components/shared/BottleCapIcon';
 import BubbleBackground from '@/components/shared/BubbleBackground';
-import { Trophy } from 'lucide-react';
+import { Trophy, ShoppingBag, Swords } from 'lucide-react';
+
+type View = 'loading' | 'select' | 'create' | 'home';
 
 export default function Home() {
+  const profileStore = useProfileStore();
+  const challengeStore = useChallengeStore();
+  const [view, setView] = useState<View>('loading');
+
+  useEffect(() => {
+    if (!profileStore.loaded) profileStore.load();
+  }, [profileStore]);
+
+  // Load challenges once we know the active profile
+  useEffect(() => {
+    if (profileStore.loaded && profileStore.activeProfileId && !challengeStore.loaded) {
+      challengeStore.load(profileStore.activeProfileId);
+    }
+  }, [profileStore.loaded, profileStore.activeProfileId, challengeStore]);
+
+  useEffect(() => {
+    if (!profileStore.loaded) return;
+    if (profileStore.activeProfileId && profileStore.getActiveProfile()) {
+      setView('home');
+    } else if (profileStore.profiles.length === 0) {
+      setView('create');
+    } else {
+      setView('select');
+    }
+  }, [profileStore.loaded, profileStore.activeProfileId, profileStore.profiles, profileStore]);
+
+  const profile = profileStore.getActiveProfile();
+
+  if (view === 'loading') {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <BubbleBackground />
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen relative overflow-hidden px-4">
       <BubbleBackground />
 
-      <div className="relative z-10 flex flex-col items-center gap-8">
+      <div className="relative z-10 flex flex-col items-center gap-8 w-full max-w-md">
         {/* Title */}
         <motion.div
           initial={{ y: -50, opacity: 0 }}
@@ -34,50 +79,148 @@ export default function Home() {
           </motion.p>
         </motion.div>
 
-        {/* Mascot */}
-        <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ delay: 0.3, type: 'spring', stiffness: 200, damping: 12 }}
-        >
-          <FizzyMascot state="idle" size={140} />
-        </motion.div>
+        {/* Profile selection / creation */}
+        {view === 'select' && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="w-full"
+          >
+            <ProfileSelector
+              profiles={profileStore.profiles}
+              onSelect={(id, pin) => profileStore.selectProfile(id, pin)}
+              onDelete={(id, pin) => profileStore.deleteProfile(id, pin)}
+              onCreateNew={() => setView('create')}
+            />
+          </motion.div>
+        )}
 
-        {/* Play Button */}
-        <motion.div
-          initial={{ y: 30, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.6 }}
-        >
-          <Link href="/play">
-            <motion.div
-              whileHover={{ scale: 1.08 }}
-              whileTap={{ scale: 0.95 }}
-              className="pulse-gentle bg-cola-red text-white text-3xl font-bold px-16 py-5 rounded-full shadow-xl
-                cursor-pointer hover:shadow-2xl transition-shadow"
-            >
-              PLAY!
-            </motion.div>
-          </Link>
-        </motion.div>
+        {view === 'create' && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="w-full"
+          >
+            <ProfileCreator
+              onCreated={(name, pin) => {
+                profileStore.createProfile(name, pin);
+              }}
+              onBack={() => {
+                if (profileStore.profiles.length > 0) {
+                  setView('select');
+                }
+              }}
+            />
+          </motion.div>
+        )}
 
-        {/* High Scores Link */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.9 }}
-        >
-          <Link href="/scores">
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="flex items-center gap-2 text-dark/50 hover:text-dark/80 font-medium text-lg cursor-pointer transition-colors"
+        {/* Active profile home screen */}
+        {view === 'home' && profile && (
+          <>
+            {/* Greeting */}
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
+              className="text-xl font-bold text-dark/70"
             >
-              <Trophy size={20} />
-              High Scores
+              Hey {profile.name}!
+            </motion.p>
+
+            {/* Avatar */}
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 0.3, type: 'spring', stiffness: 200, damping: 12 }}
+            >
+              <AvatarRenderer avatar={profile.avatar} state="idle" size={140} />
             </motion.div>
-          </Link>
-        </motion.div>
+
+            {/* Challenge banner */}
+            {(() => {
+              const pending = challengeStore.getPendingForProfile(profile.id);
+              return pending.length > 0 ? (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 }}
+                  className="w-full"
+                >
+                  <ChallengeBanner challenges={pending} />
+                </motion.div>
+              ) : null;
+            })()}
+
+            {/* Bottle cap count */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              className="flex items-center gap-2 bg-white/80 rounded-full px-4 py-2 shadow-sm"
+            >
+              <BottleCapIcon size={24} />
+              <span className="text-lg font-bold text-dark">{profile.bottleCaps}</span>
+              <span className="text-sm text-dark/50">bottle caps</span>
+            </motion.div>
+
+            {/* Play Button */}
+            <motion.div
+              initial={{ y: 30, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.6 }}
+            >
+              <Link href="/play">
+                <motion.div
+                  whileHover={{ scale: 1.08 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="pulse-gentle bg-cola-red text-white text-3xl font-bold px-16 py-5 rounded-full shadow-xl
+                    cursor-pointer hover:shadow-2xl transition-shadow"
+                >
+                  PLAY!
+                </motion.div>
+              </Link>
+            </motion.div>
+
+            {/* Bottom links */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.9 }}
+              className="flex items-center gap-6"
+            >
+              <Link href="/shop">
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="flex items-center gap-2 text-dark/50 hover:text-dark/80 font-medium text-lg cursor-pointer transition-colors"
+                >
+                  <ShoppingBag size={20} />
+                  Shop
+                </motion.div>
+              </Link>
+              <Link href="/challenges">
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="flex items-center gap-2 text-dark/50 hover:text-dark/80 font-medium text-lg cursor-pointer transition-colors"
+                >
+                  <Swords size={20} />
+                  Challenges
+                </motion.div>
+              </Link>
+              <Link href="/scores">
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="flex items-center gap-2 text-dark/50 hover:text-dark/80 font-medium text-lg cursor-pointer transition-colors"
+                >
+                  <Trophy size={20} />
+                  Scores
+                </motion.div>
+              </Link>
+            </motion.div>
+          </>
+        )}
       </div>
     </div>
   );

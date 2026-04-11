@@ -3,8 +3,9 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { useScoreStore } from '@/lib/stores/scoreStore';
+import { useProfileStore } from '@/lib/stores/profileStore';
 import { ArrowLeft, Trophy, Star } from 'lucide-react';
+import BottleCapIcon from '@/components/shared/BottleCapIcon';
 import BubbleBackground from '@/components/shared/BubbleBackground';
 
 const operationLabels: Record<string, string> = {
@@ -31,13 +32,24 @@ const operationColors: Record<string, string> = {
 
 export default function ScoresPage() {
   const router = useRouter();
-  const scoreStore = useScoreStore();
+  const profileStore = useProfileStore();
 
   useEffect(() => {
-    if (!scoreStore.loaded) scoreStore.load();
-  }, [scoreStore]);
+    if (!profileStore.loaded) profileStore.load();
+  }, [profileStore]);
 
-  const entries = Object.entries(scoreStore.highScores).sort((a, b) => b[1].score - a[1].score);
+  const profile = profileStore.getActiveProfile();
+
+  // Redirect if no profile
+  useEffect(() => {
+    if (profileStore.loaded && !profile) {
+      router.push('/');
+    }
+  }, [profileStore.loaded, profile, router]);
+
+  if (!profile) return null;
+
+  const entries = Object.entries(profile.highScores).sort((a, b) => b[1].score - a[1].score);
 
   return (
     <div className="flex flex-col items-center min-h-screen relative px-4 py-6">
@@ -58,7 +70,7 @@ export default function ScoresPage() {
           className="flex items-center gap-3"
         >
           <Trophy size={36} className="text-fizz-yellow" />
-          <h1 className="text-4xl font-bold text-dark">High Scores</h1>
+          <h1 className="text-4xl font-bold text-dark">{profile.name}&apos;s Scores</h1>
         </motion.div>
 
         {/* Overall stats */}
@@ -69,12 +81,19 @@ export default function ScoresPage() {
           className="bg-white rounded-2xl p-4 shadow-md w-full flex justify-around"
         >
           <div className="text-center">
-            <div className="text-2xl font-bold text-cola-red">{scoreStore.totalGamesPlayed}</div>
+            <div className="text-2xl font-bold text-cola-red">{profile.totalGamesPlayed}</div>
             <div className="text-sm text-dark/50">Games Played</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-success">{scoreStore.totalCorrectAnswers}</div>
+            <div className="text-2xl font-bold text-success">{profile.totalCorrectAnswers}</div>
             <div className="text-sm text-dark/50">Total Correct</div>
+          </div>
+          <div className="text-center">
+            <div className="flex items-center justify-center gap-1">
+              <BottleCapIcon size={20} />
+              <span className="text-2xl font-bold text-fizz-yellow">{profile.bottleCaps}</span>
+            </div>
+            <div className="text-sm text-dark/50">Bottle Caps</div>
           </div>
         </motion.div>
 

@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { GamePhase, Operation, Difficulty, TimesTable, MixedRange, Question, AnswerResult } from '@/lib/engine/types';
 import { generateQuestions, generateTimesTableQuestions } from '@/lib/engine/questionGenerator';
 import { calculatePoints } from '@/lib/engine/scoring';
+import { ChallengeConfig } from '@/lib/engine/challengeTypes';
 
 interface GameStore {
   phase: GamePhase;
@@ -18,6 +19,7 @@ interface GameStore {
   questionStartTime: number;
   gameStartTime: number;
   gameEndTime: number;
+  activeChallengeId: string | null;
 
   setOperation: (op: Operation) => void;
   setDifficulty: (diff: Difficulty) => void;
@@ -26,6 +28,7 @@ interface GameStore {
   startCountdown: () => void;
   startPlaying: () => void;
   submitAnswer: (userAnswer: number) => void;
+  startFromChallenge: (config: ChallengeConfig, challengeId: string, questions: Question[]) => void;
   reset: () => void;
   goBack: () => void;
 }
@@ -45,6 +48,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   questionStartTime: 0,
   gameStartTime: 0,
   gameEndTime: 0,
+  activeChallengeId: null,
 
   setOperation: (operation) => {
     if (operation === 'multiplication') {
@@ -113,6 +117,26 @@ export const useGameStore = create<GameStore>((set, get) => ({
     });
   },
 
+  startFromChallenge: (config, challengeId, questions) => {
+    set({
+      phase: 'countdown',
+      operation: config.operation,
+      difficulty: config.difficulty,
+      timesTable: config.timesTable,
+      mixedRange: config.mixedRange,
+      questions,
+      currentQuestionIndex: 0,
+      results: [],
+      score: 0,
+      streak: 0,
+      bestStreak: 0,
+      questionStartTime: 0,
+      gameStartTime: 0,
+      gameEndTime: 0,
+      activeChallengeId: challengeId,
+    });
+  },
+
   reset: () => {
     set({
       phase: 'selectOperation',
@@ -129,6 +153,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       questionStartTime: 0,
       gameStartTime: 0,
       gameEndTime: 0,
+      activeChallengeId: null,
     });
   },
 

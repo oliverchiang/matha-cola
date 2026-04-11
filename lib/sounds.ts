@@ -158,6 +158,28 @@ export const sounds = {
     playTone(freqs[index] || 784, 0.4, 'triangle', 0.3);
   },
 
+  bottleCapEarn() {
+    playNotes([
+      { freq: 1200, time: 0, dur: 0.06, type: 'square', vol: 0.15 },
+      { freq: 1600, time: 0.05, dur: 0.08, type: 'square', vol: 0.12 },
+    ]);
+  },
+
+  purchase() {
+    playNotes([
+      { freq: 800, time: 0, dur: 0.08, type: 'square', vol: 0.15 },
+      { freq: 600, time: 0.06, dur: 0.08, type: 'square', vol: 0.12 },
+      { freq: 1000, time: 0.14, dur: 0.15, type: 'triangle', vol: 0.2 },
+    ]);
+  },
+
+  equipItem() {
+    playNotes([
+      { freq: 500, time: 0, dur: 0.1, type: 'sine', vol: 0.2 },
+      { freq: 700, time: 0.08, dur: 0.15, type: 'sine', vol: 0.2 },
+    ]);
+  },
+
   numpad(digit: string) {
     const base = 400;
     const num = parseInt(digit, 10);

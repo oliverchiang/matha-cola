@@ -3,9 +3,12 @@
 import { useEffect, useCallback, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Home, Check, X } from 'lucide-react';
+import { ArrowLeft, Home, Check, X, Swords } from 'lucide-react';
 import { useGameStore } from '@/lib/stores/gameStore';
-import { useScoreStore } from '@/lib/stores/scoreStore';
+import { useProfileStore } from '@/lib/stores/profileStore';
+import { useChallengeStore } from '@/lib/stores/challengeStore';
+import { ChallengeConfig } from '@/lib/engine/challengeTypes';
+import ChallengePickerModal from '@/components/challenge/ChallengePickerModal';
 import { getStarCount, getEncouragingMessage } from '@/lib/engine/scoring';
 import { getOperationSymbol } from '@/lib/engine/questionGenerator';
 import { Operation, Difficulty, TimesTable } from '@/lib/engine/types';
@@ -19,7 +22,8 @@ import StreakCounter from '@/components/game/StreakCounter';
 import QuestionCard from '@/components/game/QuestionCard';
 import NumberPad from '@/components/game/NumberPad';
 import GameTimer, { formatTime } from '@/components/game/GameTimer';
-import FizzyMascot from '@/components/mascot/FizzyMascot';
+import AvatarRenderer from '@/components/avatar/AvatarRenderer';
+import BottleCapIcon from '@/components/shared/BottleCapIcon';
 import StarAward from '@/components/results/StarAward';
 import AnimatedButton from '@/components/shared/AnimatedButton';
 import BubbleBackground from '@/components/shared/BubbleBackground';
@@ -33,45 +37,81 @@ const timesTables: TimesTable[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 'mixed
 export default function PlayPage() {
   const router = useRouter();
   const store = useGameStore();
-  const scoreStore = useScoreStore();
+  const profileStore = useProfileStore();
+  const challengeStore = useChallengeStore();
   const [userAnswer, setUserAnswer] = useState('');
   const [feedback, setFeedback] = useState<'correct' | 'wrong' | null>(null);
+  const [capsEarnedThisGame, setCapsEarnedThisGame] = useState(0);
+  const [showCapAnimation, setShowCapAnimation] = useState(false);
+  const [showChallengePicker, setShowChallengePicker] = useState(false);
+  const [challengeSent, setChallengeSent] = useState(false);
   const feedbackTimeout = useRef<ReturnType<typeof setTimeout>>(null);
   const userAnswerRef = useRef(userAnswer);
   userAnswerRef.current = userAnswer;
   const scoreSaved = useRef(false);
 
-  // Load high scores
-  useEffect(() => {
-    if (!scoreStore.loaded) scoreStore.load();
-  }, [scoreStore]);
+  const profile = profileStore.getActiveProfile();
 
-  // Reset game state on mount
+  // Load stores
   useEffect(() => {
-    store.reset();
+    if (!profileStore.loaded) profileStore.load();
+  }, [profileStore]);
+
+  useEffect(() => {
+    if (profileStore.loaded && profileStore.activeProfileId && !challengeStore.loaded) {
+      challengeStore.load(profileStore.activeProfileId);
+    }
+  }, [profileStore.loaded, profileStore.activeProfileId, challengeStore]);
+
+  // Redirect to home if no active profile
+  useEffect(() => {
+    if (profileStore.loaded && !profileStore.activeProfileId) {
+      router.push('/');
+    }
+  }, [profileStore.loaded, profileStore.activeProfileId, router]);
+
+  // Reset game state on mount — but NOT if we're playing a challenge (already configured)
+  useEffect(() => {
+    if (!store.activeChallengeId) {
+      store.reset();
+    }
     scoreSaved.current = false;
+    setCapsEarnedThisGame(0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Save score when finished
   useEffect(() => {
-    if (store.phase === 'finished' && !scoreSaved.current) {
-      scoreSaved.current = true;
-      if (store.operation) {
-        const key = store.timesTable
-          ? `multiplication_${store.timesTable}x`
-          : `${store.operation}_${store.difficulty}`;
-        const correct = store.results.filter(r => r.correct).length;
-        scoreStore.saveScore(key, {
+    if (store.phase !== 'finished' || scoreSaved.current) return;
+    scoreSaved.current = true;
+    if (!store.operation) return;
+
+    const key = store.timesTable
+      ? `multiplication_${store.timesTable}x`
+      : `${store.operation}_${store.difficulty}`;
+    const correct = store.results.filter(r => r.correct).length;
+
+    (async () => {
+      await profileStore.saveScore(key, {
+        score: store.score,
+        date: new Date().toISOString(),
+        correct,
+        total: store.results.length,
+      });
+      await profileStore.incrementStats(correct);
+
+      if (store.activeChallengeId && profile) {
+        await challengeStore.completeChallenge(store.activeChallengeId, {
+          profileId: profile.id,
+          profileName: profile.name,
           score: store.score,
-          date: new Date().toISOString(),
           correct,
           total: store.results.length,
         });
-        scoreStore.incrementStats(correct);
+        await profileStore.refreshProfile(profile.id);
       }
-    }
-  }, [store.phase, store.operation, store.difficulty, store.timesTable, store.score, store.results, scoreStore]);
+    })();
+  }, [store.phase, store.operation, store.difficulty, store.timesTable, store.score, store.results, store.activeChallengeId, profileStore, challengeStore, profile]);
 
   // Celebration confetti when finished
   useEffect(() => {
@@ -105,6 +145,12 @@ export default function PlayPage() {
     if (correct) {
       setFeedback('correct');
       sounds.correct();
+      // Award bottle cap
+      profileStore.awardBottleCaps(1);
+      setCapsEarnedThisGame(prev => prev + 1);
+      setShowCapAnimation(true);
+      setTimeout(() => setShowCapAnimation(false), 800);
+      sounds.bottleCapEarn();
       // Confetti + sound for streaks
       const newStreak = store.streak + 1;
       if (newStreak === 3 || newStreak === 5 || newStreak === 10) {
@@ -129,7 +175,7 @@ export default function PlayPage() {
       setUserAnswer('');
       setFeedback(null);
     }, correct ? 800 : 1500);
-  }, [feedback, store]);
+  }, [feedback, store, profileStore]);
 
   // Keyboard input
   useEffect(() => {
@@ -181,7 +227,7 @@ export default function PlayPage() {
   // Mascot state
   const mascotState = feedback === 'correct' ? 'cheer' : feedback === 'wrong' ? 'encourage' : 'idle';
 
-  // Results data (computed always, only rendered when finished)
+  // Results data
   const correctCount = store.results.filter(r => r.correct).length;
   const incorrectCount = store.results.length - correctCount;
   const totalQuestions = store.results.length;
@@ -211,17 +257,29 @@ export default function PlayPage() {
             )}
           </motion.h2>
 
-          {/* Mascot */}
+          {/* Avatar */}
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.2, type: 'spring' }}
           >
-            <FizzyMascot state={stars >= 2 ? 'celebrate' : stars >= 1 ? 'cheer' : 'encourage'} size={90} />
+            <AvatarRenderer avatar={profile?.avatar} state={stars >= 2 ? 'celebrate' : stars >= 1 ? 'cheer' : 'encourage'} size={90} />
           </motion.div>
 
           {/* Stars */}
           <StarAward count={stars} />
+
+          {/* Bottle caps earned */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.5 }}
+            className="flex items-center gap-2 bg-fizz-yellow/20 rounded-full px-5 py-2"
+          >
+            <BottleCapIcon size={28} />
+            <span className="text-xl font-bold text-dark">+{capsEarnedThisGame}</span>
+            <span className="text-sm text-dark/50">bottle caps earned!</span>
+          </motion.div>
 
           {/* Score + Correct/Incorrect */}
           <motion.div
@@ -308,18 +366,56 @@ export default function PlayPage() {
             </div>
           </motion.div>
 
-          {/* Done Button */}
+          {/* Challenge + Done Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2 }}
-            className="w-full mt-2 pb-4"
+            className="w-full mt-2 pb-4 flex flex-col gap-3"
           >
+            {/* Challenge button — only if >1 profile and not already a challenge game */}
+            {profileStore.profiles.length >= 2 && !store.activeChallengeId && !challengeSent && (
+              <AnimatedButton
+                onClick={() => {
+                  sounds.click();
+                  setShowChallengePicker(true);
+                }}
+                className="w-full bg-fizz-yellow text-dark font-bold text-lg py-4 rounded-2xl shadow-lg flex items-center justify-center gap-2"
+              >
+                <Swords size={22} /> Challenge a Friend!
+              </AnimatedButton>
+            )}
+            {challengeSent && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="text-center text-success font-bold text-sm py-2"
+              >
+                Challenge sent!
+              </motion.div>
+            )}
+            {/* If this was a challenge, show link to results */}
+            {store.activeChallengeId && (
+              <AnimatedButton
+                onClick={() => {
+                  sounds.click();
+                  const cid = store.activeChallengeId;
+                  store.reset();
+                  scoreSaved.current = false;
+                  setCapsEarnedThisGame(0);
+                  router.push(`/challenges/${cid}`);
+                }}
+                className="w-full bg-bubble-blue text-white font-bold text-lg py-4 rounded-2xl shadow-lg flex items-center justify-center gap-2"
+              >
+                <Swords size={22} /> View Challenge Result
+              </AnimatedButton>
+            )}
             <AnimatedButton
               onClick={() => {
                 sounds.click();
                 store.reset();
                 scoreSaved.current = false;
+                setCapsEarnedThisGame(0);
                 router.push('/');
               }}
               className="w-full bg-cola-red text-white font-bold text-xl py-5 rounded-2xl shadow-lg flex items-center justify-center gap-2"
@@ -327,6 +423,49 @@ export default function PlayPage() {
               <Home size={24} /> Done
             </AnimatedButton>
           </motion.div>
+
+          {/* Challenge picker modal */}
+          <ChallengePickerModal
+            open={showChallengePicker}
+            profiles={profileStore.profiles}
+            currentProfileId={profile?.id || ''}
+            onPick={(challengeeId) => {
+              if (!profile) return;
+              const challengee = profileStore.getProfileById(challengeeId);
+              if (!challengee) return;
+              const config: ChallengeConfig = {
+                operation: store.operation!,
+                difficulty: store.difficulty,
+                timesTable: store.timesTable,
+                mixedRange: store.mixedRange,
+              };
+              const correct = store.results.filter(r => r.correct).length;
+              challengeStore.createChallenge({
+                id: crypto.randomUUID(),
+                config,
+                questions: store.questions,
+                challengerId: profile.id,
+                challengerName: profile.name,
+                challengeeId: challengee.id,
+                challengeeName: challengee.name,
+                challengerResult: {
+                  profileId: profile.id,
+                  profileName: profile.name,
+                  score: store.score,
+                  correct,
+                  total: store.results.length,
+                },
+                challengeeResult: null,
+                status: 'pending',
+                createdAt: new Date().toISOString(),
+                bonusAwarded: false,
+              });
+              setShowChallengePicker(false);
+              setChallengeSent(true);
+              sounds.streak();
+            }}
+            onClose={() => setShowChallengePicker(false)}
+          />
         </div>
       </div>
     );
@@ -484,9 +623,25 @@ export default function PlayPage() {
                 <GameTimer startTime={store.gameStartTime} />
               </div>
 
+              {/* Bottle cap earned animation */}
+              <AnimatePresence>
+                {showCapAnimation && (
+                  <motion.div
+                    initial={{ opacity: 1, y: 0, scale: 1 }}
+                    animate={{ opacity: 0, y: -40, scale: 1.5 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.8 }}
+                    className="fixed top-20 right-16 z-50 flex items-center gap-1"
+                  >
+                    <BottleCapIcon size={24} />
+                    <span className="text-lg font-bold text-fizz-yellow">+1</span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
               <div className="flex items-center gap-4 w-full justify-center">
                 <div className="hidden sm:block">
-                  <FizzyMascot state={mascotState} size={80} />
+                  <AvatarRenderer avatar={profile?.avatar} state={mascotState} size={80} />
                 </div>
                 <div className="flex-1 max-w-md">
                   <QuestionCard
