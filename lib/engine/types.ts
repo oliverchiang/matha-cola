@@ -1,4 +1,4 @@
-export type Operation = 'addition' | 'subtraction' | 'multiplication' | 'division' | 'mixed';
+export type Operation = 'addition' | 'subtraction' | 'multiplication' | 'division' | 'mixed' | 'word-problems';
 
 export type Difficulty = 'easy' | 'medium' | 'hard';
 
@@ -6,8 +6,9 @@ export interface Question {
   id: number;
   operand1: number;
   operand2: number;
-  operation: Exclude<Operation, 'mixed'>;
+  operation: Exclude<Operation, 'mixed' | 'word-problems'>;
   answer: number;
+  wordProblem?: string;
 }
 
 export interface AnswerResult {

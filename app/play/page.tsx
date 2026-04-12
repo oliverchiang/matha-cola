@@ -30,7 +30,7 @@ import BubbleBackground from '@/components/shared/BubbleBackground';
 import confetti from 'canvas-confetti';
 import { sounds } from '@/lib/sounds';
 
-const operations: Operation[] = ['addition', 'subtraction', 'multiplication', 'division', 'mixed'];
+const operations: Operation[] = ['addition', 'subtraction', 'multiplication', 'division', 'mixed', 'word-problems'];
 const difficulties: Difficulty[] = ['easy', 'medium', 'hard'];
 const timesTables: TimesTable[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 'mixed'];
 
@@ -510,12 +510,15 @@ export default function PlayPage() {
                   />
                 ))}
               </div>
-              <div className="w-full">
-                <OperationCard
-                  operation="mixed"
-                  onClick={() => store.setOperation('mixed')}
-                  index={4}
-                />
+              <div className="grid grid-cols-2 gap-4 w-full">
+                {operations.slice(4).map((op, i) => (
+                  <OperationCard
+                    key={op}
+                    operation={op}
+                    onClick={() => store.setOperation(op)}
+                    index={4 + i}
+                  />
+                ))}
               </div>
             </motion.div>
           )}

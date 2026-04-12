@@ -10,7 +10,7 @@ interface DifficultyConfig {
   operand2: Range;
 }
 
-const configs: Record<Exclude<Operation, 'mixed'>, Record<Difficulty, DifficultyConfig>> = {
+const configs: Record<Exclude<Operation, 'mixed' | 'word-problems'>, Record<Difficulty, DifficultyConfig>> = {
   addition: {
     easy:   { operand1: { min: 1, max: 10 },  operand2: { min: 1, max: 10 } },
     medium: { operand1: { min: 10, max: 50 },  operand2: { min: 10, max: 50 } },
@@ -33,7 +33,7 @@ const configs: Record<Exclude<Operation, 'mixed'>, Record<Difficulty, Difficulty
   },
 };
 
-export function getDifficultyConfig(operation: Exclude<Operation, 'mixed'>, difficulty: Difficulty): DifficultyConfig {
+export function getDifficultyConfig(operation: Exclude<Operation, 'mixed' | 'word-problems'>, difficulty: Difficulty): DifficultyConfig {
   return configs[operation][difficulty];
 }
 
@@ -54,7 +54,15 @@ export function getDifficultyDescription(operation: Operation, difficulty: Diffi
     }[difficulty];
   }
 
-  const config = configs[operation][difficulty];
+  if (operation === 'word-problems') {
+    return {
+      easy: 'Simple stories, small numbers',
+      medium: 'Multi-step problems, rounding',
+      hard: 'Complex stories, big numbers',
+    }[difficulty];
+  }
+
+  const config = configs[operation as Exclude<Operation, 'mixed' | 'word-problems'>][difficulty];
   const op1 = `${config.operand1.min}-${config.operand1.max}`;
   const op2 = `${config.operand2.min}-${config.operand2.max}`;
   return `Numbers: ${op1} and ${op2}`;

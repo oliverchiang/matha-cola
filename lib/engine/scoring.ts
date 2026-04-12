@@ -52,6 +52,13 @@ export function getCapsPerCorrect(
     return 3; // 12
   }
 
+  // Word problems get extra reward since they're harder
+  if (operation === 'word-problems') {
+    if (difficulty === 'hard') return 4;
+    if (difficulty === 'medium') return 3;
+    return 2;
+  }
+
   // Difficulty-based path
   if (difficulty === 'hard') return 3;
   if (difficulty === 'medium') return 2;

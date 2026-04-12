@@ -1,12 +1,13 @@
 import { Question, Operation, Difficulty, TimesTable, MixedRange } from './types';
 import { getDifficultyConfig } from './difficulty';
+import { generateWordProblems } from './wordProblemGenerator';
 
 function randomInt(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function generateSingleQuestion(
-  operation: Exclude<Operation, 'mixed'>,
+  operation: Exclude<Operation, 'mixed' | 'word-problems'>,
   difficulty: Difficulty,
   id: number
 ): Question {
@@ -39,14 +40,18 @@ function generateSingleQuestion(
   }
 }
 
-const singleOperations: Exclude<Operation, 'mixed'>[] = ['addition', 'subtraction', 'multiplication', 'division'];
+const singleOperations: Exclude<Operation, 'mixed' | 'word-problems'>[] = ['addition', 'subtraction', 'multiplication', 'division'];
 
 export function generateQuestions(operation: Operation, difficulty: Difficulty, count: number = 10): Question[] {
+  if (operation === 'word-problems') {
+    return generateWordProblems(difficulty, count);
+  }
+
   const questions: Question[] = [];
 
   if (operation === 'mixed') {
     // Guarantee at least 2 of each, remaining are random
-    const ops: Exclude<Operation, 'mixed'>[] = [];
+    const ops: Exclude<Operation, 'mixed' | 'word-problems'>[] = [];
     for (const op of singleOperations) {
       ops.push(op, op);
     }
@@ -62,8 +67,9 @@ export function generateQuestions(operation: Operation, difficulty: Difficulty, 
       questions.push(generateSingleQuestion(ops[i], difficulty, i));
     }
   } else {
+    const op = operation as Exclude<Operation, 'mixed' | 'word-problems'>;
     for (let i = 0; i < count; i++) {
-      questions.push(generateSingleQuestion(operation, difficulty, i));
+      questions.push(generateSingleQuestion(op, difficulty, i));
     }
   }
 
@@ -114,7 +120,7 @@ export function generateTimesTableQuestions(timesTable: TimesTable, count: numbe
   return questions;
 }
 
-export function getOperationSymbol(operation: Exclude<Operation, 'mixed'>): string {
+export function getOperationSymbol(operation: Exclude<Operation, 'mixed' | 'word-problems'>): string {
   switch (operation) {
     case 'addition': return '+';
     case 'subtraction': return '-';
