@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Trophy, Clock, Star } from 'lucide-react';
@@ -9,24 +9,23 @@ import LeaderboardEntry from '@/components/leaderboard/LeaderboardEntry';
 import BubbleBackground from '@/components/shared/BubbleBackground';
 import { sounds } from '@/lib/sounds';
 
-const categories = [
-  { key: 'addition_easy', label: 'Addition Easy' },
-  { key: 'addition_medium', label: 'Addition Med' },
-  { key: 'addition_hard', label: 'Addition Hard' },
-  { key: 'subtraction_easy', label: 'Subtract Easy' },
-  { key: 'subtraction_medium', label: 'Subtract Med' },
-  { key: 'subtraction_hard', label: 'Subtract Hard' },
-  { key: 'multiplication_mixedx', label: 'Times Mixed' },
-  { key: 'division_easy', label: 'Division Easy' },
-  { key: 'division_medium', label: 'Division Med' },
-  { key: 'division_hard', label: 'Division Hard' },
-  { key: 'mixed_easy', label: 'Mixed Easy' },
-  { key: 'mixed_medium', label: 'Mixed Med' },
-  { key: 'mixed_hard', label: 'Mixed Hard' },
-  { key: 'word-problems_easy', label: 'Words Easy' },
-  { key: 'word-problems_medium', label: 'Words Med' },
-  { key: 'word-problems_hard', label: 'Words Hard' },
+const operations = [
+  { key: 'addition', label: 'Addition' },
+  { key: 'subtraction', label: 'Subtraction' },
+  { key: 'multiplication', label: 'Multiplication' },
+  { key: 'division', label: 'Division' },
+  { key: 'mixed', label: 'Mixed' },
+  { key: 'word-problems', label: 'Word Problems' },
 ];
+
+const difficulties: Record<string, { key: string; label: string }[]> = {
+  addition: [{ key: 'easy', label: 'Easy' }, { key: 'medium', label: 'Medium' }, { key: 'hard', label: 'Hard' }],
+  subtraction: [{ key: 'easy', label: 'Easy' }, { key: 'medium', label: 'Medium' }, { key: 'hard', label: 'Hard' }],
+  multiplication: [{ key: 'easy', label: 'Easy' }, { key: 'medium', label: 'Medium' }, { key: 'hard', label: 'Hard' }, { key: 'mixedx', label: 'Mixed Tables' }],
+  division: [{ key: 'easy', label: 'Easy' }, { key: 'medium', label: 'Medium' }, { key: 'hard', label: 'Hard' }],
+  mixed: [{ key: 'easy', label: 'Easy' }, { key: 'medium', label: 'Medium' }, { key: 'hard', label: 'Hard' }],
+  'word-problems': [{ key: 'easy', label: 'Easy' }, { key: 'medium', label: 'Medium' }, { key: 'hard', label: 'Hard' }],
+};
 
 interface Entry {
   profile_id: string;
@@ -46,7 +45,8 @@ function formatTime(ms: number): string {
 export default function LeaderboardPage() {
   const router = useRouter();
   const profileStore = useProfileStore();
-  const [category, setCategory] = useState(categories[0].key);
+  const [operation, setOperation] = useState('addition');
+  const [difficulty, setDifficulty] = useState('easy');
   const [sortBy, setSortBy] = useState<'score' | 'time'>('score');
   const [entries, setEntries] = useState<Entry[]>([]);
   const [loading, setLoading] = useState(false);
@@ -63,6 +63,16 @@ export default function LeaderboardPage() {
     }
   }, [profileStore.loaded, profile, router]);
 
+  // Reset difficulty when operation changes
+  useEffect(() => {
+    const diffs = difficulties[operation];
+    if (diffs && !diffs.some(d => d.key === difficulty)) {
+      setDifficulty(diffs[0].key);
+    }
+  }, [operation, difficulty]);
+
+  const category = useMemo(() => `${operation}_${difficulty}`, [operation, difficulty]);
+
   useEffect(() => {
     setLoading(true);
     fetch(`/api/leaderboard?category=${category}&sort=${sortBy}`)
@@ -73,11 +83,13 @@ export default function LeaderboardPage() {
 
   if (!profile) return null;
 
+  const currentDiffs = difficulties[operation] || [];
+
   return (
     <div className="flex flex-col items-center min-h-screen relative px-4 py-6">
       <BubbleBackground />
 
-      <div className="relative z-10 w-full max-w-lg flex flex-col items-center gap-5">
+      <div className="relative z-10 w-full max-w-lg flex flex-col items-center gap-4">
         <motion.button
           onClick={() => router.push('/')}
           whileTap={{ scale: 0.9 }}
@@ -95,42 +107,58 @@ export default function LeaderboardPage() {
           <h1 className="text-3xl font-bold text-dark">Leaderboard</h1>
         </motion.div>
 
+        {/* Operation selector */}
+        <div className="flex gap-2 overflow-x-auto pb-1 w-full scrollbar-hide">
+          {operations.map(op => (
+            <motion.button
+              key={op.key}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => { sounds.click(); setOperation(op.key); }}
+              className={`px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap cursor-pointer transition-colors ${
+                operation === op.key ? 'bg-cola-red text-white shadow-md' : 'bg-white text-dark/60 hover:bg-dark/5'
+              }`}
+            >
+              {op.label}
+            </motion.button>
+          ))}
+        </div>
+
+        {/* Difficulty selector */}
+        <div className="flex gap-2 w-full justify-center">
+          {currentDiffs.map(d => (
+            <motion.button
+              key={d.key}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => { sounds.click(); setDifficulty(d.key); }}
+              className={`px-4 py-1.5 rounded-full text-xs font-bold cursor-pointer transition-colors ${
+                difficulty === d.key ? 'bg-bubble-blue text-white shadow-md' : 'bg-white text-dark/60 hover:bg-dark/5'
+              }`}
+            >
+              {d.label}
+            </motion.button>
+          ))}
+        </div>
+
         {/* Sort toggle */}
         <div className="flex gap-2">
           <motion.button
             whileTap={{ scale: 0.95 }}
             onClick={() => { sounds.click(); setSortBy('score'); }}
-            className={`flex items-center gap-1 px-4 py-2 rounded-full text-sm font-bold cursor-pointer ${
+            className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-bold cursor-pointer ${
               sortBy === 'score' ? 'bg-fizz-yellow text-dark shadow-md' : 'bg-white text-dark/50'
             }`}
           >
-            <Star size={16} /> Best Score
+            <Star size={14} /> Score
           </motion.button>
           <motion.button
             whileTap={{ scale: 0.95 }}
             onClick={() => { sounds.click(); setSortBy('time'); }}
-            className={`flex items-center gap-1 px-4 py-2 rounded-full text-sm font-bold cursor-pointer ${
+            className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-bold cursor-pointer ${
               sortBy === 'time' ? 'bg-bubble-blue text-white shadow-md' : 'bg-white text-dark/50'
             }`}
           >
-            <Clock size={16} /> Fastest Time
+            <Clock size={14} /> Time
           </motion.button>
-        </div>
-
-        {/* Category tabs */}
-        <div className="flex gap-2 overflow-x-auto pb-2 w-full scrollbar-hide">
-          {categories.map(c => (
-            <motion.button
-              key={c.key}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => { sounds.click(); setCategory(c.key); }}
-              className={`px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap cursor-pointer transition-colors ${
-                category === c.key ? 'bg-cola-red text-white shadow-md' : 'bg-white text-dark/60 hover:bg-dark/5'
-              }`}
-            >
-              {c.label}
-            </motion.button>
-          ))}
         </div>
 
         {/* Entries */}
