@@ -1,23 +1,31 @@
 'use client';
 
+import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Swords } from 'lucide-react';
-import { Profile } from '@/lib/engine/profileTypes';
+import { X, Swords, Users } from 'lucide-react';
+import { useFriendStore, Friendship } from '@/lib/stores/friendStore';
 import AvatarMini from '@/components/avatar/AvatarMini';
 import { sounds } from '@/lib/sounds';
 
 interface ChallengePickerModalProps {
   open: boolean;
-  profiles: Profile[];
   currentProfileId: string;
-  onPick: (profileId: string) => void;
+  onPick: (profileId: string, profileName: string) => void;
   onClose: () => void;
 }
 
-export default function ChallengePickerModal({ open, profiles, currentProfileId, onPick, onClose }: ChallengePickerModalProps) {
-  const others = profiles.filter(p => p.id !== currentProfileId);
+export default function ChallengePickerModal({ open, currentProfileId, onPick, onClose }: ChallengePickerModalProps) {
+  const friendStore = useFriendStore();
+
+  useEffect(() => {
+    if (open && !friendStore.loaded) {
+      friendStore.load(currentProfileId);
+    }
+  }, [open, currentProfileId, friendStore]);
 
   if (!open) return null;
+
+  const friends = friendStore.getFriends(currentProfileId);
 
   return (
     <AnimatePresence>
@@ -49,31 +57,37 @@ export default function ChallengePickerModal({ open, profiles, currentProfileId,
             </motion.button>
           </div>
 
-          <p className="text-sm text-dark/50 text-center">Pick someone to beat your score!</p>
+          <p className="text-sm text-dark/50 text-center">Pick a friend to beat your score!</p>
 
-          <div className="grid grid-cols-2 gap-3 w-full">
-            {others.map((profile, i) => (
-              <motion.button
-                key={profile.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.08 }}
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                onClick={() => {
-                  sounds.click();
-                  onPick(profile.id);
-                }}
-                className="bg-cream rounded-2xl p-4 flex flex-col items-center gap-2 cursor-pointer hover:shadow-md transition-shadow border-2 border-transparent hover:border-cola-red/30"
-              >
-                <AvatarMini avatar={profile.avatar} size={45} />
-                <span className="font-bold text-sm text-dark truncate max-w-full">{profile.name}</span>
-              </motion.button>
-            ))}
-          </div>
-
-          {others.length === 0 && (
-            <p className="text-dark/40 text-sm">No other profiles to challenge. Create another profile first!</p>
+          {friends.length > 0 ? (
+            <div className="grid grid-cols-2 gap-3 w-full">
+              {friends.map((friend: Friendship, i: number) => {
+                const friendId = friend.requester_id === currentProfileId ? friend.addressee_id : friend.requester_id;
+                return (
+                  <motion.button
+                    key={friend.id}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.08 }}
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    onClick={() => {
+                      sounds.click();
+                      onPick(friendId, friend.name);
+                    }}
+                    className="bg-cream rounded-2xl p-4 flex flex-col items-center gap-2 cursor-pointer hover:shadow-md transition-shadow border-2 border-transparent hover:border-cola-red/30"
+                  >
+                    <AvatarMini avatar={friend.avatar} size={45} />
+                    <span className="font-bold text-sm text-dark truncate max-w-full">{friend.name}</span>
+                  </motion.button>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="text-center py-4">
+              <Users size={32} className="mx-auto mb-2 text-dark/20" />
+              <p className="text-dark/40 text-sm">Add friends first to challenge them!</p>
+            </div>
           )}
         </motion.div>
       </motion.div>

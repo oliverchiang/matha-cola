@@ -11,7 +11,7 @@ import ProfileSelector from '@/components/profile/ProfileSelector';
 import ProfileCreator from '@/components/profile/ProfileCreator';
 import BottleCapIcon from '@/components/shared/BottleCapIcon';
 import BubbleBackground from '@/components/shared/BubbleBackground';
-import { Trophy, ShoppingBag, Swords } from 'lucide-react';
+import { Trophy, ShoppingBag, Swords, Users, Medal } from 'lucide-react';
 
 type View = 'loading' | 'select' | 'create' | 'home';
 
@@ -207,6 +207,26 @@ export default function Home() {
                 >
                   <Swords size={20} />
                   Challenges
+                </motion.div>
+              </Link>
+              <Link href="/friends">
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="flex items-center gap-2 text-dark/50 hover:text-dark/80 font-medium text-lg cursor-pointer transition-colors"
+                >
+                  <Users size={20} />
+                  Friends
+                </motion.div>
+              </Link>
+              <Link href="/leaderboard">
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="flex items-center gap-2 text-dark/50 hover:text-dark/80 font-medium text-lg cursor-pointer transition-colors"
+                >
+                  <Medal size={20} />
+                  Leaderboard
                 </motion.div>
               </Link>
               <Link href="/scores">

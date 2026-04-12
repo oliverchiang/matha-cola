@@ -28,3 +28,29 @@ CREATE TABLE challenges (
 
 CREATE INDEX idx_challenges_challengee ON challenges(challengee_id, status);
 CREATE INDEX idx_challenges_challenger ON challenges(challenger_id);
+
+CREATE TABLE friendships (
+  id TEXT PRIMARY KEY,
+  requester_id TEXT REFERENCES profiles(id) ON DELETE CASCADE,
+  addressee_id TEXT REFERENCES profiles(id) ON DELETE CASCADE,
+  status TEXT DEFAULT 'pending',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(requester_id, addressee_id)
+);
+
+CREATE INDEX idx_friendships_addressee ON friendships(addressee_id, status);
+CREATE INDEX idx_friendships_requester ON friendships(requester_id, status);
+
+CREATE TABLE leaderboard_entries (
+  id TEXT PRIMARY KEY,
+  profile_id TEXT REFERENCES profiles(id) ON DELETE CASCADE,
+  profile_name TEXT NOT NULL,
+  avatar JSONB DEFAULT '{}',
+  category TEXT NOT NULL,
+  score INTEGER NOT NULL,
+  time_ms INTEGER NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX idx_leaderboard_category_score ON leaderboard_entries(category, score DESC);
+CREATE INDEX idx_leaderboard_category_time ON leaderboard_entries(category, time_ms ASC);

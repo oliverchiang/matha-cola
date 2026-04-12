@@ -101,6 +101,22 @@ export default function PlayPage() {
       });
       await profileStore.incrementStats(correct);
 
+      // Submit to leaderboard
+      if (store.score > 0 && profile) {
+        fetch('/api/leaderboard', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            profileId: profile.id,
+            profileName: profile.name,
+            avatar: profile.avatar,
+            category: key,
+            score: store.score,
+            timeMs: store.gameEndTime - store.gameStartTime,
+          }),
+        }).catch(() => {});
+      }
+
       if (store.activeChallengeId && profile) {
         await challengeStore.completeChallenge(store.activeChallengeId, {
           profileId: profile.id,
@@ -377,7 +393,7 @@ export default function PlayPage() {
             className="w-full mt-2 pb-4 flex flex-col gap-3"
           >
             {/* Challenge button — only if >1 profile and not already a challenge game */}
-            {profileStore.profiles.length >= 2 && !store.activeChallengeId && !challengeSent && (
+            {!store.activeChallengeId && !challengeSent && (
               <AnimatedButton
                 onClick={() => {
                   sounds.click();
@@ -430,12 +446,9 @@ export default function PlayPage() {
           {/* Challenge picker modal */}
           <ChallengePickerModal
             open={showChallengePicker}
-            profiles={profileStore.profiles}
             currentProfileId={profile?.id || ''}
-            onPick={(challengeeId) => {
+            onPick={(challengeeId, challengeeName) => {
               if (!profile) return;
-              const challengee = profileStore.getProfileById(challengeeId);
-              if (!challengee) return;
               const config: ChallengeConfig = {
                 operation: store.operation!,
                 difficulty: store.difficulty,
@@ -449,8 +462,8 @@ export default function PlayPage() {
                 questions: store.questions,
                 challengerId: profile.id,
                 challengerName: profile.name,
-                challengeeId: challengee.id,
-                challengeeName: challengee.name,
+                challengeeId,
+                challengeeName,
                 challengerResult: {
                   profileId: profile.id,
                   profileName: profile.name,
