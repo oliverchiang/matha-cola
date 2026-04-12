@@ -69,9 +69,18 @@ export const MARKETPLACE_ITEMS: MarketplaceItem[] = [
   { id: 'acc-ipad', name: 'iPad', category: 'accessory', price: 2500, description: 'Big screen energy', rarity: 'legendary', svgLayerKey: 'acc-ipad' },
   { id: 'hat-diamond-crown', name: 'Diamond Crown', category: 'hat', price: 3000, description: 'The rarest crown in existence', rarity: 'legendary', svgLayerKey: 'hat-diamond-crown' },
   { id: 'shirt-galaxy-armor', name: 'Galaxy Armor', category: 'shirt', price: 2500, description: 'Woven from stardust', rarity: 'legendary', svgLayerKey: 'shirt-galaxy-armor' },
-  { id: 'acc-pet-dragon', name: 'Pet Dragon', category: 'accessory', price: 5000, description: 'Your own math dragon!', rarity: 'legendary', svgLayerKey: 'acc-pet-dragon' },
+  { id: 'acc-pet-dragon', name: 'Pet Dragon', category: 'pet', price: 5000, description: 'Your own math dragon!', rarity: 'legendary', svgLayerKey: 'pet-dragon' },
   { id: 'shoes-lightning', name: 'Lightning Kicks', category: 'shoes', price: 2000, description: 'Faster than the speed of math', rarity: 'legendary', svgLayerKey: 'shoes-lightning' },
   { id: 'skin-rainbow', name: 'Rainbow', category: 'skinColor', price: 1500, description: 'Every colour at once!', rarity: 'legendary', svgLayerKey: 'skin-rainbow', previewColor: '#FF69B4' },
+
+  // === PETS ===
+  { id: 'pet-puppy', name: 'Puppy', category: 'pet', price: 30, description: 'Loyal math buddy!', rarity: 'common', svgLayerKey: 'pet-puppy' },
+  { id: 'pet-kitten', name: 'Kitten', category: 'pet', price: 30, description: 'Purrfect companion', rarity: 'common', svgLayerKey: 'pet-kitten' },
+  { id: 'pet-bunny', name: 'Bunny', category: 'pet', price: 36, description: 'Hops along with you!', rarity: 'common', svgLayerKey: 'pet-bunny' },
+  { id: 'pet-parrot', name: 'Parrot', category: 'pet', price: 54, description: 'Squawk! Math time!', rarity: 'rare', svgLayerKey: 'pet-parrot' },
+  { id: 'pet-panda', name: 'Mini Panda', category: 'pet', price: 66, description: 'Cute and cuddly', rarity: 'epic', svgLayerKey: 'pet-panda' },
+  { id: 'pet-chicken', name: 'Big Fat Chicken', category: 'pet', price: 500, description: 'BAWK! The chonkiest chicken ever', rarity: 'mythical', svgLayerKey: 'pet-chicken' },
+  { id: 'pet-unicorn', name: 'Baby Unicorn', category: 'pet', price: 2000, description: 'Sparkles and rainbows!', rarity: 'legendary', svgLayerKey: 'pet-unicorn' },
 ];
 
 export function getMarketplaceItem(id: string): MarketplaceItem | undefined {

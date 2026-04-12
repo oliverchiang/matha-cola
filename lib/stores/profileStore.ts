@@ -65,6 +65,7 @@ function setAvatarSlot(avatar: AvatarConfig, slot: string, value: string | null)
     case 'accessory': return { ...avatar, accessory: value };
     case 'face': return { ...avatar, face: value };
     case 'shoes': return { ...avatar, shoes: value };
+    case 'pet': return { ...avatar, pet: value };
     default: return avatar;
   }
 }

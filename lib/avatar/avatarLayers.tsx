@@ -588,6 +588,222 @@ export const avatarLayers: Record<string, LayerRenderer> = {
       <circle cx="76" cy="136" r="1" fill="white" opacity="0.4" />
     </g>
   ),
+  // ===================== PETS =====================
+  // All pets render to the right of the character, near ground level
+
+  'pet-puppy': () => (
+    <g>
+      {/* Body */}
+      <ellipse cx="95" cy="132" rx="10" ry="8" fill="#D4956A" stroke="#A0674B" strokeWidth="2" />
+      {/* Head */}
+      <circle cx="88" cy="122" r="8" fill="#D4956A" stroke="#A0674B" strokeWidth="2" />
+      {/* Ears (floppy) */}
+      <ellipse cx="82" cy="118" rx="4" ry="7" fill="#A0674B" stroke="#7A4F30" strokeWidth="1.5" transform="rotate(-20 82 118)" />
+      <ellipse cx="94" cy="117" rx="4" ry="6" fill="#A0674B" stroke="#7A4F30" strokeWidth="1.5" transform="rotate(15 94 117)" />
+      {/* Eyes */}
+      <circle cx="85" cy="121" r="2.5" fill="white" stroke="#2D3436" strokeWidth="1" />
+      <circle cx="86" cy="121" r="1.2" fill="#2D3436" />
+      <circle cx="91" cy="121" r="2.5" fill="white" stroke="#2D3436" strokeWidth="1" />
+      <circle cx="92" cy="121" r="1.2" fill="#2D3436" />
+      {/* Nose */}
+      <ellipse cx="88" cy="126" rx="2" ry="1.5" fill="#2D3436" />
+      {/* Tongue */}
+      <ellipse cx="89" cy="129" rx="1.5" ry="2" fill="#FF69B4" />
+      {/* Tail */}
+      <path d="M105 128 Q112 120 108 116" stroke="#D4956A" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+      {/* Legs */}
+      <rect x="87" y="136" width="4" height="6" rx="2" fill="#D4956A" stroke="#A0674B" strokeWidth="1" />
+      <rect x="99" y="136" width="4" height="6" rx="2" fill="#D4956A" stroke="#A0674B" strokeWidth="1" />
+    </g>
+  ),
+
+  'pet-kitten': () => (
+    <g>
+      {/* Body */}
+      <ellipse cx="95" cy="132" rx="9" ry="7" fill="#808080" stroke="#555" strokeWidth="2" />
+      {/* Head */}
+      <circle cx="88" cy="124" r="7" fill="#808080" stroke="#555" strokeWidth="2" />
+      {/* Pointy ears */}
+      <polygon points="82,118 79,108 86,116" fill="#808080" stroke="#555" strokeWidth="1.5" />
+      <polygon points="82,118 80,110 85,117" fill="#FF69B4" opacity="0.5" />
+      <polygon points="94,118 97,108 90,116" fill="#808080" stroke="#555" strokeWidth="1.5" />
+      <polygon points="94,118 96,110 91,117" fill="#FF69B4" opacity="0.5" />
+      {/* Eyes */}
+      <ellipse cx="85" cy="123" rx="2.5" ry="3" fill="#06D6A0" stroke="#048A6A" strokeWidth="1" />
+      <ellipse cx="86" cy="123" rx="1" ry="2.5" fill="#2D3436" />
+      <ellipse cx="91" cy="123" rx="2.5" ry="3" fill="#06D6A0" stroke="#048A6A" strokeWidth="1" />
+      <ellipse cx="92" cy="123" rx="1" ry="2.5" fill="#2D3436" />
+      {/* Nose + whiskers */}
+      <polygon points="87,127 88,126 89,127" fill="#FF69B4" />
+      <line x1="82" y1="126" x2="76" y2="124" stroke="#999" strokeWidth="0.8" />
+      <line x1="82" y1="128" x2="76" y2="128" stroke="#999" strokeWidth="0.8" />
+      <line x1="94" y1="126" x2="100" y2="124" stroke="#999" strokeWidth="0.8" />
+      <line x1="94" y1="128" x2="100" y2="128" stroke="#999" strokeWidth="0.8" />
+      {/* Tail */}
+      <path d="M104 130 Q112 126 110 118 Q108 114 106 116" stroke="#808080" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+    </g>
+  ),
+
+  'pet-bunny': () => (
+    <g>
+      {/* Body */}
+      <ellipse cx="95" cy="134" rx="8" ry="7" fill="white" stroke="#CCC" strokeWidth="2" />
+      {/* Head */}
+      <circle cx="90" cy="124" r="7" fill="white" stroke="#CCC" strokeWidth="2" />
+      {/* Long ears */}
+      <ellipse cx="86" cy="108" rx="3" ry="10" fill="white" stroke="#CCC" strokeWidth="1.5" />
+      <ellipse cx="86" cy="108" rx="1.5" ry="8" fill="#FF69B4" opacity="0.3" />
+      <ellipse cx="94" cy="106" rx="3" ry="10" fill="white" stroke="#CCC" strokeWidth="1.5" />
+      <ellipse cx="94" cy="106" rx="1.5" ry="8" fill="#FF69B4" opacity="0.3" />
+      {/* Eyes */}
+      <circle cx="87" cy="123" r="2.5" fill="#E63946" stroke="#B22530" strokeWidth="1" />
+      <circle cx="88" cy="122" r="1" fill="white" opacity="0.6" />
+      <circle cx="93" cy="123" r="2.5" fill="#E63946" stroke="#B22530" strokeWidth="1" />
+      <circle cx="94" cy="122" r="1" fill="white" opacity="0.6" />
+      {/* Nose */}
+      <ellipse cx="90" cy="127" rx="1.5" ry="1" fill="#FF69B4" />
+      {/* Fluffy tail */}
+      <circle cx="103" cy="132" r="4" fill="white" stroke="#CCC" strokeWidth="1.5" />
+    </g>
+  ),
+
+  'pet-parrot': () => (
+    <g>
+      {/* Body */}
+      <ellipse cx="94" cy="128" rx="7" ry="10" fill="#06D6A0" stroke="#048A6A" strokeWidth="2" />
+      {/* Belly */}
+      <ellipse cx="94" cy="132" rx="5" ry="6" fill="#FFD166" opacity="0.6" />
+      {/* Head */}
+      <circle cx="92" cy="116" r="6" fill="#06D6A0" stroke="#048A6A" strokeWidth="2" />
+      {/* Eye */}
+      <circle cx="89" cy="115" r="2" fill="white" stroke="#2D3436" strokeWidth="1" />
+      <circle cx="89.5" cy="115" r="1" fill="#2D3436" />
+      {/* Beak */}
+      <polygon points="86,118 82,116 86,120" fill="#F77F00" stroke="#D4600A" strokeWidth="1" />
+      {/* Wing */}
+      <path d="M98 122 Q108 118 106 130 Q104 134 100 132" fill="#118AB2" stroke="#0A5F7A" strokeWidth="1.5" />
+      {/* Tail feathers */}
+      <path d="M94 138 L90 148" stroke="#E63946" strokeWidth="2" strokeLinecap="round" />
+      <path d="M96 138 L96 150" stroke="#06D6A0" strokeWidth="2" strokeLinecap="round" />
+      <path d="M98 138 L102 148" stroke="#118AB2" strokeWidth="2" strokeLinecap="round" />
+      {/* Feet */}
+      <line x1="91" y1="136" x2="89" y2="140" stroke="#F77F00" strokeWidth="1.5" />
+      <line x1="97" y1="136" x2="99" y2="140" stroke="#F77F00" strokeWidth="1.5" />
+    </g>
+  ),
+
+  'pet-panda': () => (
+    <g>
+      {/* Body */}
+      <ellipse cx="95" cy="132" rx="9" ry="8" fill="white" stroke="#2D3436" strokeWidth="2" />
+      {/* Head */}
+      <circle cx="90" cy="122" r="8" fill="white" stroke="#2D3436" strokeWidth="2" />
+      {/* Black ears */}
+      <circle cx="83" cy="114" r="4" fill="#2D3436" />
+      <circle cx="97" cy="114" r="4" fill="#2D3436" />
+      {/* Eye patches */}
+      <ellipse cx="86" cy="121" rx="4" ry="4.5" fill="#2D3436" />
+      <ellipse cx="94" cy="121" rx="4" ry="4.5" fill="#2D3436" />
+      {/* Eyes */}
+      <circle cx="86" cy="121" r="2" fill="white" />
+      <circle cx="87" cy="121" r="1" fill="#2D3436" />
+      <circle cx="94" cy="121" r="2" fill="white" />
+      <circle cx="95" cy="121" r="1" fill="#2D3436" />
+      {/* Nose */}
+      <ellipse cx="90" cy="126" rx="2" ry="1.5" fill="#2D3436" />
+      {/* Bamboo */}
+      <line x1="102" y1="118" x2="102" y2="140" stroke="#06D6A0" strokeWidth="2.5" />
+      <line x1="100" y1="122" x2="96" y2="120" stroke="#06D6A0" strokeWidth="1.5" />
+      {/* Black arms holding bamboo */}
+      <ellipse cx="100" cy="130" rx="4" ry="3" fill="#2D3436" />
+    </g>
+  ),
+
+  'pet-chicken': () => (
+    <g>
+      {/* BIG FAT BODY — absolute unit */}
+      <ellipse cx="92" cy="128" rx="16" ry="14" fill="#FFD166" stroke="#D4930A" strokeWidth="2.5" />
+      {/* Even fatter belly */}
+      <ellipse cx="92" cy="132" rx="14" ry="11" fill="#FFE699" />
+      {/* Chunky thighs */}
+      <ellipse cx="84" cy="138" rx="5" ry="4" fill="#FFD166" stroke="#D4930A" strokeWidth="1.5" />
+      <ellipse cx="100" cy="138" rx="5" ry="4" fill="#FFD166" stroke="#D4930A" strokeWidth="1.5" />
+      {/* Little orange feet */}
+      <path d="M82 142 L78 148 L82 146 L84 148 L86 142" fill="#F77F00" stroke="#D4600A" strokeWidth="1" />
+      <path d="M98 142 L94 148 L98 146 L100 148 L102 142" fill="#F77F00" stroke="#D4600A" strokeWidth="1" />
+      {/* Tiny wings on big body */}
+      <path d="M76 124 Q70 120 72 128 Q74 132 78 128" fill="#FFE699" stroke="#D4930A" strokeWidth="1.5" />
+      <path d="M108 124 Q114 120 112 128 Q110 132 106 128" fill="#FFE699" stroke="#D4930A" strokeWidth="1.5" />
+      {/* Head (comically small for the body) */}
+      <circle cx="88" cy="112" r="8" fill="#FFD166" stroke="#D4930A" strokeWidth="2" />
+      {/* Comb on head */}
+      <circle cx="86" cy="104" r="3" fill="#E63946" stroke="#B22530" strokeWidth="1.5" />
+      <circle cx="90" cy="103" r="3.5" fill="#E63946" stroke="#B22530" strokeWidth="1.5" />
+      <circle cx="94" cy="105" r="2.5" fill="#E63946" stroke="#B22530" strokeWidth="1.5" />
+      {/* Eyes — beady and judgy */}
+      <circle cx="85" cy="111" r="2.5" fill="white" stroke="#2D3436" strokeWidth="1.5" />
+      <circle cx="86" cy="111" r="1.2" fill="#2D3436" />
+      <circle cx="91" cy="111" r="2.5" fill="white" stroke="#2D3436" strokeWidth="1.5" />
+      <circle cx="92" cy="111" r="1.2" fill="#2D3436" />
+      {/* Beak */}
+      <polygon points="86,116 82,114 84,118" fill="#F77F00" stroke="#D4600A" strokeWidth="1.5" />
+      {/* Wattle */}
+      <ellipse cx="84" cy="119" rx="2" ry="3" fill="#E63946" stroke="#B22530" strokeWidth="1" />
+      {/* Tail feathers sticking up */}
+      <path d="M108 120 Q114 112 112 108" stroke="#D4930A" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+      <path d="M106 118 Q114 108 110 104" stroke="#FFD166" strokeWidth="2" fill="none" strokeLinecap="round" />
+      <path d="M108 122 Q116 116 114 112" stroke="#F77F00" strokeWidth="2" fill="none" strokeLinecap="round" />
+    </g>
+  ),
+
+  'pet-unicorn': () => (
+    <g>
+      {/* Body */}
+      <ellipse cx="95" cy="130" rx="10" ry="8" fill="white" stroke="#C9B1FF" strokeWidth="2" />
+      {/* Head */}
+      <circle cx="88" cy="118" r="7" fill="white" stroke="#C9B1FF" strokeWidth="2" />
+      {/* Horn */}
+      <polygon points="88,111 86,98 90,111" fill="#FFD166" stroke="#D4930A" strokeWidth="1.5" />
+      <line x1="87" y1="106" x2="89" y2="107" stroke="#FFD166" strokeWidth="1" />
+      <line x1="87" y1="102" x2="89" y2="103" stroke="#FFD166" strokeWidth="1" />
+      {/* Ear */}
+      <polygon points="84,112 82,104 88,110" fill="white" stroke="#C9B1FF" strokeWidth="1" />
+      {/* Eye */}
+      <circle cx="86" cy="117" r="2.5" fill="#7B2CBF" stroke="#5B1D99" strokeWidth="1" />
+      <circle cx="87" cy="116" r="1" fill="white" opacity="0.6" />
+      {/* Mane — rainbow */}
+      <path d="M92 112 Q96 108 94 114" stroke="#FF69B4" strokeWidth="2" fill="none" />
+      <path d="M93 114 Q98 110 96 118" stroke="#C9B1FF" strokeWidth="2" fill="none" />
+      <path d="M94 118 Q100 114 97 122" stroke="#4ECDC4" strokeWidth="2" fill="none" />
+      {/* Rainbow tail */}
+      <path d="M105 128 Q112 122 114 126" stroke="#FF69B4" strokeWidth="2" fill="none" />
+      <path d="M105 130 Q114 124 116 128" stroke="#C9B1FF" strokeWidth="2" fill="none" />
+      <path d="M105 132 Q114 128 116 132" stroke="#4ECDC4" strokeWidth="2" fill="none" />
+      {/* Legs */}
+      <rect x="88" y="136" width="3" height="6" rx="1.5" fill="white" stroke="#C9B1FF" strokeWidth="1" />
+      <rect x="99" y="136" width="3" height="6" rx="1.5" fill="white" stroke="#C9B1FF" strokeWidth="1" />
+      {/* Sparkles */}
+      <text x="82" y="100" fontSize="5" fill="#FFD166">&#10022;</text>
+      <text x="100" y="114" fontSize="4" fill="#FF69B4">&#10022;</text>
+    </g>
+  ),
+
+  // Rename old pet dragon key
+  'pet-dragon': () => (
+    <g>
+      {/* Mini dragon perched on shoulder */}
+      <ellipse cx="10" cy="54" rx="8" ry="6" fill="#06D6A0" stroke="#048A6A" strokeWidth="2" />
+      <circle cx="4" cy="46" r="6" fill="#06D6A0" stroke="#048A6A" strokeWidth="2" />
+      <circle cx="2" cy="44" r="2" fill="#FFD166" stroke="#D4930A" strokeWidth="0.5" />
+      <circle cx="2" cy="44" r="1" fill="#2D3436" />
+      <ellipse cx="-1" cy="48" rx="3" ry="2" fill="#08E8A0" stroke="#048A6A" strokeWidth="1" />
+      <circle cx="-3" cy="47" r="0.8" fill="#FF4500" opacity="0.8" />
+      <path d="M14 48 Q22 36 18 44 Q26 38 20 48" fill="#06D6A0" stroke="#048A6A" strokeWidth="1.5" />
+      <path d="M18 56 Q24 60 22 64 Q20 62 18 58" fill="#06D6A0" stroke="#048A6A" strokeWidth="1.5" />
+      <polygon points="22,64 24,60 26,64" fill="#FFD166" />
+      <ellipse cx="10" cy="56" rx="5" ry="3" fill="#08E8A0" opacity="0.5" />
+    </g>
+  ),
 };
 
 export function getAvatarLayer(key: string): React.ReactNode | null {

@@ -227,6 +227,9 @@ export default function AvatarRenderer({ avatar, state = 'idle', size = 120 }: A
 
         {/* === ACCESSORY (non-face) === */}
         {config.accessory && getAvatarLayer(getMarketplaceItem(config.accessory)?.svgLayerKey || '')}
+
+        {/* === PET (beside character) === */}
+        {config.pet && getAvatarLayer(getMarketplaceItem(config.pet)?.svgLayerKey || '')}
       </svg>
     </motion.div>
   );

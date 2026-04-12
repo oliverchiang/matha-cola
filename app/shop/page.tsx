@@ -57,6 +57,7 @@ export default function ShopPage() {
         case 'accessory': av.accessory = item.id; break;
         case 'face': av.face = item.id; break;
         case 'shoes': av.shoes = item.id; break;
+        case 'pet': av.pet = item.id; break;
       }
     }
     return av;

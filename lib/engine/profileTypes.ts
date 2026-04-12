@@ -3,7 +3,7 @@ import { HighScoreEntry } from './types';
 // === Avatar System ===
 export type BodyStyle = 'neutral' | 'masculine' | 'feminine';
 
-export type AvatarSlot = 'skinColor' | 'bodyStyle' | 'hair' | 'hat' | 'shirt' | 'accessory' | 'face' | 'shoes';
+export type AvatarSlot = 'skinColor' | 'bodyStyle' | 'hair' | 'hat' | 'shirt' | 'accessory' | 'face' | 'shoes' | 'pet';
 
 export interface AvatarConfig {
   skinColor: string;
@@ -14,6 +14,7 @@ export interface AvatarConfig {
   accessory: string | null;
   face: string | null;
   shoes: string | null;
+  pet: string | null;
 }
 
 export const DEFAULT_AVATAR: AvatarConfig = {
@@ -25,6 +26,7 @@ export const DEFAULT_AVATAR: AvatarConfig = {
   accessory: null,
   face: null,
   shoes: null,
+  pet: null,
 };
 
 // === Profile System ===
@@ -42,7 +44,7 @@ export interface Profile {
 }
 
 // === Marketplace ===
-export type ItemCategory = 'hair' | 'hat' | 'shirt' | 'accessory' | 'face' | 'shoes' | 'skinColor';
+export type ItemCategory = 'hair' | 'hat' | 'shirt' | 'accessory' | 'face' | 'shoes' | 'skinColor' | 'pet';
 
 export interface MarketplaceItem {
   id: string;

@@ -16,6 +16,7 @@ const categories: { key: ItemCategory; label: string }[] = [
   { key: 'shirt', label: 'Shirts' },
   { key: 'accessory', label: 'Accessories' },
   { key: 'shoes', label: 'Shoes' },
+  { key: 'pet', label: 'Pets' },
   { key: 'skinColor', label: 'Skin' },
 ];
 

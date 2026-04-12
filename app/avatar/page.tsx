@@ -20,6 +20,7 @@ const slotCategories: { slot: AvatarSlot; category: ItemCategory; label: string 
   { slot: 'shirt', category: 'shirt', label: 'Shirt' },
   { slot: 'accessory', category: 'accessory', label: 'Accessory' },
   { slot: 'shoes', category: 'shoes', label: 'Shoes' },
+  { slot: 'pet', category: 'pet', label: 'Pet' },
   { slot: 'skinColor', category: 'skinColor', label: 'Skin' },
 ];
 
