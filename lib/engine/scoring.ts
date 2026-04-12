@@ -46,9 +46,10 @@ export function getCapsPerCorrect(
     if (timesTable === 'mixed') return 3;
     const t = timesTable as number;
     if (t <= 1) return 0;
+    if (t === 10 || t === 11) return 0;
     if (t <= 5) return 1;
     if (t <= 9) return 2;
-    return 3; // 10, 11, 12
+    return 3; // 12
   }
 
   // Difficulty-based path
