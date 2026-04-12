@@ -9,7 +9,7 @@ import { useProfileStore } from '@/lib/stores/profileStore';
 import { useChallengeStore } from '@/lib/stores/challengeStore';
 import { ChallengeConfig } from '@/lib/engine/challengeTypes';
 import ChallengePickerModal from '@/components/challenge/ChallengePickerModal';
-import { getStarCount, getEncouragingMessage } from '@/lib/engine/scoring';
+import { getStarCount, getEncouragingMessage, getCapsPerCorrect } from '@/lib/engine/scoring';
 import { getOperationSymbol } from '@/lib/engine/questionGenerator';
 import { Operation, Difficulty, TimesTable } from '@/lib/engine/types';
 import OperationCard from '@/components/game/OperationCard';
@@ -43,6 +43,7 @@ export default function PlayPage() {
   const [feedback, setFeedback] = useState<'correct' | 'wrong' | null>(null);
   const [capsEarnedThisGame, setCapsEarnedThisGame] = useState(0);
   const [showCapAnimation, setShowCapAnimation] = useState(false);
+  const [lastCapsEarned, setLastCapsEarned] = useState(1);
   const [showChallengePicker, setShowChallengePicker] = useState(false);
   const [challengeSent, setChallengeSent] = useState(false);
   const feedbackTimeout = useRef<ReturnType<typeof setTimeout>>(null);
@@ -145,9 +146,11 @@ export default function PlayPage() {
     if (correct) {
       setFeedback('correct');
       sounds.correct();
-      // Award bottle cap
-      profileStore.awardBottleCaps(1);
-      setCapsEarnedThisGame(prev => prev + 1);
+      // Award bottle caps based on difficulty
+      const capsEarned = getCapsPerCorrect(store.operation, store.difficulty, store.timesTable);
+      profileStore.awardBottleCaps(capsEarned);
+      setCapsEarnedThisGame(prev => prev + capsEarned);
+      setLastCapsEarned(capsEarned);
       setShowCapAnimation(true);
       setTimeout(() => setShowCapAnimation(false), 800);
       sounds.bottleCapEarn();
@@ -634,7 +637,7 @@ export default function PlayPage() {
                     className="fixed top-20 right-16 z-50 flex items-center gap-1"
                   >
                     <BottleCapIcon size={24} />
-                    <span className="text-lg font-bold text-fizz-yellow">+1</span>
+                    <span className="text-lg font-bold text-fizz-yellow">+{lastCapsEarned}</span>
                   </motion.div>
                 )}
               </AnimatePresence>

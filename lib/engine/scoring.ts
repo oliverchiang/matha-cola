@@ -30,6 +30,37 @@ export function getStarCount(score: number): number {
   return 0;
 }
 
+import { Operation, Difficulty, TimesTable } from './types';
+
+/**
+ * Calculate bottle caps earned per correct answer based on difficulty.
+ * Easy/low tables = 1 cap, hard/mixed = up to 3 caps.
+ */
+export function getCapsPerCorrect(
+  operation: Operation | null,
+  difficulty: Difficulty | null,
+  timesTable: TimesTable | null,
+): number {
+  // Multiplication path — based on times table
+  if (operation === 'multiplication' && timesTable !== null) {
+    if (timesTable === 'mixed') return 3;
+    const t = timesTable as number;
+    if (t <= 1) return 0;
+    if (t <= 5) return 1;
+    if (t <= 9) return 2;
+    return 3; // 10, 11, 12
+  }
+
+  // Difficulty-based path
+  if (difficulty === 'hard') return 3;
+  if (difficulty === 'medium') return 2;
+
+  // Easy or fallback
+  // Mixed operation gets a bump even on easy
+  if (operation === 'mixed') return 2;
+  return 1;
+}
+
 export function getEncouragingMessage(score: number, correct: number, total: number): string {
   const pct = correct / total;
   if (pct === 1) return "PERFECT! You're a math superstar!";
