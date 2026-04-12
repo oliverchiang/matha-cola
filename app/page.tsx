@@ -182,64 +182,34 @@ export default function Home() {
                   </Link>
                 </motion.div>
 
-                {/* Nav links */}
+                {/* Nav grid */}
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.9 }}
-                  className="flex items-center gap-5"
+                  className="grid grid-cols-5 gap-3 w-full max-w-xs"
                 >
-              <Link href="/shop">
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="flex items-center gap-2 text-dark/50 hover:text-dark/80 font-medium text-lg cursor-pointer transition-colors"
-                >
-                  <ShoppingBag size={20} />
-                  Shop
+                  {[
+                    { href: '/shop', icon: ShoppingBag, label: 'Shop', color: 'bg-cola-red/10 text-cola-red' },
+                    { href: '/challenges', icon: Swords, label: 'Battle', color: 'bg-fizz-yellow/20 text-fizz-yellow' },
+                    { href: '/friends', icon: Users, label: 'Friends', color: 'bg-bubble-blue/15 text-bubble-blue' },
+                    { href: '/leaderboard', icon: Medal, label: 'Ranks', color: 'bg-op-multiplication/15 text-op-multiplication' },
+                    { href: '/scores', icon: Trophy, label: 'Scores', color: 'bg-success/15 text-success' },
+                  ].map(({ href, icon: Icon, label, color }) => (
+                    <Link key={href} href={href}>
+                      <motion.div
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        className="flex flex-col items-center gap-1 cursor-pointer"
+                      >
+                        <div className={`w-11 h-11 rounded-xl ${color} flex items-center justify-center`}>
+                          <Icon size={20} />
+                        </div>
+                        <span className="text-[11px] font-bold text-dark/50">{label}</span>
+                      </motion.div>
+                    </Link>
+                  ))}
                 </motion.div>
-              </Link>
-              <Link href="/challenges">
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="flex items-center gap-2 text-dark/50 hover:text-dark/80 font-medium text-lg cursor-pointer transition-colors"
-                >
-                  <Swords size={20} />
-                  Challenges
-                </motion.div>
-              </Link>
-              <Link href="/friends">
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="flex items-center gap-2 text-dark/50 hover:text-dark/80 font-medium text-lg cursor-pointer transition-colors"
-                >
-                  <Users size={20} />
-                  Friends
-                </motion.div>
-              </Link>
-              <Link href="/leaderboard">
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="flex items-center gap-2 text-dark/50 hover:text-dark/80 font-medium text-lg cursor-pointer transition-colors"
-                >
-                  <Medal size={20} />
-                  Leaderboard
-                </motion.div>
-              </Link>
-              <Link href="/scores">
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="flex items-center gap-2 text-dark/50 hover:text-dark/80 font-medium text-lg cursor-pointer transition-colors"
-                >
-                  <Trophy size={20} />
-                  Scores
-                </motion.div>
-              </Link>
-            </motion.div>
               </div>
             </div>
           </>
