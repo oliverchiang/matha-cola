@@ -57,6 +57,20 @@ function saveActiveIdToStorage(id: string | null) {
   } catch { /* ignore */ }
 }
 
+function getDeviceId(): string {
+  if (typeof window === 'undefined') return '';
+  try {
+    let id = localStorage.getItem('matha-cola-device-id');
+    if (!id) {
+      id = crypto.randomUUID();
+      localStorage.setItem('matha-cola-device-id', id);
+    }
+    return id;
+  } catch {
+    return '';
+  }
+}
+
 function setAvatarSlot(avatar: AvatarConfig, slot: string, value: string | null): AvatarConfig {
   switch (slot) {
     case 'hair': return { ...avatar, hair: value };
@@ -77,7 +91,8 @@ export const useProfileStore = create<ProfileStore>((set, get) => ({
 
   load: async () => {
     try {
-      const res = await fetch('/api/profiles');
+      const deviceId = getDeviceId();
+      const res = await fetch(`/api/profiles?deviceId=${encodeURIComponent(deviceId)}`);
       const rows = await res.json();
       const profiles = (rows as Record<string, unknown>[]).map(dbRowToProfile);
       const activeId = getActiveIdFromStorage();
@@ -104,11 +119,14 @@ export const useProfileStore = create<ProfileStore>((set, get) => ({
       highScores: {},
     };
 
-    await fetch('/api/profiles', {
+    const deviceId = getDeviceId();
+    const res = await fetch('/api/profiles', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(profile),
+      body: JSON.stringify({ ...profile, deviceId }),
     });
+
+    if (!res.ok) throw new Error('Failed to create profile');
 
     const newProfiles = [...profiles, { ...profile, pin: '' }];
     set({ profiles: newProfiles, activeProfileId: profile.id });
@@ -134,10 +152,11 @@ export const useProfileStore = create<ProfileStore>((set, get) => ({
 
   selectProfile: async (id, pin) => {
     try {
+      const deviceId = getDeviceId();
       const res = await fetch(`/api/profiles/${id}/auth`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ pin }),
+        body: JSON.stringify({ pin, deviceId }),
       });
       if (!res.ok) return false;
       const data = await res.json();

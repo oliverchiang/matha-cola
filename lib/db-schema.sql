@@ -2,6 +2,7 @@ CREATE TABLE profiles (
   id TEXT PRIMARY KEY,
   name TEXT NOT NULL,
   pin TEXT NOT NULL,
+  device_id TEXT,
   bottle_caps INTEGER DEFAULT 0,
   avatar JSONB DEFAULT '{}',
   purchased_items JSONB DEFAULT '[]',
@@ -10,6 +11,8 @@ CREATE TABLE profiles (
   high_scores JSONB DEFAULT '{}',
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
+
+CREATE INDEX idx_profiles_device_id ON profiles(device_id);
 
 CREATE TABLE challenges (
   id TEXT PRIMARY KEY,
