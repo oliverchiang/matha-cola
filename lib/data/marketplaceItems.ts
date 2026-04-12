@@ -54,6 +54,24 @@ export const MARKETPLACE_ITEMS: MarketplaceItem[] = [
   { id: 'skin-dark', name: 'Dark', category: 'skinColor', price: 0, description: 'Dark skin tone', rarity: 'common', svgLayerKey: 'skin-dark', previewColor: '#6B4226' },
   { id: 'skin-cool-blue', name: 'Cool Blue', category: 'skinColor', price: 24, description: 'Alien vibes!', rarity: 'rare', svgLayerKey: 'skin-cool-blue', previewColor: '#89CFF0' },
   { id: 'skin-green', name: 'Goblin Green', category: 'skinColor', price: 24, description: 'Math goblin mode', rarity: 'rare', svgLayerKey: 'skin-green', previewColor: '#90EE90' },
+
+  // === MYTHICAL ===
+  { id: 'acc-stanley-cup', name: 'Stanley Cup', category: 'accessory', price: 500, description: 'The ultimate hydration flex', rarity: 'mythical', svgLayerKey: 'acc-stanley-cup' },
+  { id: 'hat-dragon-horns', name: 'Dragon Horns', category: 'hat', price: 500, description: 'Unleash the math dragon!', rarity: 'mythical', svgLayerKey: 'hat-dragon-horns' },
+  { id: 'shirt-lava', name: 'Lava Armor', category: 'shirt', price: 600, description: 'Forged in volcanic equations', rarity: 'mythical', svgLayerKey: 'shirt-lava' },
+  { id: 'shoes-cloud', name: 'Cloud Walkers', category: 'shoes', price: 450, description: 'Walking on air!', rarity: 'mythical', svgLayerKey: 'shoes-cloud' },
+  { id: 'acc-angel-wings', name: 'Angel Wings', category: 'accessory', price: 550, description: 'Heavenly math powers', rarity: 'mythical', svgLayerKey: 'acc-angel-wings' },
+  { id: 'hair-flame', name: 'Flame Hair', category: 'hair', price: 500, description: 'Hair literally on fire!', rarity: 'mythical', svgLayerKey: 'hair-flame' },
+  { id: 'face-laser-eyes', name: 'Laser Eyes', category: 'face', price: 500, description: 'Pew pew! Math vision!', rarity: 'mythical', svgLayerKey: 'face-laser-eyes' },
+
+  // === LEGENDARY ===
+  { id: 'acc-iphone', name: 'iPhone', category: 'accessory', price: 2000, description: 'The ultimate status symbol', rarity: 'legendary', svgLayerKey: 'acc-iphone' },
+  { id: 'acc-ipad', name: 'iPad', category: 'accessory', price: 2500, description: 'Big screen energy', rarity: 'legendary', svgLayerKey: 'acc-ipad' },
+  { id: 'hat-diamond-crown', name: 'Diamond Crown', category: 'hat', price: 3000, description: 'The rarest crown in existence', rarity: 'legendary', svgLayerKey: 'hat-diamond-crown' },
+  { id: 'shirt-galaxy-armor', name: 'Galaxy Armor', category: 'shirt', price: 2500, description: 'Woven from stardust', rarity: 'legendary', svgLayerKey: 'shirt-galaxy-armor' },
+  { id: 'acc-pet-dragon', name: 'Pet Dragon', category: 'accessory', price: 5000, description: 'Your own math dragon!', rarity: 'legendary', svgLayerKey: 'acc-pet-dragon' },
+  { id: 'shoes-lightning', name: 'Lightning Kicks', category: 'shoes', price: 2000, description: 'Faster than the speed of math', rarity: 'legendary', svgLayerKey: 'shoes-lightning' },
+  { id: 'skin-rainbow', name: 'Rainbow', category: 'skinColor', price: 1500, description: 'Every colour at once!', rarity: 'legendary', svgLayerKey: 'skin-rainbow', previewColor: '#FF69B4' },
 ];
 
 export function getMarketplaceItem(id: string): MarketplaceItem | undefined {

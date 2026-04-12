@@ -22,17 +22,29 @@ const rarityBorders: Record<string, string> = {
   common: 'border-dark/10',
   rare: 'border-bubble-blue',
   epic: 'border-fizz-yellow',
+  mythical: 'border-[#FF69B4]',
+  legendary: 'border-[#FF4500]',
 };
 
 const rarityLabels: Record<string, string> = {
   common: '',
   rare: 'Rare',
   epic: 'Epic',
+  mythical: 'Mythical',
+  legendary: 'LEGENDARY',
 };
 
 const rarityLabelColors: Record<string, string> = {
   rare: 'text-bubble-blue',
   epic: 'text-fizz-yellow',
+  mythical: 'text-[#FF69B4]',
+  legendary: 'text-[#FF4500]',
+};
+
+const rarityShimmer: Record<string, string> = {
+  epic: 'shimmer',
+  mythical: 'shimmer-mythical',
+  legendary: 'shimmer-legendary',
 };
 
 export default function ShopItemCard({ item, owned, equipped, canAfford, isPreviewing, onBuy, onEquip, onPreview, index }: ShopItemCardProps) {
@@ -52,7 +64,7 @@ export default function ShopItemCard({ item, owned, equipped, canAfford, isPrevi
       transition={{ delay: index * 0.05 }}
       onClick={handleCardClick}
       className={`bg-white rounded-2xl p-4 shadow-md border-2 ${borderClass} flex flex-col items-center gap-2 ${
-        item.rarity === 'epic' ? 'shimmer' : ''
+        rarityShimmer[item.rarity] || ''
       } ${!owned && onPreview ? 'cursor-pointer' : ''} ${isPreviewing ? 'ring-2 ring-fizz-yellow/50' : ''}`}
     >
       {/* Preview */}

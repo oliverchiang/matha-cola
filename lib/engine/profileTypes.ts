@@ -50,7 +50,7 @@ export interface MarketplaceItem {
   category: ItemCategory;
   price: number;
   description: string;
-  rarity: 'common' | 'rare' | 'epic';
+  rarity: 'common' | 'rare' | 'epic' | 'mythical' | 'legendary';
   svgLayerKey: string;
   previewColor?: string;
 }

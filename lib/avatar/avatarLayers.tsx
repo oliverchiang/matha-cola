@@ -351,6 +351,243 @@ export const avatarLayers: Record<string, LayerRenderer> = {
       <line x1="70" y1="140" x2="63" y2="136" stroke="#A0674B" strokeWidth="2" strokeLinecap="round" />
     </g>
   ),
+  // ===================== MYTHICAL =====================
+
+  'acc-stanley-cup': () => (
+    <g>
+      {/* Big chunky Stanley tumbler held in hand */}
+      <rect x="84" y="68" width="16" height="28" rx="5" fill="#06D6A0" stroke="#048A6A" strokeWidth="2.5" />
+      <rect x="86" y="72" width="12" height="22" rx="3" fill="#08E8A0" />
+      {/* Lid */}
+      <rect x="82" y="64" width="20" height="6" rx="3" fill="#2D3436" stroke="#1a1a1a" strokeWidth="2" />
+      {/* Straw */}
+      <line x1="96" y1="64" x2="100" y2="50" stroke="#2D3436" strokeWidth="3" strokeLinecap="round" />
+      {/* Handle */}
+      <path d="M100 72 Q110 72 110 82 Q110 92 100 92" stroke="#06D6A0" strokeWidth="3.5" fill="none" />
+      {/* Condensation sparkle */}
+      <circle cx="89" cy="78" r="1.5" fill="white" opacity="0.6" />
+      <circle cx="92" cy="86" r="1" fill="white" opacity="0.4" />
+      <text x="92" y="84" textAnchor="middle" fontSize="6" fill="white" opacity="0.5" fontWeight="bold">S</text>
+    </g>
+  ),
+
+  'hat-dragon-horns': () => (
+    <g>
+      {/* Left horn */}
+      <path d="M26,8 Q18,-16 22,-28 Q26,-22 30,-10 Z" fill="#E63946" stroke="#B22530" strokeWidth="2.5" />
+      <path d="M27,4 Q20,-14 24,-24" stroke="#FF6B6B" strokeWidth="2" fill="none" opacity="0.5" />
+      {/* Right horn */}
+      <path d="M74,8 Q82,-16 78,-28 Q74,-22 70,-10 Z" fill="#E63946" stroke="#B22530" strokeWidth="2.5" />
+      <path d="M73,4 Q80,-14 76,-24" stroke="#FF6B6B" strokeWidth="2" fill="none" opacity="0.5" />
+      {/* Horn glow tips */}
+      <circle cx="22" cy="-28" r="3" fill="#FF6B6B" opacity="0.6" />
+      <circle cx="78" cy="-28" r="3" fill="#FF6B6B" opacity="0.6" />
+    </g>
+  ),
+
+  'shirt-lava': () => (
+    <g>
+      <rect x="28" y="55" width="44" height="58" rx="10" fill="#2D3436" stroke="#1a1a1a" strokeWidth="2" />
+      {/* Lava cracks */}
+      <path d="M32 70 L38 75 L34 85 L40 92 L36 105" stroke="#FF4500" strokeWidth="2.5" fill="none" opacity="0.9" />
+      <path d="M56 65 L62 72 L58 82 L64 90 L60 100 L66 110" stroke="#FF4500" strokeWidth="2" fill="none" opacity="0.8" />
+      <path d="M44 60 L48 68 L44 78 L50 88" stroke="#FFD166" strokeWidth="1.5" fill="none" opacity="0.6" />
+      {/* Glow effect */}
+      <path d="M32 70 L38 75 L34 85 L40 92" stroke="#FFD166" strokeWidth="1" fill="none" opacity="0.4" />
+      {/* Molten core */}
+      <circle cx="50" cy="82" r="6" fill="#FF4500" opacity="0.3" />
+      <circle cx="50" cy="82" r="3" fill="#FFD166" opacity="0.4" />
+    </g>
+  ),
+
+  'shoes-cloud': () => (
+    <g>
+      {/* Left cloud shoe */}
+      <ellipse cx="37" cy="142" rx="14" ry="7" fill="white" stroke="#B0C4DE" strokeWidth="2" />
+      <circle cx="30" cy="140" r="5" fill="white" stroke="#B0C4DE" strokeWidth="1.5" />
+      <circle cx="37" cy="137" r="6" fill="white" stroke="#B0C4DE" strokeWidth="1.5" />
+      <circle cx="44" cy="140" r="5" fill="white" stroke="#B0C4DE" strokeWidth="1.5" />
+      {/* Right cloud shoe */}
+      <ellipse cx="63" cy="142" rx="14" ry="7" fill="white" stroke="#B0C4DE" strokeWidth="2" />
+      <circle cx="56" cy="140" r="5" fill="white" stroke="#B0C4DE" strokeWidth="1.5" />
+      <circle cx="63" cy="137" r="6" fill="white" stroke="#B0C4DE" strokeWidth="1.5" />
+      <circle cx="70" cy="140" r="5" fill="white" stroke="#B0C4DE" strokeWidth="1.5" />
+      {/* Sparkles */}
+      <text x="34" y="132" fontSize="5" fill="#4ECDC4" opacity="0.7">&#10022;</text>
+      <text x="66" y="132" fontSize="4" fill="#4ECDC4" opacity="0.6">&#10022;</text>
+    </g>
+  ),
+
+  'acc-angel-wings': () => (
+    <g opacity="0.85">
+      {/* Left wing — large feathered */}
+      <path d="M16 70 Q-10 45 0 55 Q-14 35 4 48 Q-8 25 10 42 Q-2 65 16 70 Z" fill="white" stroke="#B0C4DE" strokeWidth="2" />
+      <path d="M16 80 Q-4 95 6 88 Q-2 108 16 95 Z" fill="white" stroke="#B0C4DE" strokeWidth="1.5" />
+      {/* Right wing */}
+      <path d="M84 70 Q110 45 100 55 Q114 35 96 48 Q108 25 90 42 Q102 65 84 70 Z" fill="white" stroke="#B0C4DE" strokeWidth="2" />
+      <path d="M84 80 Q104 95 94 88 Q102 108 84 95 Z" fill="white" stroke="#B0C4DE" strokeWidth="1.5" />
+      {/* Feather shine */}
+      <line x1="6" y1="50" x2="14" y2="60" stroke="white" strokeWidth="2" opacity="0.5" />
+      <line x1="94" y1="50" x2="86" y2="60" stroke="white" strokeWidth="2" opacity="0.5" />
+      {/* Halo */}
+      <ellipse cx="50" cy="-8" rx="18" ry="5" fill="none" stroke="#FFD166" strokeWidth="2.5" opacity="0.8" />
+      <ellipse cx="50" cy="-8" rx="18" ry="5" fill="none" stroke="#FFE699" strokeWidth="1" opacity="0.4" />
+    </g>
+  ),
+
+  'hair-flame': () => (
+    <g>
+      <path d="M22 10 Q20 -6 50 -10 Q80 -6 78 10" fill="#FF4500" stroke="#CC3700" strokeWidth="2" />
+      {/* Flame wisps */}
+      <path d="M28 6 Q24 -14 32 -22 Q36 -12 30 -4" fill="#FF6347" opacity="0.9" />
+      <path d="M40 2 Q36 -20 44 -30 Q48 -18 42 -6" fill="#FF4500" opacity="0.85" />
+      <path d="M50 0 Q48 -24 54 -34 Q58 -20 52 -4" fill="#FF6347" opacity="0.9" />
+      <path d="M60 2 Q58 -18 64 -28 Q68 -14 62 -4" fill="#FF4500" opacity="0.85" />
+      <path d="M72 6 Q70 -12 76 -20 Q78 -8 74 0" fill="#FF6347" opacity="0.9" />
+      {/* Inner glow */}
+      <path d="M36 -2 Q34 -16 40 -24" stroke="#FFD166" strokeWidth="2" fill="none" opacity="0.5" />
+      <path d="M52 -2 Q50 -20 56 -28" stroke="#FFD166" strokeWidth="2" fill="none" opacity="0.5" />
+    </g>
+  ),
+
+  'face-laser-eyes': () => (
+    <g>
+      {/* Red glow around eyes */}
+      <circle cx="38" cy="33" r="12" fill="#FF0000" opacity="0.15" />
+      <circle cx="62" cy="33" r="12" fill="#FF0000" opacity="0.15" />
+      {/* Laser beams shooting out */}
+      <line x1="38" y1="33" x2="-10" y2="45" stroke="#FF0000" strokeWidth="3" opacity="0.7" />
+      <line x1="38" y1="33" x2="-10" y2="45" stroke="#FF6666" strokeWidth="1.5" opacity="0.5" />
+      <line x1="62" y1="33" x2="110" y2="45" stroke="#FF0000" strokeWidth="3" opacity="0.7" />
+      <line x1="62" y1="33" x2="110" y2="45" stroke="#FF6666" strokeWidth="1.5" opacity="0.5" />
+      {/* Eye glow core */}
+      <circle cx="40" cy="34" r="5" fill="#FF0000" opacity="0.6" />
+      <circle cx="40" cy="34" r="2.5" fill="white" opacity="0.5" />
+      <circle cx="64" cy="34" r="5" fill="#FF0000" opacity="0.6" />
+      <circle cx="64" cy="34" r="2.5" fill="white" opacity="0.5" />
+    </g>
+  ),
+
+  // ===================== LEGENDARY =====================
+
+  'acc-iphone': () => (
+    <g>
+      {/* iPhone held in right hand */}
+      <rect x="84" y="72" width="14" height="24" rx="3" fill="#1a1a1a" stroke="#000" strokeWidth="2" />
+      <rect x="86" y="74" width="10" height="18" rx="1.5" fill="#4ECDC4" />
+      {/* Screen content — mini icons */}
+      <rect x="87" y="75" width="4" height="4" rx="1" fill="#FF69B4" opacity="0.8" />
+      <rect x="92" y="75" width="3" height="4" rx="1" fill="#FFD166" opacity="0.8" />
+      <rect x="87" y="80" width="3" height="3" rx="1" fill="#06D6A0" opacity="0.8" />
+      <rect x="91" y="80" width="4" height="3" rx="1" fill="#118AB2" opacity="0.8" />
+      {/* Notch */}
+      <rect x="88" y="74" width="6" height="1.5" rx="0.75" fill="#1a1a1a" />
+      {/* Home bar */}
+      <rect x="89" y="91" width="4" height="1" rx="0.5" fill="white" opacity="0.5" />
+    </g>
+  ),
+
+  'acc-ipad': () => (
+    <g>
+      {/* iPad held with both hands — behind body */}
+      <rect x="20" y="88" width="60" height="40" rx="4" fill="#1a1a1a" stroke="#000" strokeWidth="2.5" />
+      <rect x="23" y="91" width="54" height="34" rx="2" fill="#4ECDC4" />
+      {/* Screen — math game on it! */}
+      <text x="50" y="105" textAnchor="middle" fontSize="7" fill="white" fontWeight="bold" fontFamily="sans-serif">2 + 2 = ?</text>
+      <rect x="38" y="110" width="10" height="6" rx="2" fill="#06D6A0" opacity="0.8" />
+      <rect x="52" y="110" width="10" height="6" rx="2" fill="#E63946" opacity="0.8" />
+      <text x="43" y="115" textAnchor="middle" fontSize="5" fill="white" fontWeight="bold">4</text>
+      <text x="57" y="115" textAnchor="middle" fontSize="5" fill="white" fontWeight="bold">5</text>
+      {/* Camera dot */}
+      <circle cx="50" cy="89" r="1" fill="#333" />
+    </g>
+  ),
+
+  'hat-diamond-crown': () => (
+    <g>
+      {/* Crown base — diamond-encrusted */}
+      <rect x="22" y="-2" width="56" height="18" rx="4" fill="#4ECDC4" stroke="#3BA8A0" strokeWidth="2.5" />
+      {/* Diamond points */}
+      <polygon points="22,-2 10,-22 38,-2" fill="#4ECDC4" stroke="#3BA8A0" strokeWidth="2" strokeLinejoin="round" />
+      <polygon points="40,-2 50,-28 60,-2" fill="#4ECDC4" stroke="#3BA8A0" strokeWidth="2" strokeLinejoin="round" />
+      <polygon points="62,-2 90,-22 78,-2" fill="#4ECDC4" stroke="#3BA8A0" strokeWidth="2" strokeLinejoin="round" />
+      {/* Diamonds on points */}
+      <polygon points="24,-12 20,-16 24,-20 28,-16" fill="white" stroke="#89CFF0" strokeWidth="1" />
+      <polygon points="50,-18 46,-22 50,-26 54,-22" fill="white" stroke="#89CFF0" strokeWidth="1" />
+      <polygon points="76,-12 72,-16 76,-20 80,-16" fill="white" stroke="#89CFF0" strokeWidth="1" />
+      {/* Diamond sparkle */}
+      <text x="50" y="-26" fontSize="6" fill="white" opacity="0.9">&#10022;</text>
+      <text x="24" y="-20" fontSize="4" fill="white" opacity="0.7">&#10022;</text>
+      <text x="76" y="-20" fontSize="4" fill="white" opacity="0.7">&#10022;</text>
+      {/* Band with gems */}
+      <rect x="22" y="8" width="56" height="6" rx="3" fill="#3BA8A0" />
+      {[30,40,50,60,70].map(x => (
+        <polygon key={x} points={`${x},9 ${x-2},11 ${x},13 ${x+2},11`} fill="white" stroke="#89CFF0" strokeWidth="0.5" />
+      ))}
+    </g>
+  ),
+
+  'shirt-galaxy-armor': () => (
+    <g>
+      <rect x="28" y="55" width="44" height="58" rx="10" fill="#0d0d2b" stroke="#1a1a1a" strokeWidth="2.5" />
+      {/* Armor plates */}
+      <path d="M30 60 L50 55 L70 60 L70 80 L50 85 L30 80 Z" fill="#1a1a4e" stroke="#4ECDC4" strokeWidth="1.5" opacity="0.8" />
+      <path d="M30 85 L50 90 L70 85 L70 110 L50 115 L30 110 Z" fill="#1a1a4e" stroke="#7B2CBF" strokeWidth="1.5" opacity="0.7" />
+      {/* Central gem */}
+      <circle cx="50" cy="72" r="6" fill="#4ECDC4" stroke="#3BA8A0" strokeWidth="1.5" />
+      <circle cx="50" cy="72" r="3" fill="white" opacity="0.5" />
+      {/* Stars */}
+      {[{x:36,y:64},{x:62,y:66},{x:40,y:98},{x:58,y:102},{x:50,y:108}].map((s,i) => (
+        <circle key={i} cx={s.x} cy={s.y} r={1} fill="white" />
+      ))}
+      {/* Energy lines */}
+      <line x1="50" y1="78" x2="50" y2="85" stroke="#4ECDC4" strokeWidth="1" opacity="0.6" />
+      <line x1="44" y1="72" x2="38" y2="72" stroke="#7B2CBF" strokeWidth="1" opacity="0.5" />
+      <line x1="56" y1="72" x2="62" y2="72" stroke="#7B2CBF" strokeWidth="1" opacity="0.5" />
+    </g>
+  ),
+
+  'acc-pet-dragon': () => (
+    <g>
+      {/* Mini dragon perched on shoulder */}
+      {/* Body */}
+      <ellipse cx="10" cy="54" rx="8" ry="6" fill="#06D6A0" stroke="#048A6A" strokeWidth="2" />
+      {/* Head */}
+      <circle cx="4" cy="46" r="6" fill="#06D6A0" stroke="#048A6A" strokeWidth="2" />
+      {/* Eyes */}
+      <circle cx="2" cy="44" r="2" fill="#FFD166" stroke="#D4930A" strokeWidth="0.5" />
+      <circle cx="2" cy="44" r="1" fill="#2D3436" />
+      {/* Snout */}
+      <ellipse cx="-1" cy="48" rx="3" ry="2" fill="#08E8A0" stroke="#048A6A" strokeWidth="1" />
+      {/* Nostrils — tiny fire */}
+      <circle cx="-3" cy="47" r="0.8" fill="#FF4500" opacity="0.8" />
+      <circle cx="0" cy="48" r="0.6" fill="#FF4500" opacity="0.6" />
+      {/* Wings */}
+      <path d="M14 48 Q22 36 18 44 Q26 38 20 48" fill="#06D6A0" stroke="#048A6A" strokeWidth="1.5" />
+      {/* Tail */}
+      <path d="M18 56 Q24 60 22 64 Q20 62 18 58" fill="#06D6A0" stroke="#048A6A" strokeWidth="1.5" />
+      {/* Tail spike */}
+      <polygon points="22,64 24,60 26,64" fill="#FFD166" />
+      {/* Belly */}
+      <ellipse cx="10" cy="56" rx="5" ry="3" fill="#08E8A0" opacity="0.5" />
+    </g>
+  ),
+
+  'shoes-lightning': () => (
+    <g>
+      {/* Left shoe */}
+      <rect x="23" y="134" width="22" height="14" rx="5" fill="#FFD166" stroke="#D4930A" strokeWidth="2.5" />
+      <polygon points="28,136 25,142 32,140 29,148 36,138 31,140 34,134" fill="#FF4500" stroke="#CC3700" strokeWidth="0.5" />
+      {/* Energy sparks */}
+      <circle cx="24" cy="134" r="1.5" fill="white" opacity="0.6" />
+      <circle cx="44" cy="136" r="1" fill="white" opacity="0.4" />
+      {/* Right shoe */}
+      <rect x="55" y="134" width="22" height="14" rx="5" fill="#FFD166" stroke="#D4930A" strokeWidth="2.5" />
+      <polygon points="60,136 57,142 64,140 61,148 68,138 63,140 66,134" fill="#FF4500" stroke="#CC3700" strokeWidth="0.5" />
+      <circle cx="56" cy="134" r="1.5" fill="white" opacity="0.6" />
+      <circle cx="76" cy="136" r="1" fill="white" opacity="0.4" />
+    </g>
+  ),
 };
 
 export function getAvatarLayer(key: string): React.ReactNode | null {
