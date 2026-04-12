@@ -1,27 +1,29 @@
 import { HighScoreEntry } from './types';
 
 // === Avatar System ===
-export type AvatarSlot = 'skinColor' | 'bottleColor' | 'hair' | 'hat' | 'shirt' | 'accessory' | 'bottleLabel' | 'shoes';
+export type BodyStyle = 'neutral' | 'masculine' | 'feminine';
+
+export type AvatarSlot = 'skinColor' | 'bodyStyle' | 'hair' | 'hat' | 'shirt' | 'accessory' | 'face' | 'shoes';
 
 export interface AvatarConfig {
   skinColor: string;
-  bottleColor: string;
+  bodyStyle: BodyStyle;
   hair: string | null;
   hat: string | null;
   shirt: string | null;
   accessory: string | null;
-  bottleLabel: string | null;
+  face: string | null;
   shoes: string | null;
 }
 
 export const DEFAULT_AVATAR: AvatarConfig = {
-  skinColor: '#FFD166',
-  bottleColor: '#E63946',
+  skinColor: '#F4C49C',
+  bodyStyle: 'neutral',
   hair: null,
   hat: null,
   shirt: null,
   accessory: null,
-  bottleLabel: null,
+  face: null,
   shoes: null,
 };
 
@@ -40,7 +42,7 @@ export interface Profile {
 }
 
 // === Marketplace ===
-export type ItemCategory = 'hair' | 'hat' | 'shirt' | 'accessory' | 'bottleColor' | 'bottleLabel' | 'shoes' | 'skinColor';
+export type ItemCategory = 'hair' | 'hat' | 'shirt' | 'accessory' | 'face' | 'shoes' | 'skinColor';
 
 export interface MarketplaceItem {
   id: string;

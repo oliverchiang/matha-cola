@@ -12,11 +12,10 @@ interface ShopCategoryTabsProps {
 const categories: { key: ItemCategory; label: string }[] = [
   { key: 'hat', label: 'Hats' },
   { key: 'hair', label: 'Hair' },
+  { key: 'face', label: 'Face' },
   { key: 'shirt', label: 'Shirts' },
   { key: 'accessory', label: 'Accessories' },
   { key: 'shoes', label: 'Shoes' },
-  { key: 'bottleColor', label: 'Colors' },
-  { key: 'bottleLabel', label: 'Labels' },
   { key: 'skinColor', label: 'Skin' },
 ];
 

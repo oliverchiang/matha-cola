@@ -63,7 +63,7 @@ function setAvatarSlot(avatar: AvatarConfig, slot: string, value: string | null)
     case 'hat': return { ...avatar, hat: value };
     case 'shirt': return { ...avatar, shirt: value };
     case 'accessory': return { ...avatar, accessory: value };
-    case 'bottleLabel': return { ...avatar, bottleLabel: value };
+    case 'face': return { ...avatar, face: value };
     case 'shoes': return { ...avatar, shoes: value };
     default: return avatar;
   }
@@ -218,8 +218,6 @@ export const useProfileStore = create<ProfileStore>((set, get) => ({
     let newAvatar = { ...profile.avatar };
     if (item.category === 'skinColor' && item.previewColor) {
       newAvatar.skinColor = item.previewColor;
-    } else if (item.category === 'bottleColor' && item.previewColor) {
-      newAvatar.bottleColor = item.previewColor;
     } else {
       newAvatar = setAvatarSlot(newAvatar, item.category, itemId);
     }
@@ -240,7 +238,6 @@ export const useProfileStore = create<ProfileStore>((set, get) => ({
 
     let newAvatar = { ...profile.avatar };
     if (slot === 'skinColor') newAvatar.skinColor = DEFAULT_AVATAR.skinColor;
-    else if (slot === 'bottleColor') newAvatar.bottleColor = DEFAULT_AVATAR.bottleColor;
     else newAvatar = setAvatarSlot(newAvatar, slot, null);
 
     set({ profiles: profiles.map(p => p.id === activeProfileId ? { ...p, avatar: newAvatar } : p) });

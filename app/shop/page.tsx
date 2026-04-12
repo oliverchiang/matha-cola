@@ -49,15 +49,13 @@ export default function ShopPage() {
     const av = { ...profile.avatar };
     if (item.category === 'skinColor' && item.previewColor) {
       av.skinColor = item.previewColor;
-    } else if (item.category === 'bottleColor' && item.previewColor) {
-      av.bottleColor = item.previewColor;
     } else {
       switch (item.category) {
         case 'hair': av.hair = item.id; break;
         case 'hat': av.hat = item.id; break;
         case 'shirt': av.shirt = item.id; break;
         case 'accessory': av.accessory = item.id; break;
-        case 'bottleLabel': av.bottleLabel = item.id; break;
+        case 'face': av.face = item.id; break;
         case 'shoes': av.shoes = item.id; break;
       }
     }
@@ -70,7 +68,6 @@ export default function ShopPage() {
 
   const isEquipped = (item: MarketplaceItem): boolean => {
     const av = profile.avatar;
-    if (item.category === 'bottleColor') return av.bottleColor === item.previewColor;
     if (item.category === 'skinColor') return av.skinColor === item.previewColor;
     const slot = item.category as keyof typeof av;
     return av[slot] === item.id;

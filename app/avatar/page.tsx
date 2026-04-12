@@ -16,11 +16,10 @@ import { sounds } from '@/lib/sounds';
 const slotCategories: { slot: AvatarSlot; category: ItemCategory; label: string }[] = [
   { slot: 'hat', category: 'hat', label: 'Hat' },
   { slot: 'hair', category: 'hair', label: 'Hair' },
+  { slot: 'face', category: 'face', label: 'Face' },
   { slot: 'shirt', category: 'shirt', label: 'Shirt' },
   { slot: 'accessory', category: 'accessory', label: 'Accessory' },
   { slot: 'shoes', category: 'shoes', label: 'Shoes' },
-  { slot: 'bottleColor', category: 'bottleColor', label: 'Color' },
-  { slot: 'bottleLabel', category: 'bottleLabel', label: 'Label' },
   { slot: 'skinColor', category: 'skinColor', label: 'Skin' },
 ];
 
@@ -51,7 +50,6 @@ export default function AvatarPage() {
     const item = getMarketplaceItem(itemId);
     if (!item) return false;
     const av = profile.avatar;
-    if (item.category === 'bottleColor') return av.bottleColor === item.previewColor;
     if (item.category === 'skinColor') return av.skinColor === item.previewColor;
     const slot = item.category as keyof typeof av;
     return av[slot] === item.id;
