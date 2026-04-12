@@ -71,10 +71,10 @@ export default function AvatarRenderer({ avatar, state = 'idle', size = 120 }: A
   return (
     <motion.div
       animate={anim}
-      style={{ width: size, height: size * 1.6 }}
+      style={{ width: size * 1.3, height: size * 1.6 }}
       className="relative select-none"
     >
-      <svg viewBox="-5 -20 110 175" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+      <svg viewBox="-5 -20 140 180" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
         <defs>
           <linearGradient id="skinGrad" x1="0.3" y1="0" x2="0.7" y2="1">
             <stop offset="0%" stopColor={skinLight} />
@@ -228,8 +228,15 @@ export default function AvatarRenderer({ avatar, state = 'idle', size = 120 }: A
         {/* === ACCESSORY (non-face) === */}
         {config.accessory && getAvatarLayer(getMarketplaceItem(config.accessory)?.svgLayerKey || '')}
 
-        {/* === PET (beside character) === */}
-        {config.pet && getAvatarLayer(getMarketplaceItem(config.pet)?.svgLayerKey || '')}
+        {/* === PET (beside character, bounces on its own) === */}
+        {config.pet && (
+          <motion.g
+            animate={{ y: [0, -4, 0], rotate: [0, 2, -2, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
+          >
+            {getAvatarLayer(getMarketplaceItem(config.pet)?.svgLayerKey || '')}
+          </motion.g>
+        )}
       </svg>
     </motion.div>
   );
