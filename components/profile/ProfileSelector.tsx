@@ -186,7 +186,7 @@ export default function ProfileSelector({ profiles, onSelect, onDelete, onCreate
                   </div>
                 </motion.button>
               ))}
-              {profiles.length < 8 && (
+              {profiles.filter(p => p.owned !== false).length < 8 && (
                 <motion.button
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}

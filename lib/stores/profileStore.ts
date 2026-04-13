@@ -40,6 +40,7 @@ function dbRowToProfile(row: Record<string, unknown>): Profile {
     totalGamesPlayed: row.total_games_played as number,
     totalCorrectAnswers: row.total_correct_answers as number,
     highScores: (row.high_scores as Record<string, HighScoreEntry>) || {},
+    owned: row.owned as boolean ?? true,
   };
 }
 
@@ -104,7 +105,7 @@ export const useProfileStore = create<ProfileStore>((set, get) => ({
 
   createProfile: async (name, pin) => {
     const { profiles } = get();
-    if (profiles.length >= MAX_PROFILES) throw new Error('Maximum profiles reached');
+    if (profiles.filter(p => p.owned !== false).length >= MAX_PROFILES) throw new Error('Maximum profiles reached');
 
     const profile: Profile = {
       id: crypto.randomUUID(),
@@ -161,7 +162,11 @@ export const useProfileStore = create<ProfileStore>((set, get) => ({
       if (!res.ok) return false;
       const data = await res.json();
       if (!data.ok) return false;
-      set({ activeProfileId: id });
+      const { profiles } = get();
+      set({
+        activeProfileId: id,
+        profiles: profiles.map(p => p.id === id ? { ...p, owned: true } : p),
+      });
       saveActiveIdToStorage(id);
       return true;
     } catch {

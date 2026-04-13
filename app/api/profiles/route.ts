@@ -9,7 +9,8 @@ export async function GET(request: NextRequest) {
 
   const rows = await sql`
     SELECT id, name, bottle_caps, avatar, purchased_items, total_games_played,
-           total_correct_answers, high_scores, created_at
+           total_correct_answers, high_scores, created_at,
+           CASE WHEN device_id = ${deviceId} THEN true ELSE false END AS owned
     FROM profiles WHERE device_id = ${deviceId} OR device_id IS NULL
     ORDER BY created_at
   `;

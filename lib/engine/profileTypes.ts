@@ -41,6 +41,7 @@ export interface Profile {
   totalGamesPlayed: number;
   totalCorrectAnswers: number;
   highScores: Record<string, HighScoreEntry>;
+  owned?: boolean;
 }
 
 // === Marketplace ===
