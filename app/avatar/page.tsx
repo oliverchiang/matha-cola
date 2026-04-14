@@ -18,7 +18,8 @@ const slotCategories: { slot: AvatarSlot; category: ItemCategory; label: string 
   { slot: 'hair', category: 'hair', label: 'Hair' },
   { slot: 'face', category: 'face', label: 'Face' },
   { slot: 'shirt', category: 'shirt', label: 'Shirt' },
-  { slot: 'accessory', category: 'accessory', label: 'Accessory' },
+  { slot: 'accessory', category: 'accessory', label: 'Acc 1' },
+  { slot: 'accessory2', category: 'accessory', label: 'Acc 2' },
   { slot: 'shoes', category: 'shoes', label: 'Shoes' },
   { slot: 'pet', category: 'pet', label: 'Pet' },
   { slot: 'skinColor', category: 'skinColor', label: 'Skin' },
@@ -52,12 +53,21 @@ export default function AvatarPage() {
     if (!item) return false;
     const av = profile.avatar;
     if (item.category === 'skinColor') return av.skinColor === item.previewColor;
+    // For accessories, check against the specific selected slot
+    if (item.category === 'accessory') {
+      if (selectedSlot === 'accessory2') return av.accessory2 === item.id;
+      return av.accessory === item.id;
+    }
     const slot = item.category as keyof typeof av;
     return av[slot] === item.id;
   };
 
   const handleEquip = async (itemId: string) => {
     sounds.equipItem();
+    if (selectedSlot === 'accessory' || selectedSlot === 'accessory2') {
+      await profileStore.equipItemToSlot(itemId, selectedSlot);
+      return;
+    }
     await profileStore.equipItem(itemId);
   };
 

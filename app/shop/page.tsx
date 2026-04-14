@@ -54,7 +54,11 @@ export default function ShopPage() {
         case 'hair': av.hair = item.id; break;
         case 'hat': av.hat = item.id; break;
         case 'shirt': av.shirt = item.id; break;
-        case 'accessory': av.accessory = item.id; break;
+        case 'accessory':
+          if (!av.accessory) av.accessory = item.id;
+          else if (!av.accessory2) av.accessory2 = item.id;
+          else av.accessory = item.id;
+          break;
         case 'face': av.face = item.id; break;
         case 'shoes': av.shoes = item.id; break;
         case 'pet': av.pet = item.id; break;
@@ -70,6 +74,7 @@ export default function ShopPage() {
   const isEquipped = (item: MarketplaceItem): boolean => {
     const av = profile.avatar;
     if (item.category === 'skinColor') return av.skinColor === item.previewColor;
+    if (item.category === 'accessory') return av.accessory === item.id || av.accessory2 === item.id;
     const slot = item.category as keyof typeof av;
     return av[slot] === item.id;
   };

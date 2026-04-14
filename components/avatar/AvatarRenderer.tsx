@@ -225,8 +225,9 @@ export default function AvatarRenderer({ avatar, state = 'idle', size = 120 }: A
         {/* === HAT (topmost) === */}
         {config.hat && getAvatarLayer(getMarketplaceItem(config.hat)?.svgLayerKey || '')}
 
-        {/* === ACCESSORY (non-face) === */}
+        {/* === ACCESSORIES (non-face) === */}
         {config.accessory && getAvatarLayer(getMarketplaceItem(config.accessory)?.svgLayerKey || '')}
+        {config.accessory2 && getAvatarLayer(getMarketplaceItem(config.accessory2)?.svgLayerKey || '')}
 
         {/* === PET (beside character, bounces on its own) === */}
         {config.pet && (

@@ -3,7 +3,7 @@ import { HighScoreEntry } from './types';
 // === Avatar System ===
 export type BodyStyle = 'neutral' | 'masculine' | 'feminine';
 
-export type AvatarSlot = 'skinColor' | 'bodyStyle' | 'hair' | 'hat' | 'shirt' | 'accessory' | 'face' | 'shoes' | 'pet';
+export type AvatarSlot = 'skinColor' | 'bodyStyle' | 'hair' | 'hat' | 'shirt' | 'accessory' | 'accessory2' | 'face' | 'shoes' | 'pet';
 
 export interface AvatarConfig {
   skinColor: string;
@@ -12,6 +12,7 @@ export interface AvatarConfig {
   hat: string | null;
   shirt: string | null;
   accessory: string | null;
+  accessory2: string | null;
   face: string | null;
   shoes: string | null;
   pet: string | null;
@@ -24,6 +25,7 @@ export const DEFAULT_AVATAR: AvatarConfig = {
   hat: null,
   shirt: null,
   accessory: null,
+  accessory2: null,
   face: null,
   shoes: null,
   pet: null,

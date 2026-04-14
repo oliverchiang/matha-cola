@@ -19,6 +19,7 @@ interface ProfileStore {
   awardBottleCaps: (count: number) => Promise<void>;
   purchaseItem: (itemId: string) => Promise<boolean>;
   equipItem: (itemId: string) => Promise<void>;
+  equipItemToSlot: (itemId: string, slot: AvatarSlot) => Promise<void>;
   unequipSlot: (slot: AvatarSlot) => Promise<void>;
 
   saveScore: (key: string, entry: HighScoreEntry) => Promise<void>;
@@ -78,6 +79,7 @@ function setAvatarSlot(avatar: AvatarConfig, slot: string, value: string | null)
     case 'hat': return { ...avatar, hat: value };
     case 'shirt': return { ...avatar, shirt: value };
     case 'accessory': return { ...avatar, accessory: value };
+    case 'accessory2': return { ...avatar, accessory2: value };
     case 'face': return { ...avatar, face: value };
     case 'shoes': return { ...avatar, shoes: value };
     case 'pet': return { ...avatar, pet: value };
@@ -243,9 +245,39 @@ export const useProfileStore = create<ProfileStore>((set, get) => ({
     let newAvatar = { ...profile.avatar };
     if (item.category === 'skinColor' && item.previewColor) {
       newAvatar.skinColor = item.previewColor;
+    } else if (item.category === 'accessory') {
+      // Smart slot: skip if already equipped, fill empty slot, or replace slot 1
+      if (newAvatar.accessory === itemId || newAvatar.accessory2 === itemId) {
+        // Already equipped — no-op
+      } else if (!newAvatar.accessory) {
+        newAvatar.accessory = itemId;
+      } else if (!newAvatar.accessory2) {
+        newAvatar.accessory2 = itemId;
+      } else {
+        newAvatar.accessory = itemId;
+      }
     } else {
       newAvatar = setAvatarSlot(newAvatar, item.category, itemId);
     }
+
+    set({ profiles: profiles.map(p => p.id === activeProfileId ? { ...p, avatar: newAvatar } : p) });
+    await fetch(`/api/profiles/${activeProfileId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ avatar: newAvatar }),
+    });
+  },
+
+  equipItemToSlot: async (itemId, slot) => {
+    const { profiles, activeProfileId } = get();
+    if (!activeProfileId) return;
+    const profile = profiles.find(p => p.id === activeProfileId);
+    if (!profile || !profile.purchasedItems.includes(itemId)) return;
+
+    const newAvatar = { ...profile.avatar, [slot]: itemId };
+    // If same item is in the other accessory slot, remove it
+    if (slot === 'accessory' && newAvatar.accessory2 === itemId) newAvatar.accessory2 = null;
+    if (slot === 'accessory2' && newAvatar.accessory === itemId) newAvatar.accessory = null;
 
     set({ profiles: profiles.map(p => p.id === activeProfileId ? { ...p, avatar: newAvatar } : p) });
     await fetch(`/api/profiles/${activeProfileId}`, {
