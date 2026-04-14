@@ -788,6 +788,594 @@ export const avatarLayers: Record<string, LayerRenderer> = {
     </g>
   ),
 
+  // ===================== NEW ACCESSORIES =====================
+
+  'acc-sunglasses': () => (
+    <g>
+      {/* Aviator shades pushed up on forehead */}
+      <path d="M30 16 Q38 12 46 14" stroke="#FFD166" strokeWidth="1.5" fill="none" />
+      <path d="M54 14 Q62 12 70 16" stroke="#FFD166" strokeWidth="1.5" fill="none" />
+      <line x1="46" y1="14" x2="54" y2="14" stroke="#FFD166" strokeWidth="1.5" />
+      <ellipse cx="38" cy="14" rx="9" ry="5" fill="#118AB2" opacity="0.55" stroke="#FFD166" strokeWidth="1.5" />
+      <ellipse cx="62" cy="14" rx="9" ry="5" fill="#118AB2" opacity="0.55" stroke="#FFD166" strokeWidth="1.5" />
+      <path d="M33 12 Q36 10 39 12" stroke="white" strokeWidth="1" fill="none" opacity="0.5" />
+      <path d="M57 12 Q60 10 63 12" stroke="white" strokeWidth="1" fill="none" opacity="0.5" />
+    </g>
+  ),
+
+  'acc-friendship-bracelet': () => (
+    <g>
+      {/* Colorful woven bands on both wrists */}
+      <rect x="76" y="94" width="12" height="6" rx="3" fill="#FF69B4" stroke="#D44D8A" strokeWidth="1.5" />
+      <line x1="76" y1="95.5" x2="88" y2="95.5" stroke="#FFD166" strokeWidth="1.5" />
+      <line x1="76" y1="98" x2="88" y2="98" stroke="#4ECDC4" strokeWidth="1.5" />
+      <rect x="12" y="94" width="12" height="6" rx="3" fill="#7B2CBF" stroke="#5B1D99" strokeWidth="1.5" />
+      <line x1="12" y1="95.5" x2="24" y2="95.5" stroke="#06D6A0" strokeWidth="1.5" />
+      <line x1="12" y1="98" x2="24" y2="98" stroke="#FF69B4" strokeWidth="1.5" />
+    </g>
+  ),
+
+  'acc-lanyard': () => (
+    <g>
+      {/* Lanyard strap around neck */}
+      <path d="M38 55 L44 82" stroke="#E63946" strokeWidth="3" fill="none" />
+      <path d="M62 55 L56 82" stroke="#E63946" strokeWidth="3" fill="none" />
+      {/* Badge card */}
+      <rect x="40" y="80" width="20" height="26" rx="2" fill="white" stroke="#CCC" strokeWidth="1.5" />
+      <rect x="43" y="84" width="14" height="10" rx="1" fill="#4ECDC4" opacity="0.4" />
+      <text x="50" y="92" textAnchor="middle" fontSize="6" fill="#2D3436" fontWeight="bold" fontFamily="sans-serif">VIP</text>
+      <rect x="44" y="96" width="12" height="2" rx="1" fill="#CCC" />
+      <rect x="46" y="100" width="8" height="2" rx="1" fill="#CCC" />
+      {/* Metal clip */}
+      <rect x="47" y="78" width="6" height="4" rx="1" fill="#999" stroke="#777" strokeWidth="1" />
+    </g>
+  ),
+
+  'acc-fidget-spinner': () => (
+    <g>
+      {/* Fidget spinner held in right hand */}
+      <circle cx="92" cy="80" r="3.5" fill="#2D3436" stroke="#1a1a1a" strokeWidth="1.5" />
+      <circle cx="92" cy="80" r="1.5" fill="#999" />
+      {/* Three arms */}
+      <ellipse cx="92" cy="70" rx="5" ry="6" fill="#FF69B4" stroke="#D44D8A" strokeWidth="1.5" />
+      <circle cx="92" cy="68" r="2.5" fill="#2D3436" />
+      <ellipse cx="83" cy="85" rx="5" ry="6" fill="#4ECDC4" stroke="#3BA8A0" strokeWidth="1.5" />
+      <circle cx="81" cy="87" r="2.5" fill="#2D3436" />
+      <ellipse cx="101" cy="85" rx="5" ry="6" fill="#FFD166" stroke="#D4930A" strokeWidth="1.5" />
+      <circle cx="103" cy="87" r="2.5" fill="#2D3436" />
+      {/* Motion lines */}
+      <path d="M86 66 Q84 64 82 66" stroke="#CCC" strokeWidth="0.8" fill="none" opacity="0.6" />
+      <path d="M102 66 Q104 64 106 66" stroke="#CCC" strokeWidth="0.8" fill="none" opacity="0.6" />
+    </g>
+  ),
+
+  'acc-skateboard': () => (
+    <g>
+      {/* Skateboard held under right arm */}
+      <rect x="78" y="72" width="30" height="6" rx="3" fill="#E63946" stroke="#B22530" strokeWidth="2" />
+      {/* Deck graphic */}
+      <rect x="84" y="73.5" width="18" height="3" rx="1.5" fill="#FF6B6B" opacity="0.6" />
+      <text x="93" y="76.5" textAnchor="middle" fontSize="4" fill="white" fontWeight="bold" fontFamily="sans-serif">SK8</text>
+      {/* Kicktails */}
+      <path d="M78 75 Q76 72 78 72" stroke="#B22530" strokeWidth="2" fill="#E63946" />
+      <path d="M108 75 Q110 72 108 72" stroke="#B22530" strokeWidth="2" fill="#E63946" />
+      {/* Wheels */}
+      <circle cx="83" cy="80" r="3" fill="#FFD166" stroke="#D4930A" strokeWidth="1.5" />
+      <circle cx="83" cy="80" r="1" fill="#D4930A" />
+      <circle cx="103" cy="80" r="3" fill="#FFD166" stroke="#D4930A" strokeWidth="1.5" />
+      <circle cx="103" cy="80" r="1" fill="#D4930A" />
+      {/* Trucks */}
+      <rect x="80" y="77" width="6" height="2" rx="1" fill="#999" />
+      <rect x="100" y="77" width="6" height="2" rx="1" fill="#999" />
+    </g>
+  ),
+
+  'acc-basketball': () => (
+    <g>
+      {/* Basketball spinning on finger */}
+      <circle cx="92" cy="62" r="10" fill="#F77F00" stroke="#D4600A" strokeWidth="2" />
+      {/* Ball lines */}
+      <path d="M82 62 Q92 56 102 62" stroke="#D4600A" strokeWidth="1.5" fill="none" />
+      <path d="M82 62 Q92 68 102 62" stroke="#D4600A" strokeWidth="1.5" fill="none" />
+      <line x1="92" y1="52" x2="92" y2="72" stroke="#D4600A" strokeWidth="1.5" />
+      {/* Spin effect */}
+      <path d="M84 54 Q80 52 78 56" stroke="#FFD166" strokeWidth="1" fill="none" opacity="0.5" />
+      <path d="M100 54 Q104 52 106 56" stroke="#FFD166" strokeWidth="1" fill="none" opacity="0.5" />
+      {/* Highlight */}
+      <circle cx="88" cy="58" r="2" fill="white" opacity="0.3" />
+    </g>
+  ),
+
+  'acc-soccer-ball': () => (
+    <g>
+      {/* Soccer ball at feet */}
+      <circle cx="10" cy="140" r="9" fill="white" stroke="#2D3436" strokeWidth="2" />
+      {/* Pentagon pattern */}
+      <polygon points="10,133 14,136 12,140 8,140 6,136" fill="#2D3436" />
+      <polygon points="4,143 8,140 6,136 1,137" fill="#2D3436" opacity="0.7" />
+      <polygon points="16,143 12,140 14,136 19,137" fill="#2D3436" opacity="0.7" />
+      <polygon points="7,147 10,148 13,147 12,140 8,140" fill="#2D3436" opacity="0.5" />
+      {/* Shine */}
+      <circle cx="7" cy="135" r="1.5" fill="white" opacity="0.6" />
+    </g>
+  ),
+
+  'acc-magic-wand': () => (
+    <g>
+      {/* Wand held in right hand */}
+      <line x1="86" y1="92" x2="100" y2="56" stroke="#2D3436" strokeWidth="3" strokeLinecap="round" />
+      <line x1="86" y1="92" x2="100" y2="56" stroke="#5B1D99" strokeWidth="2" strokeLinecap="round" />
+      {/* Handle wrap */}
+      <line x1="87" y1="88" x2="89" y2="82" stroke="#FFD166" strokeWidth="1.5" />
+      <line x1="88" y1="85" x2="90" y2="79" stroke="#FFD166" strokeWidth="1.5" />
+      {/* Star tip */}
+      <text x="100" y="56" fontSize="14" fill="#FFD166" textAnchor="middle" dominantBaseline="central">&#9733;</text>
+      {/* Sparkles */}
+      <circle cx="106" cy="48" r="1.5" fill="#FFD166" opacity="0.8" />
+      <circle cx="94" cy="50" r="1" fill="#FF69B4" opacity="0.7" />
+      <circle cx="104" cy="60" r="1" fill="#4ECDC4" opacity="0.7" />
+      <text x="108" y="54" fontSize="5" fill="#FFD166" opacity="0.6">&#10022;</text>
+      <text x="92" y="44" fontSize="4" fill="#FF69B4" opacity="0.5">&#10022;</text>
+    </g>
+  ),
+
+  'acc-boba-tea': () => (
+    <g>
+      {/* Cup held in right hand */}
+      <path d="M82 68 L84 96 Q88 100 96 100 L98 68 Z" fill="white" stroke="#CCC" strokeWidth="2" />
+      {/* Tea liquid */}
+      <path d="M83 74 L85 96 Q88 98 95 98 L97 74 Z" fill="#D4956A" opacity="0.7" />
+      {/* Dome lid */}
+      <path d="M80 68 Q90 58 100 68" fill="white" stroke="#CCC" strokeWidth="1.5" />
+      {/* Straw */}
+      <line x1="93" y1="58" x2="96" y2="42" stroke="#E63946" strokeWidth="2.5" strokeLinecap="round" />
+      {/* Boba pearls */}
+      {[{x:87,y:92},{x:91,y:94},{x:95,y:91},{x:89,y:88},{x:93,y:86},{x:86,y:95}].map((b,i) => (
+        <circle key={i} cx={b.x} cy={b.y} r="2" fill="#2D3436" opacity="0.8" />
+      ))}
+      {/* Highlight */}
+      <line x1="85" y1="72" x2="85" y2="82" stroke="white" strokeWidth="1.5" opacity="0.4" />
+    </g>
+  ),
+
+  'acc-energy-drink': () => (
+    <g>
+      {/* Can held in right hand */}
+      <rect x="82" y="66" width="16" height="28" rx="4" fill="#06D6A0" stroke="#048A6A" strokeWidth="2" />
+      {/* Can design */}
+      <rect x="82" y="66" width="16" height="8" rx="4" fill="#2D3436" />
+      <rect x="82" y="86" width="16" height="8" rx="4" fill="#2D3436" />
+      {/* Lightning bolt on can */}
+      <polygon points="90,72 87,80 91,78 88,86 93,76 89,78 92,72" fill="#FFD166" />
+      {/* Pull tab */}
+      <ellipse cx="90" cy="66" rx="3" ry="1.5" fill="#CCC" stroke="#999" strokeWidth="0.5" />
+      {/* Shine */}
+      <line x1="84" y1="70" x2="84" y2="82" stroke="white" strokeWidth="1" opacity="0.3" />
+    </g>
+  ),
+
+  'acc-gaming-headset': () => (
+    <g>
+      {/* Headband */}
+      <path d="M16 30 Q16 2 50 0 Q84 2 84 30" stroke="#2D3436" strokeWidth="5" fill="none" />
+      <path d="M16 30 Q16 4 50 2 Q84 4 84 30" stroke="#333" strokeWidth="3" fill="none" />
+      {/* Left ear cup */}
+      <rect x="6" y="24" width="18" height="22" rx="7" fill="#2D3436" stroke="#1a1a1a" strokeWidth="2.5" />
+      <rect x="8" y="26" width="14" height="18" rx="5" fill="#333" />
+      {/* RGB glow left */}
+      <rect x="9" y="28" width="12" height="3" rx="1.5" fill="#FF69B4" opacity="0.8" />
+      <rect x="9" y="33" width="12" height="3" rx="1.5" fill="#4ECDC4" opacity="0.8" />
+      <rect x="9" y="38" width="12" height="3" rx="1.5" fill="#7B2CBF" opacity="0.8" />
+      {/* Right ear cup */}
+      <rect x="76" y="24" width="18" height="22" rx="7" fill="#2D3436" stroke="#1a1a1a" strokeWidth="2.5" />
+      <rect x="78" y="26" width="14" height="18" rx="5" fill="#333" />
+      {/* RGB glow right */}
+      <rect x="79" y="28" width="12" height="3" rx="1.5" fill="#FF69B4" opacity="0.8" />
+      <rect x="79" y="33" width="12" height="3" rx="1.5" fill="#4ECDC4" opacity="0.8" />
+      <rect x="79" y="38" width="12" height="3" rx="1.5" fill="#7B2CBF" opacity="0.8" />
+      {/* Microphone arm */}
+      <path d="M8 40 Q4 44 2 50 Q0 54 4 56" stroke="#555" strokeWidth="2.5" fill="none" />
+      <circle cx="4" cy="56" r="3" fill="#333" stroke="#555" strokeWidth="1.5" />
+      <circle cx="4" cy="56" r="1.5" fill="#E63946" opacity="0.8" />
+    </g>
+  ),
+
+  'acc-ring-light': () => (
+    <g opacity="0.7">
+      {/* Ring light behind/around character */}
+      <ellipse cx="50" cy="50" rx="42" ry="42" fill="none" stroke="white" strokeWidth="4" opacity="0.3" />
+      <ellipse cx="50" cy="50" rx="42" ry="42" fill="none" stroke="#FFD166" strokeWidth="2" opacity="0.2" />
+      <ellipse cx="50" cy="50" rx="38" ry="38" fill="none" stroke="white" strokeWidth="1" opacity="0.15" />
+      {/* Light glow spots */}
+      <circle cx="50" cy="8" r="4" fill="white" opacity="0.4" />
+      <circle cx="8" cy="50" r="3" fill="white" opacity="0.3" />
+      <circle cx="92" cy="50" r="3" fill="white" opacity="0.3" />
+      <circle cx="50" cy="92" r="3" fill="white" opacity="0.25" />
+      {/* Tripod hint */}
+      <line x1="50" y1="92" x2="50" y2="110" stroke="#555" strokeWidth="2" />
+      <line x1="50" y1="110" x2="42" y2="130" stroke="#555" strokeWidth="1.5" />
+      <line x1="50" y1="110" x2="58" y2="130" stroke="#555" strokeWidth="1.5" />
+    </g>
+  ),
+
+  'acc-jetpack': () => (
+    <g>
+      {/* Jetpack on back */}
+      <rect x="68" y="58" width="22" height="32" rx="6" fill="#999" stroke="#777" strokeWidth="2" />
+      <rect x="70" y="60" width="18" height="28" rx="4" fill="#CCC" />
+      {/* Thrusters */}
+      <circle cx="74" cy="92" r="5" fill="#555" stroke="#333" strokeWidth="1.5" />
+      <circle cx="84" cy="92" r="5" fill="#555" stroke="#333" strokeWidth="1.5" />
+      {/* Flames! */}
+      <path d="M74 97 Q72 108 70 116 Q74 110 74 118 Q76 110 78 116 Q76 108 74 97" fill="#FF4500" opacity="0.9" />
+      <path d="M74 100 Q73 108 72 112 Q74 106 76 112 Q75 108 74 100" fill="#FFD166" opacity="0.7" />
+      <path d="M84 97 Q82 108 80 116 Q84 110 84 118 Q86 110 88 116 Q86 108 84 97" fill="#FF4500" opacity="0.9" />
+      <path d="M84 100 Q83 108 82 112 Q84 106 86 112 Q85 108 84 100" fill="#FFD166" opacity="0.7" />
+      {/* Details */}
+      <rect x="72" y="64" width="14" height="4" rx="2" fill="#E63946" />
+      <circle cx="79" cy="74" r="3" fill="#118AB2" stroke="#0A5F7A" strokeWidth="1" />
+    </g>
+  ),
+
+  'acc-lightsaber': () => (
+    <g>
+      {/* Handle held in right hand */}
+      <rect x="86" y="82" width="8" height="18" rx="2" fill="#999" stroke="#777" strokeWidth="1.5" />
+      <rect x="87" y="84" width="6" height="3" rx="1" fill="#333" />
+      <rect x="87" y="90" width="6" height="2" rx="1" fill="#333" />
+      <rect x="87" y="94" width="6" height="3" rx="1" fill="#E63946" />
+      <circle cx="90" cy="86" r="1" fill="#E63946" opacity="0.8" />
+      {/* Blade - glowing */}
+      <rect x="88" y="32" width="4" height="50" rx="2" fill="#4ECDC4" opacity="0.9" />
+      <rect x="89" y="32" width="2" height="50" rx="1" fill="white" opacity="0.6" />
+      {/* Glow effect */}
+      <rect x="86" y="32" width="8" height="50" rx="4" fill="#4ECDC4" opacity="0.15" />
+      {/* Blade tip */}
+      <ellipse cx="90" cy="32" rx="2" ry="3" fill="#4ECDC4" opacity="0.8" />
+      <ellipse cx="90" cy="32" rx="1" ry="2" fill="white" opacity="0.5" />
+    </g>
+  ),
+
+  'acc-bubble-shield': () => (
+    <g>
+      {/* Translucent bubble shield around character */}
+      <ellipse cx="50" cy="65" rx="48" ry="55" fill="#4ECDC4" opacity="0.08" stroke="#4ECDC4" strokeWidth="2" />
+      <ellipse cx="50" cy="65" rx="46" ry="53" fill="none" stroke="#4ECDC4" strokeWidth="1" opacity="0.15" />
+      {/* Highlight reflections */}
+      <path d="M18 30 Q22 20 30 16" stroke="white" strokeWidth="2.5" fill="none" opacity="0.35" />
+      <path d="M14 45 Q16 38 20 34" stroke="white" strokeWidth="1.5" fill="none" opacity="0.25" />
+      {/* Hex pattern hints */}
+      <polygon points="70,18 76,22 76,28 70,32 64,28 64,22" fill="none" stroke="#4ECDC4" strokeWidth="0.8" opacity="0.2" />
+      <polygon points="24,80 30,84 30,90 24,94 18,90 18,84" fill="none" stroke="#4ECDC4" strokeWidth="0.8" opacity="0.15" />
+      <polygon points="78,70 84,74 84,80 78,84 72,80 72,74" fill="none" stroke="#4ECDC4" strokeWidth="0.8" opacity="0.15" />
+      {/* Energy sparkles */}
+      <circle cx="20" cy="25" r="1.5" fill="white" opacity="0.4" />
+      <circle cx="80" cy="100" r="1" fill="#4ECDC4" opacity="0.3" />
+    </g>
+  ),
+
+  'acc-hoverboard': () => (
+    <g>
+      {/* Hoverboard under feet */}
+      <ellipse cx="50" cy="148" rx="28" ry="5" fill="#7B2CBF" stroke="#5B1D99" strokeWidth="2" />
+      <ellipse cx="50" cy="147" rx="26" ry="4" fill="#9B59B6" />
+      {/* Neon glow strip */}
+      <ellipse cx="50" cy="148" rx="22" ry="2" fill="#4ECDC4" opacity="0.8" />
+      <ellipse cx="50" cy="148" rx="22" ry="2" fill="none" stroke="#4ECDC4" strokeWidth="1" opacity="0.4" />
+      {/* Foot pads */}
+      <ellipse cx="38" cy="146" rx="6" ry="2" fill="#2D3436" opacity="0.4" />
+      <ellipse cx="62" cy="146" rx="6" ry="2" fill="#2D3436" opacity="0.4" />
+      {/* Hover glow underneath */}
+      <ellipse cx="50" cy="154" rx="20" ry="3" fill="#4ECDC4" opacity="0.2" />
+      <ellipse cx="50" cy="156" rx="14" ry="2" fill="#4ECDC4" opacity="0.1" />
+      {/* Speed lines */}
+      <line x1="22" y1="150" x2="10" y2="152" stroke="#4ECDC4" strokeWidth="1" opacity="0.3" />
+      <line x1="24" y1="148" x2="14" y2="149" stroke="#4ECDC4" strokeWidth="0.8" opacity="0.2" />
+    </g>
+  ),
+
+  // ===================== NEW MYTHICAL ACCESSORIES =====================
+
+  'acc-mech-suit': () => (
+    <g opacity="0.85">
+      {/* Exoskeleton frame around character */}
+      {/* Shoulder pads */}
+      <path d="M16 52 Q10 48 8 54 L12 62 L22 58 Z" fill="#999" stroke="#777" strokeWidth="2" />
+      <path d="M84 52 Q90 48 92 54 L88 62 L78 58 Z" fill="#999" stroke="#777" strokeWidth="2" />
+      {/* Arm frames */}
+      <path d="M12 62 L8 86 L16 88 L20 66" stroke="#777" strokeWidth="2.5" fill="none" />
+      <path d="M88 62 L92 86 L84 88 L80 66" stroke="#777" strokeWidth="2.5" fill="none" />
+      {/* Gauntlets */}
+      <rect x="4" y="84" width="14" height="10" rx="3" fill="#999" stroke="#777" strokeWidth="1.5" />
+      <rect x="82" y="84" width="14" height="10" rx="3" fill="#999" stroke="#777" strokeWidth="1.5" />
+      {/* Chest plate */}
+      <path d="M30 56 L50 52 L70 56 L68 70 L50 72 L32 70 Z" fill="none" stroke="#777" strokeWidth="2" />
+      <circle cx="50" cy="62" r="4" fill="#4ECDC4" stroke="#3BA8A0" strokeWidth="1.5" />
+      <circle cx="50" cy="62" r="2" fill="white" opacity="0.5" />
+      {/* Leg frames */}
+      <path d="M30 110 L26 130 L34 132" stroke="#777" strokeWidth="2" fill="none" />
+      <path d="M70 110 L74 130 L66 132" stroke="#777" strokeWidth="2" fill="none" />
+      {/* Power lines */}
+      <line x1="50" y1="66" x2="50" y2="72" stroke="#4ECDC4" strokeWidth="1" opacity="0.6" />
+      <circle cx="11" cy="89" r="1.5" fill="#4ECDC4" opacity="0.6" />
+      <circle cx="89" cy="89" r="1.5" fill="#4ECDC4" opacity="0.6" />
+    </g>
+  ),
+
+  'acc-lightning-aura': () => (
+    <g>
+      {/* Lightning bolts crackling around body */}
+      <path d="M14 30 L20 40 L16 42 L24 55" stroke="#FFD166" strokeWidth="2.5" fill="none" opacity="0.9" />
+      <path d="M14 30 L20 40 L16 42 L24 55" stroke="white" strokeWidth="1" fill="none" opacity="0.4" />
+      <path d="M86 25 L80 38 L84 40 L76 52" stroke="#FFD166" strokeWidth="2.5" fill="none" opacity="0.9" />
+      <path d="M86 25 L80 38 L84 40 L76 52" stroke="white" strokeWidth="1" fill="none" opacity="0.4" />
+      <path d="M8 70 L16 78 L12 80 L20 92" stroke="#FFD166" strokeWidth="2" fill="none" opacity="0.7" />
+      <path d="M92 68 L84 76 L88 78 L80 90" stroke="#FFD166" strokeWidth="2" fill="none" opacity="0.7" />
+      {/* Smaller sparks */}
+      <path d="M20 10 L24 18 L22 20 L28 28" stroke="#FFD166" strokeWidth="1.5" fill="none" opacity="0.5" />
+      <path d="M78 100 L82 108 L80 110 L86 118" stroke="#FFD166" strokeWidth="1.5" fill="none" opacity="0.5" />
+      {/* Electric dots */}
+      <circle cx="14" cy="30" r="2" fill="#FFD166" opacity="0.6" />
+      <circle cx="86" cy="25" r="2" fill="#FFD166" opacity="0.6" />
+      <circle cx="24" cy="55" r="1.5" fill="white" opacity="0.5" />
+      <circle cx="76" cy="52" r="1.5" fill="white" opacity="0.5" />
+      {/* Glow aura */}
+      <ellipse cx="50" cy="60" rx="40" ry="50" fill="#FFD166" opacity="0.04" />
+    </g>
+  ),
+
+  'acc-portal-gun': () => (
+    <g>
+      {/* Gun held in right hand */}
+      <rect x="82" y="76" width="18" height="10" rx="3" fill="white" stroke="#CCC" strokeWidth="2" />
+      <rect x="84" y="78" width="6" height="6" rx="1" fill="#333" />
+      {/* Barrel */}
+      <rect x="98" y="78" width="10" height="6" rx="2" fill="#2D3436" stroke="#1a1a1a" strokeWidth="1.5" />
+      {/* Handle */}
+      <rect x="86" y="86" width="6" height="10" rx="2" fill="white" stroke="#CCC" strokeWidth="1.5" />
+      {/* Orange portal - left side */}
+      <ellipse cx="6" cy="60" rx="8" ry="18" fill="none" stroke="#F77F00" strokeWidth="3" opacity="0.8" />
+      <ellipse cx="6" cy="60" rx="5" ry="14" fill="#F77F00" opacity="0.15" />
+      <ellipse cx="6" cy="60" rx="3" ry="10" fill="#FFD166" opacity="0.1" />
+      {/* Blue portal - right side */}
+      <ellipse cx="110" cy="70" rx="8" ry="18" fill="none" stroke="#118AB2" strokeWidth="3" opacity="0.8" />
+      <ellipse cx="110" cy="70" rx="5" ry="14" fill="#118AB2" opacity="0.15" />
+      <ellipse cx="110" cy="70" rx="3" ry="10" fill="#4ECDC4" opacity="0.1" />
+      {/* Gun glow */}
+      <circle cx="108" cy="81" r="3" fill="#F77F00" opacity="0.4" />
+    </g>
+  ),
+
+  'acc-drone': () => (
+    <g>
+      {/* Drone body hovering above left shoulder */}
+      <rect x="0" y="30" width="18" height="8" rx="3" fill="#2D3436" stroke="#1a1a1a" strokeWidth="1.5" />
+      {/* Camera lens */}
+      <circle cx="9" cy="38" r="2.5" fill="#333" stroke="#555" strokeWidth="1" />
+      <circle cx="9" cy="38" r="1" fill="#E63946" opacity="0.7" />
+      {/* Propeller arms */}
+      <line x1="-4" y1="32" x2="4" y2="32" stroke="#555" strokeWidth="2" />
+      <line x1="14" y1="32" x2="22" y2="32" stroke="#555" strokeWidth="2" />
+      {/* Propellers (spinning) */}
+      <ellipse cx="-4" cy="30" rx="6" ry="1.5" fill="#CCC" opacity="0.5" />
+      <ellipse cx="22" cy="30" rx="6" ry="1.5" fill="#CCC" opacity="0.5" />
+      {/* LED lights */}
+      <circle cx="2" cy="34" r="1" fill="#06D6A0" opacity="0.8" />
+      <circle cx="16" cy="34" r="1" fill="#E63946" opacity="0.8" />
+      {/* Motion lines below */}
+      <line x1="4" y1="42" x2="6" y2="46" stroke="#CCC" strokeWidth="0.8" opacity="0.3" />
+      <line x1="12" y1="42" x2="14" y2="46" stroke="#CCC" strokeWidth="0.8" opacity="0.3" />
+    </g>
+  ),
+
+  'acc-rainbow-trail': () => (
+    <g opacity="0.6">
+      {/* Rainbow arc trailing behind character */}
+      <path d="M-10 120 Q-8 80 10 50 Q20 30 30 20" stroke="#E63946" strokeWidth="3" fill="none" />
+      <path d="M-8 124 Q-6 84 12 54 Q22 34 32 24" stroke="#F77F00" strokeWidth="3" fill="none" />
+      <path d="M-6 128 Q-4 88 14 58 Q24 38 34 28" stroke="#FFD166" strokeWidth="3" fill="none" />
+      <path d="M-4 132 Q-2 92 16 62 Q26 42 36 32" stroke="#06D6A0" strokeWidth="3" fill="none" />
+      <path d="M-2 136 Q0 96 18 66 Q28 46 38 36" stroke="#118AB2" strokeWidth="3" fill="none" />
+      <path d="M0 140 Q2 100 20 70 Q30 50 40 40" stroke="#7B2CBF" strokeWidth="3" fill="none" />
+      {/* Sparkles at end */}
+      <circle cx="30" cy="20" r="2" fill="white" opacity="0.5" />
+      <text x="34" y="18" fontSize="5" fill="#FFD166" opacity="0.7">&#10022;</text>
+    </g>
+  ),
+
+  'acc-flaming-sword': () => (
+    <g>
+      {/* Sword held in right hand */}
+      {/* Handle */}
+      <rect x="86" y="86" width="8" height="14" rx="2" fill="#8B4513" stroke="#5C3310" strokeWidth="1.5" />
+      {/* Crossguard */}
+      <rect x="82" y="82" width="16" height="5" rx="2" fill="#FFD166" stroke="#D4930A" strokeWidth="1.5" />
+      {/* Pommel */}
+      <circle cx="90" cy="102" r="3" fill="#FFD166" stroke="#D4930A" strokeWidth="1.5" />
+      {/* Blade */}
+      <polygon points="87,82 90,30 93,82" fill="#CCC" stroke="#999" strokeWidth="1.5" />
+      <polygon points="88,80 90,36 92,80" fill="#E0E0E0" opacity="0.6" />
+      {/* Flames on blade! */}
+      <path d="M86 70 Q82 58 84 50 Q88 60 86 70" fill="#FF4500" opacity="0.8" />
+      <path d="M94 65 Q98 52 96 44 Q92 54 94 65" fill="#FF4500" opacity="0.8" />
+      <path d="M87 55 Q84 44 86 36 Q90 46 87 55" fill="#F77F00" opacity="0.7" />
+      <path d="M93 50 Q96 40 94 34 Q91 42 93 50" fill="#F77F00" opacity="0.7" />
+      {/* Inner flame glow */}
+      <path d="M89 60 Q87 50 88 42 Q91 52 89 60" fill="#FFD166" opacity="0.5" />
+      <path d="M91 48 Q93 40 92 34" stroke="#FFD166" strokeWidth="1" fill="none" opacity="0.4" />
+      {/* Ember particles */}
+      <circle cx="82" cy="46" r="1" fill="#FF4500" opacity="0.6" />
+      <circle cx="98" cy="40" r="1.5" fill="#FFD166" opacity="0.5" />
+      <circle cx="84" cy="36" r="0.8" fill="#FF4500" opacity="0.4" />
+    </g>
+  ),
+
+  // ===================== NEW LEGENDARY ACCESSORIES =====================
+
+  'acc-diamond-armor': () => (
+    <g>
+      {/* Diamond armor overlay on torso */}
+      <path d="M28 55 L50 50 L72 55 L72 110 L50 115 L28 110 Z" fill="#89CFF0" opacity="0.3" stroke="#4ECDC4" strokeWidth="2" />
+      {/* Chest plate facets */}
+      <polygon points="38,58 50,54 62,58 62,72 50,76 38,72" fill="#89CFF0" opacity="0.4" stroke="#4ECDC4" strokeWidth="1.5" />
+      <polygon points="38,76 50,80 62,76 62,94 50,98 38,94" fill="#89CFF0" opacity="0.35" stroke="#4ECDC4" strokeWidth="1" />
+      {/* Diamond sparkles */}
+      <polygon points="50,62 47,66 50,70 53,66" fill="white" stroke="#89CFF0" strokeWidth="0.8" />
+      <polygon points="42,84 40,87 42,90 44,87" fill="white" stroke="#89CFF0" strokeWidth="0.8" />
+      <polygon points="58,84 56,87 58,90 60,87" fill="white" stroke="#89CFF0" strokeWidth="0.8" />
+      {/* Shoulder gems */}
+      <polygon points="30,58 26,62 30,66 34,62" fill="#4ECDC4" stroke="#3BA8A0" strokeWidth="1" />
+      <polygon points="70,58 66,62 70,66 74,62" fill="#4ECDC4" stroke="#3BA8A0" strokeWidth="1" />
+      {/* Sparkle effects */}
+      <text x="50" y="60" fontSize="6" fill="white" opacity="0.8" textAnchor="middle">&#10022;</text>
+      <text x="36" y="70" fontSize="4" fill="#89CFF0" opacity="0.6">&#10022;</text>
+      <text x="64" y="70" fontSize="4" fill="#89CFF0" opacity="0.6">&#10022;</text>
+      <text x="50" y="96" fontSize="5" fill="white" opacity="0.5" textAnchor="middle">&#10022;</text>
+      {/* Arm guards */}
+      <rect x="14" y="72" width="10" height="16" rx="3" fill="#89CFF0" opacity="0.3" stroke="#4ECDC4" strokeWidth="1.5" />
+      <rect x="76" y="72" width="10" height="16" rx="3" fill="#89CFF0" opacity="0.3" stroke="#4ECDC4" strokeWidth="1.5" />
+    </g>
+  ),
+
+  'acc-math-crown': () => (
+    <g>
+      {/* Golden crown */}
+      <rect x="24" y="-2" width="52" height="16" rx="3" fill="#FFD166" stroke="#D4930A" strokeWidth="2.5" />
+      <polygon points="24,-2 16,-18 38,-2" fill="#FFD166" stroke="#D4930A" strokeWidth="2" strokeLinejoin="round" />
+      <polygon points="42,-2 50,-22 58,-2" fill="#FFD166" stroke="#D4930A" strokeWidth="2" strokeLinejoin="round" />
+      <polygon points="62,-2 84,-18 76,-2" fill="#FFD166" stroke="#D4930A" strokeWidth="2" strokeLinejoin="round" />
+      <rect x="24" y="8" width="52" height="5" rx="2.5" fill="#F4A261" stroke="#D4930A" strokeWidth="1" />
+      {/* Floating math symbols */}
+      <text x="26" y="-8" fontSize="8" fill="#E63946" fontWeight="bold" fontFamily="sans-serif" opacity="0.9">+</text>
+      <text x="48" y="-12" fontSize="9" fill="#4ECDC4" fontWeight="bold" fontFamily="sans-serif" opacity="0.9">=</text>
+      <text x="70" y="-8" fontSize="8" fill="#7B2CBF" fontWeight="bold" fontFamily="sans-serif" opacity="0.9">%</text>
+      {/* Gem on front */}
+      <polygon points="50,4 46,8 50,12 54,8" fill="white" stroke="#89CFF0" strokeWidth="1" />
+      {/* Floating equations above */}
+      <text x="16" y="-26" fontSize="5" fill="#FFD166" opacity="0.6" fontFamily="sans-serif">3x</text>
+      <text x="72" y="-28" fontSize="5" fill="#FFD166" opacity="0.5" fontFamily="sans-serif">42</text>
+      <text x="44" y="-30" fontSize="4" fill="#FFD166" opacity="0.4" fontFamily="sans-serif">&pi;</text>
+      {/* Sparkle */}
+      <text x="36" y="-20" fontSize="5" fill="white" opacity="0.6">&#10022;</text>
+      <text x="62" y="-22" fontSize="4" fill="white" opacity="0.5">&#10022;</text>
+    </g>
+  ),
+
+  'acc-dj-turntable': () => (
+    <g>
+      {/* Turntable table */}
+      <rect x="10" y="100" width="80" height="6" rx="2" fill="#2D3436" stroke="#1a1a1a" strokeWidth="2" />
+      {/* Left deck */}
+      <rect x="12" y="104" width="34" height="28" rx="3" fill="#333" stroke="#1a1a1a" strokeWidth="1.5" />
+      <circle cx="29" cy="118" r="10" fill="#1a1a1a" stroke="#555" strokeWidth="1.5" />
+      <circle cx="29" cy="118" r="7" fill="#2D3436" />
+      <circle cx="29" cy="118" r="1.5" fill="#E63946" />
+      {/* Vinyl grooves */}
+      <circle cx="29" cy="118" r="4" fill="none" stroke="#444" strokeWidth="0.5" />
+      <circle cx="29" cy="118" r="6" fill="none" stroke="#444" strokeWidth="0.5" />
+      <circle cx="29" cy="118" r="9" fill="none" stroke="#444" strokeWidth="0.3" />
+      {/* Right deck */}
+      <rect x="54" y="104" width="34" height="28" rx="3" fill="#333" stroke="#1a1a1a" strokeWidth="1.5" />
+      <circle cx="71" cy="118" r="10" fill="#1a1a1a" stroke="#555" strokeWidth="1.5" />
+      <circle cx="71" cy="118" r="7" fill="#2D3436" />
+      <circle cx="71" cy="118" r="1.5" fill="#4ECDC4" />
+      <circle cx="71" cy="118" r="4" fill="none" stroke="#444" strokeWidth="0.5" />
+      <circle cx="71" cy="118" r="6" fill="none" stroke="#444" strokeWidth="0.5" />
+      {/* Mixer in middle */}
+      <rect x="44" y="106" width="12" height="24" rx="2" fill="#444" stroke="#333" strokeWidth="1" />
+      {/* Faders */}
+      <rect x="46" y="110" width="3" height="8" rx="1" fill="#06D6A0" opacity="0.8" />
+      <rect x="51" y="112" width="3" height="8" rx="1" fill="#E63946" opacity="0.8" />
+      {/* RGB strip */}
+      <rect x="12" y="130" width="76" height="3" rx="1.5" fill="#7B2CBF" opacity="0.7" />
+      <rect x="12" y="130" width="38" height="3" rx="1.5" fill="#FF69B4" opacity="0.5" />
+    </g>
+  ),
+
+  'acc-rocket-ship': () => (
+    <g>
+      {/* Mini rocket the character is riding */}
+      {/* Rocket body */}
+      <ellipse cx="50" cy="130" rx="14" ry="22" fill="#E63946" stroke="#B22530" strokeWidth="2" />
+      {/* Nose cone */}
+      <path d="M36 115 Q50 96 64 115" fill="#E63946" stroke="#B22530" strokeWidth="2" />
+      <path d="M40 115 Q50 100 60 115" fill="#FF6B6B" opacity="0.4" />
+      {/* Window */}
+      <circle cx="50" cy="120" r="6" fill="#118AB2" stroke="#0A5F7A" strokeWidth="1.5" />
+      <circle cx="50" cy="120" r="4" fill="#4ECDC4" opacity="0.6" />
+      <circle cx="48" cy="118" r="1.5" fill="white" opacity="0.4" />
+      {/* Fins */}
+      <polygon points="36,140 28,152 38,148" fill="#FFD166" stroke="#D4930A" strokeWidth="1.5" />
+      <polygon points="64,140 72,152 62,148" fill="#FFD166" stroke="#D4930A" strokeWidth="1.5" />
+      {/* Flames from bottom! */}
+      <path d="M40 150 Q38 160 36 168 Q42 162 44 170 Q46 160 50 172 Q52 162 56 170 Q58 162 64 168 Q62 160 60 150" fill="#FF4500" opacity="0.9" />
+      <path d="M42 152 Q40 160 40 164 Q46 158 50 166 Q54 158 60 164 Q58 158 58 152" fill="#FFD166" opacity="0.7" />
+      {/* Rivets */}
+      <circle cx="42" cy="126" r="1" fill="#B22530" />
+      <circle cx="58" cy="126" r="1" fill="#B22530" />
+      {/* Stars around */}
+      <text x="22" y="108" fontSize="5" fill="#FFD166" opacity="0.6">&#9733;</text>
+      <text x="74" y="112" fontSize="4" fill="#FFD166" opacity="0.5">&#9733;</text>
+    </g>
+  ),
+
+  'acc-golden-toilet': () => (
+    <g>
+      {/* Golden toilet — the ultimate flex */}
+      {/* Base */}
+      <ellipse cx="50" cy="142" rx="18" ry="5" fill="#D4930A" stroke="#A07008" strokeWidth="1.5" />
+      {/* Bowl */}
+      <path d="M32 130 Q32 142 50 144 Q68 142 68 130 Z" fill="#FFD166" stroke="#D4930A" strokeWidth="2" />
+      <path d="M36 130 Q36 138 50 140 Q64 138 64 130 Z" fill="#FFE699" opacity="0.5" />
+      {/* Seat */}
+      <ellipse cx="50" cy="130" rx="18" ry="6" fill="#FFD166" stroke="#D4930A" strokeWidth="2" />
+      <ellipse cx="50" cy="130" rx="14" ry="4" fill="#F4A261" opacity="0.3" />
+      {/* Tank back */}
+      <rect x="36" y="112" width="28" height="20" rx="4" fill="#FFD166" stroke="#D4930A" strokeWidth="2" />
+      <rect x="38" y="114" width="24" height="16" rx="3" fill="#FFE699" opacity="0.4" />
+      {/* Lid */}
+      <rect x="34" y="110" width="32" height="5" rx="2.5" fill="#FFD166" stroke="#D4930A" strokeWidth="1.5" />
+      {/* Flush handle */}
+      <path d="M64 118 Q70 116 72 120" stroke="#D4930A" strokeWidth="2" fill="none" />
+      <circle cx="72" cy="120" r="2" fill="#FFD166" stroke="#D4930A" strokeWidth="1" />
+      {/* Sparkles — it IS gold after all */}
+      <text x="30" y="118" fontSize="5" fill="white" opacity="0.7">&#10022;</text>
+      <text x="66" y="112" fontSize="4" fill="white" opacity="0.6">&#10022;</text>
+      <text x="48" y="108" fontSize="5" fill="white" opacity="0.8">&#10022;</text>
+      {/* Diamond on tank */}
+      <polygon points="50,118 47,122 50,126 53,122" fill="white" stroke="#89CFF0" strokeWidth="0.8" />
+    </g>
+  ),
+
+  // ===================== NEW PET =====================
+
+  'pet-poop': () => (
+    <g>
+      {/* Classic poop emoji as a pet */}
+      {/* Body — swirly poop shape */}
+      <path d="M95 142 Q85 140 84 134 Q83 128 90 126 Q86 122 88 118 Q90 114 95 116 Q92 110 96 108 Q100 106 102 110 Q106 108 108 112 Q110 116 106 118 Q110 120 110 126 Q110 132 104 134 Q108 138 104 142 Z" fill="#8B6914" stroke="#6B4F10" strokeWidth="2" />
+      {/* Lighter swirl highlights */}
+      <path d="M90 126 Q88 122 90 118 Q92 116 95 118" stroke="#A07E1C" strokeWidth="1.5" fill="none" opacity="0.6" />
+      <path d="M96 132 Q94 128 96 124" stroke="#A07E1C" strokeWidth="1" fill="none" opacity="0.4" />
+      {/* Eyes — big cute googly eyes */}
+      <circle cx="92" cy="122" r="4" fill="white" stroke="#6B4F10" strokeWidth="1.5" />
+      <circle cx="93" cy="121" r="2" fill="#2D3436" />
+      <circle cx="94" cy="120" r="0.8" fill="white" />
+      <circle cx="102" cy="122" r="4" fill="white" stroke="#6B4F10" strokeWidth="1.5" />
+      <circle cx="103" cy="121" r="2" fill="#2D3436" />
+      <circle cx="104" cy="120" r="0.8" fill="white" />
+      {/* Happy mouth */}
+      <path d="M93 128 Q97 132 101 128" stroke="#6B4F10" strokeWidth="1.5" fill="none" />
+      {/* Rosy cheeks */}
+      <circle cx="89" cy="127" r="2" fill="#FF69B4" opacity="0.4" />
+      <circle cx="105" cy="127" r="2" fill="#FF69B4" opacity="0.4" />
+      {/* Stink lines */}
+      <path d="M92 106 Q90 100 92 96" stroke="#90EE90" strokeWidth="1" fill="none" opacity="0.4" />
+      <path d="M98 104 Q96 98 98 94" stroke="#90EE90" strokeWidth="1" fill="none" opacity="0.4" />
+      <path d="M104 106 Q102 100 104 96" stroke="#90EE90" strokeWidth="1" fill="none" opacity="0.3" />
+    </g>
+  ),
+
   // Rename old pet dragon key
   'pet-dragon': () => (
     <g>
