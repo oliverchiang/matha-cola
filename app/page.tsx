@@ -11,7 +11,7 @@ import ProfileSelector from '@/components/profile/ProfileSelector';
 import ProfileCreator from '@/components/profile/ProfileCreator';
 import BottleCapIcon from '@/components/shared/BottleCapIcon';
 import BubbleBackground from '@/components/shared/BubbleBackground';
-import { Trophy, ShoppingBag, Swords, Users, Medal } from 'lucide-react';
+import { Trophy, ShoppingBag, Swords, Users, Medal, Activity } from 'lucide-react';
 
 type View = 'loading' | 'select' | 'create' | 'home';
 
@@ -187,7 +187,7 @@ export default function Home() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.9 }}
-                  className="grid grid-cols-5 gap-3 w-full max-w-xs"
+                  className="grid grid-cols-3 gap-3 w-full max-w-xs"
                 >
                   {[
                     { href: '/shop', icon: ShoppingBag, label: 'Shop', color: 'bg-cola-red/10 text-cola-red' },
@@ -195,6 +195,7 @@ export default function Home() {
                     { href: '/friends', icon: Users, label: 'Friends', color: 'bg-bubble-blue/15 text-bubble-blue' },
                     { href: '/leaderboard', icon: Medal, label: 'Ranks', color: 'bg-op-multiplication/15 text-op-multiplication' },
                     { href: '/scores', icon: Trophy, label: 'Scores', color: 'bg-success/15 text-success' },
+                    { href: '/feed', icon: Activity, label: 'Feed', color: 'bg-cola-red/10 text-cola-red' },
                   ].map(({ href, icon: Icon, label, color }) => (
                     <Link key={href} href={href}>
                       <motion.div
