@@ -489,17 +489,17 @@ export const avatarLayers: Record<string, LayerRenderer> = {
 
   'acc-ipad': () => (
     <g>
-      {/* iPad held with both hands — behind body */}
-      <rect x="20" y="88" width="60" height="40" rx="4" fill="#1a1a1a" stroke="#000" strokeWidth="2.5" />
-      <rect x="23" y="91" width="54" height="34" rx="2" fill="#4ECDC4" />
+      {/* iPad held in right hand */}
+      <rect x="76" y="64" width="32" height="42" rx="4" fill="#1a1a1a" stroke="#000" strokeWidth="2.5" />
+      <rect x="78" y="67" width="28" height="36" rx="2" fill="#4ECDC4" />
       {/* Screen — math game on it! */}
-      <text x="50" y="105" textAnchor="middle" fontSize="7" fill="white" fontWeight="bold" fontFamily="sans-serif">2 + 2 = ?</text>
-      <rect x="38" y="110" width="10" height="6" rx="2" fill="#06D6A0" opacity="0.8" />
-      <rect x="52" y="110" width="10" height="6" rx="2" fill="#E63946" opacity="0.8" />
-      <text x="43" y="115" textAnchor="middle" fontSize="5" fill="white" fontWeight="bold">4</text>
-      <text x="57" y="115" textAnchor="middle" fontSize="5" fill="white" fontWeight="bold">5</text>
+      <text x="92" y="82" textAnchor="middle" fontSize="6" fill="white" fontWeight="bold" fontFamily="sans-serif">2+2=?</text>
+      <rect x="82" y="88" width="9" height="5" rx="2" fill="#06D6A0" opacity="0.8" />
+      <rect x="93" y="88" width="9" height="5" rx="2" fill="#E63946" opacity="0.8" />
+      <text x="86" y="92" textAnchor="middle" fontSize="4" fill="white" fontWeight="bold">4</text>
+      <text x="98" y="92" textAnchor="middle" fontSize="4" fill="white" fontWeight="bold">5</text>
       {/* Camera dot */}
-      <circle cx="50" cy="89" r="1" fill="#333" />
+      <circle cx="92" cy="65" r="0.8" fill="#333" />
     </g>
   ),
 
@@ -1263,84 +1263,78 @@ export const avatarLayers: Record<string, LayerRenderer> = {
 
   'acc-dj-turntable': () => (
     <g>
-      {/* Turntable table */}
-      <rect x="10" y="100" width="80" height="6" rx="2" fill="#2D3436" stroke="#1a1a1a" strokeWidth="2" />
-      {/* Left deck */}
-      <rect x="12" y="104" width="34" height="28" rx="3" fill="#333" stroke="#1a1a1a" strokeWidth="1.5" />
-      <circle cx="29" cy="118" r="10" fill="#1a1a1a" stroke="#555" strokeWidth="1.5" />
-      <circle cx="29" cy="118" r="7" fill="#2D3436" />
-      <circle cx="29" cy="118" r="1.5" fill="#E63946" />
+      {/* Single turntable deck on right side */}
+      <rect x="70" y="100" width="40" height="6" rx="2" fill="#2D3436" stroke="#1a1a1a" strokeWidth="2" />
+      {/* Deck */}
+      <rect x="72" y="104" width="36" height="28" rx="3" fill="#333" stroke="#1a1a1a" strokeWidth="1.5" />
+      <circle cx="90" cy="118" r="11" fill="#1a1a1a" stroke="#555" strokeWidth="1.5" />
+      <circle cx="90" cy="118" r="8" fill="#2D3436" />
+      <circle cx="90" cy="118" r="2" fill="#E63946" />
       {/* Vinyl grooves */}
-      <circle cx="29" cy="118" r="4" fill="none" stroke="#444" strokeWidth="0.5" />
-      <circle cx="29" cy="118" r="6" fill="none" stroke="#444" strokeWidth="0.5" />
-      <circle cx="29" cy="118" r="9" fill="none" stroke="#444" strokeWidth="0.3" />
-      {/* Right deck */}
-      <rect x="54" y="104" width="34" height="28" rx="3" fill="#333" stroke="#1a1a1a" strokeWidth="1.5" />
-      <circle cx="71" cy="118" r="10" fill="#1a1a1a" stroke="#555" strokeWidth="1.5" />
-      <circle cx="71" cy="118" r="7" fill="#2D3436" />
-      <circle cx="71" cy="118" r="1.5" fill="#4ECDC4" />
-      <circle cx="71" cy="118" r="4" fill="none" stroke="#444" strokeWidth="0.5" />
-      <circle cx="71" cy="118" r="6" fill="none" stroke="#444" strokeWidth="0.5" />
-      {/* Mixer in middle */}
-      <rect x="44" y="106" width="12" height="24" rx="2" fill="#444" stroke="#333" strokeWidth="1" />
-      {/* Faders */}
-      <rect x="46" y="110" width="3" height="8" rx="1" fill="#06D6A0" opacity="0.8" />
-      <rect x="51" y="112" width="3" height="8" rx="1" fill="#E63946" opacity="0.8" />
+      <circle cx="90" cy="118" r="4" fill="none" stroke="#444" strokeWidth="0.5" />
+      <circle cx="90" cy="118" r="6" fill="none" stroke="#444" strokeWidth="0.5" />
+      <circle cx="90" cy="118" r="10" fill="none" stroke="#444" strokeWidth="0.3" />
+      {/* Mixer strip on left edge */}
+      <rect x="72" y="106" width="8" height="24" rx="2" fill="#444" stroke="#333" strokeWidth="1" />
+      <rect x="73" y="110" width="3" height="6" rx="1" fill="#06D6A0" opacity="0.8" />
+      <rect x="73" y="118" width="3" height="6" rx="1" fill="#E63946" opacity="0.8" />
       {/* RGB strip */}
-      <rect x="12" y="130" width="76" height="3" rx="1.5" fill="#7B2CBF" opacity="0.7" />
-      <rect x="12" y="130" width="38" height="3" rx="1.5" fill="#FF69B4" opacity="0.5" />
+      <rect x="72" y="130" width="36" height="3" rx="1.5" fill="#7B2CBF" opacity="0.7" />
+      <rect x="72" y="130" width="18" height="3" rx="1.5" fill="#FF69B4" opacity="0.5" />
+      {/* Crossfader knob */}
+      <circle cx="76" cy="128" r="2" fill="#FFD166" stroke="#D4930A" strokeWidth="0.8" />
     </g>
   ),
 
   'acc-rocket-ship': () => (
     <g>
-      {/* Mini rocket the character is riding */}
+      {/* Mini rocket on the right side */}
       {/* Rocket body */}
-      <ellipse cx="50" cy="130" rx="14" ry="22" fill="#E63946" stroke="#B22530" strokeWidth="2" />
+      <ellipse cx="95" cy="110" rx="10" ry="18" fill="#E63946" stroke="#B22530" strokeWidth="2" />
       {/* Nose cone */}
-      <path d="M36 115 Q50 96 64 115" fill="#E63946" stroke="#B22530" strokeWidth="2" />
-      <path d="M40 115 Q50 100 60 115" fill="#FF6B6B" opacity="0.4" />
+      <path d="M85 97 Q95 80 105 97" fill="#E63946" stroke="#B22530" strokeWidth="2" />
+      <path d="M88 97 Q95 84 102 97" fill="#FF6B6B" opacity="0.4" />
       {/* Window */}
-      <circle cx="50" cy="120" r="6" fill="#118AB2" stroke="#0A5F7A" strokeWidth="1.5" />
-      <circle cx="50" cy="120" r="4" fill="#4ECDC4" opacity="0.6" />
-      <circle cx="48" cy="118" r="1.5" fill="white" opacity="0.4" />
+      <circle cx="95" cy="102" r="5" fill="#118AB2" stroke="#0A5F7A" strokeWidth="1.5" />
+      <circle cx="95" cy="102" r="3.5" fill="#4ECDC4" opacity="0.6" />
+      <circle cx="93" cy="100" r="1.2" fill="white" opacity="0.4" />
       {/* Fins */}
-      <polygon points="36,140 28,152 38,148" fill="#FFD166" stroke="#D4930A" strokeWidth="1.5" />
-      <polygon points="64,140 72,152 62,148" fill="#FFD166" stroke="#D4930A" strokeWidth="1.5" />
+      <polygon points="85,122 78,132 87,128" fill="#FFD166" stroke="#D4930A" strokeWidth="1.5" />
+      <polygon points="105,122 112,132 103,128" fill="#FFD166" stroke="#D4930A" strokeWidth="1.5" />
       {/* Flames from bottom! */}
-      <path d="M40 150 Q38 160 36 168 Q42 162 44 170 Q46 160 50 172 Q52 162 56 170 Q58 162 64 168 Q62 160 60 150" fill="#FF4500" opacity="0.9" />
-      <path d="M42 152 Q40 160 40 164 Q46 158 50 166 Q54 158 60 164 Q58 158 58 152" fill="#FFD166" opacity="0.7" />
+      <path d="M88 126 Q87 134 86 140 Q90 136 91 142 Q93 136 95 144 Q97 136 99 142 Q100 136 104 140 Q103 134 102 126" fill="#FF4500" opacity="0.9" />
+      <path d="M89 128 Q88 134 88 136 Q92 132 95 138 Q98 132 102 136 Q101 132 100 128" fill="#FFD166" opacity="0.7" />
       {/* Rivets */}
-      <circle cx="42" cy="126" r="1" fill="#B22530" />
-      <circle cx="58" cy="126" r="1" fill="#B22530" />
-      {/* Stars around */}
-      <text x="22" y="108" fontSize="5" fill="#FFD166" opacity="0.6">&#9733;</text>
-      <text x="74" y="112" fontSize="4" fill="#FFD166" opacity="0.5">&#9733;</text>
+      <circle cx="90" cy="108" r="1" fill="#B22530" />
+      <circle cx="100" cy="108" r="1" fill="#B22530" />
+      {/* Stars */}
+      <text x="76" y="88" fontSize="5" fill="#FFD166" opacity="0.6">&#9733;</text>
+      <text x="110" y="96" fontSize="4" fill="#FFD166" opacity="0.5">&#9733;</text>
     </g>
   ),
 
   'acc-golden-toilet': () => (
     <g>
-      {/* Golden toilet — the ultimate flex */}
+      {/* Golden toilet on right side — the ultimate flex */}
       {/* Base */}
-      <ellipse cx="50" cy="142" rx="18" ry="5" fill="#D4930A" stroke="#A07008" strokeWidth="1.5" />
+      <ellipse cx="95" cy="142" rx="15" ry="4" fill="#D4930A" stroke="#A07008" strokeWidth="1.5" />
       {/* Bowl */}
-      <path d="M32 130 Q32 142 50 144 Q68 142 68 130 Z" fill="#FFD166" stroke="#D4930A" strokeWidth="2" />
-      <path d="M36 130 Q36 138 50 140 Q64 138 64 130 Z" fill="#FFE699" opacity="0.5" />
+      <path d="M80 132 Q80 142 95 144 Q110 142 110 132 Z" fill="#FFD166" stroke="#D4930A" strokeWidth="2" />
+      <path d="M83 132 Q83 138 95 140 Q107 138 107 132 Z" fill="#FFE699" opacity="0.5" />
       {/* Seat */}
-      <ellipse cx="50" cy="130" rx="18" ry="6" fill="#FFD166" stroke="#D4930A" strokeWidth="2" />
-      <ellipse cx="50" cy="130" rx="14" ry="4" fill="#F4A261" opacity="0.3" />
+      <ellipse cx="95" cy="132" rx="15" ry="5" fill="#FFD166" stroke="#D4930A" strokeWidth="2" />
+      <ellipse cx="95" cy="132" rx="11" ry="3.5" fill="#F4A261" opacity="0.3" />
       {/* Tank back */}
-      <rect x="36" y="112" width="28" height="20" rx="4" fill="#FFD166" stroke="#D4930A" strokeWidth="2" />
-      <rect x="38" y="114" width="24" height="16" rx="3" fill="#FFE699" opacity="0.4" />
+      <rect x="84" y="114" width="22" height="18" rx="3" fill="#FFD166" stroke="#D4930A" strokeWidth="2" />
+      <rect x="86" y="116" width="18" height="14" rx="2" fill="#FFE699" opacity="0.4" />
       {/* Lid */}
-      <rect x="34" y="110" width="32" height="5" rx="2.5" fill="#FFD166" stroke="#D4930A" strokeWidth="1.5" />
+      <rect x="82" y="112" width="26" height="4" rx="2" fill="#FFD166" stroke="#D4930A" strokeWidth="1.5" />
       {/* Flush handle */}
-      <path d="M64 118 Q70 116 72 120" stroke="#D4930A" strokeWidth="2" fill="none" />
-      <circle cx="72" cy="120" r="2" fill="#FFD166" stroke="#D4930A" strokeWidth="1" />
-      {/* Sparkles — it IS gold after all */}
-      <text x="30" y="118" fontSize="5" fill="white" opacity="0.7">&#10022;</text>
-      <text x="66" y="112" fontSize="4" fill="white" opacity="0.6">&#10022;</text>
+      <path d="M106 120 Q112 118 114 122" stroke="#D4930A" strokeWidth="2" fill="none" />
+      <circle cx="114" cy="122" r="2" fill="#FFD166" stroke="#D4930A" strokeWidth="1" />
+      {/* Sparkles */}
+      <text x="78" y="120" fontSize="5" fill="white" opacity="0.7">&#10022;</text>
+      <text x="108" y="114" fontSize="4" fill="white" opacity="0.6">&#10022;</text>
       <text x="48" y="108" fontSize="5" fill="white" opacity="0.8">&#10022;</text>
       {/* Diamond on tank */}
       <polygon points="50,118 47,122 50,126 53,122" fill="white" stroke="#89CFF0" strokeWidth="0.8" />
@@ -1349,35 +1343,30 @@ export const avatarLayers: Record<string, LayerRenderer> = {
 
   'acc-ipad-pro': () => (
     <g>
-      {/* Massive iPad Pro held in front — bigger than the character */}
-      <rect x="10" y="78" width="80" height="56" rx="5" fill="#1a1a1a" stroke="#000" strokeWidth="3" />
-      <rect x="14" y="82" width="72" height="48" rx="3" fill="#0d0d2b" />
-      {/* Screen content — full math game UI */}
+      {/* iPad Pro held in right hand — big screen */}
+      <rect x="72" y="56" width="40" height="54" rx="5" fill="#1a1a1a" stroke="#000" strokeWidth="3" />
+      <rect x="75" y="59" width="34" height="48" rx="3" fill="#0d0d2b" />
       {/* App header */}
-      <rect x="14" y="82" width="72" height="10" rx="3" fill="#118AB2" />
-      <text x="50" y="90" textAnchor="middle" fontSize="6" fill="white" fontWeight="bold" fontFamily="sans-serif">MATHA COLA</text>
-      {/* Big equation */}
-      <text x="50" y="108" textAnchor="middle" fontSize="12" fill="white" fontWeight="bold" fontFamily="sans-serif">7 &times; 8 = ?</text>
+      <rect x="75" y="59" width="34" height="8" rx="3" fill="#118AB2" />
+      <text x="92" y="66" textAnchor="middle" fontSize="5" fill="white" fontWeight="bold" fontFamily="sans-serif">MATHA COLA</text>
+      {/* Equation */}
+      <text x="92" y="80" textAnchor="middle" fontSize="9" fill="white" fontWeight="bold" fontFamily="sans-serif">7&times;8=?</text>
       {/* Answer buttons */}
-      <rect x="18" y="114" width="16" height="10" rx="3" fill="#06D6A0" />
-      <text x="26" y="121" textAnchor="middle" fontSize="6" fill="white" fontWeight="bold">56</text>
-      <rect x="38" y="114" width="16" height="10" rx="3" fill="#E63946" />
-      <text x="46" y="121" textAnchor="middle" fontSize="6" fill="white" fontWeight="bold">54</text>
-      <rect x="58" y="114" width="16" height="10" rx="3" fill="#F77F00" />
-      <text x="66" y="121" textAnchor="middle" fontSize="6" fill="white" fontWeight="bold">48</text>
+      <rect x="77" y="86" width="10" height="7" rx="2" fill="#06D6A0" />
+      <text x="82" y="92" textAnchor="middle" fontSize="5" fill="white" fontWeight="bold">56</text>
+      <rect x="89" y="86" width="10" height="7" rx="2" fill="#E63946" />
+      <text x="94" y="92" textAnchor="middle" fontSize="5" fill="white" fontWeight="bold">54</text>
       {/* Timer bar */}
-      <rect x="18" y="96" width="54" height="3" rx="1.5" fill="#333" />
-      <rect x="18" y="96" width="36" height="3" rx="1.5" fill="#06D6A0" />
-      {/* Score */}
-      <text x="78" y="99" textAnchor="end" fontSize="5" fill="#FFD166" fontFamily="sans-serif">1250</text>
+      <rect x="77" y="96" width="28" height="2" rx="1" fill="#333" />
+      <rect x="77" y="96" width="18" height="2" rx="1" fill="#06D6A0" />
       {/* Camera dot */}
-      <circle cx="50" cy="80" r="1.2" fill="#333" />
-      {/* Apple Pencil attached to side */}
-      <rect x="91" y="84" width="3" height="44" rx="1.5" fill="#CCC" stroke="#999" strokeWidth="0.8" />
-      <rect x="91" y="84" width="3" height="6" rx="1.5" fill="#999" />
-      {/* Pro sparkle */}
-      <text x="6" y="86" fontSize="5" fill="white" opacity="0.6">&#10022;</text>
-      <text x="88" y="130" fontSize="4" fill="white" opacity="0.5">&#10022;</text>
+      <circle cx="92" cy="57.5" r="1" fill="#333" />
+      {/* Apple Pencil */}
+      <rect x="113" y="62" width="2.5" height="40" rx="1.25" fill="#CCC" stroke="#999" strokeWidth="0.5" />
+      <rect x="113" y="62" width="2.5" height="5" rx="1.25" fill="#999" />
+      {/* Sparkle */}
+      <text x="70" y="62" fontSize="4" fill="white" opacity="0.6">&#10022;</text>
+      <text x="108" y="104" fontSize="4" fill="white" opacity="0.5">&#10022;</text>
     </g>
   ),
 

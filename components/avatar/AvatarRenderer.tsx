@@ -253,7 +253,7 @@ export default function AvatarRenderer({ avatar, state = 'idle', size = 120 }: A
 }
 
 // Position zones for accessories — items in the same zone get mirrored when both equipped
-type AccZone = 'right-hand' | 'head' | 'back' | 'wings' | 'body' | 'around' | 'feet' | 'front' | 'ground' | 'shoulder';
+type AccZone = 'right-hand' | 'head' | 'back' | 'wings' | 'body' | 'around' | 'feet' | 'ground' | 'shoulder';
 const accZones: Record<string, AccZone> = {
   'acc-headphones': 'head',
   'acc-gold-chain': 'body',
@@ -284,12 +284,12 @@ const accZones: Record<string, AccZone> = {
   'acc-flaming-sword': 'right-hand',
   'acc-diamond-armor': 'body',
   'acc-math-crown': 'head',
-  'acc-dj-turntable': 'front',
-  'acc-rocket-ship': 'front',
-  'acc-golden-toilet': 'front',
+  'acc-dj-turntable': 'right-hand',
+  'acc-rocket-ship': 'right-hand',
+  'acc-golden-toilet': 'right-hand',
   'acc-iphone': 'right-hand',
-  'acc-ipad': 'front',
-  'acc-ipad-pro': 'front',
+  'acc-ipad': 'right-hand',
+  'acc-ipad-pro': 'right-hand',
   'acc-stanley-cup': 'right-hand',
   'acc-angel-wings': 'wings',
 };
