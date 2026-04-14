@@ -1399,6 +1399,38 @@ export const avatarLayers: Record<string, LayerRenderer> = {
     </g>
   ),
 
+  'pet-67': () => (
+    <g>
+      {/* The legendary 67 meme pet */}
+      {/* Glow aura */}
+      <ellipse cx="95" cy="124" rx="18" ry="14" fill="#FFD166" opacity="0.12" />
+      {/* Big bold "67" as the body */}
+      <text x="95" y="132" textAnchor="middle" fontSize="28" fontWeight="bold" fontFamily="sans-serif" fill="#FFD166" stroke="#D4930A" strokeWidth="1.5">67</text>
+      {/* Googly eyes on the 6 */}
+      <circle cx="86" cy="118" r="4" fill="white" stroke="#2D3436" strokeWidth="1.5" />
+      <circle cx="87" cy="117" r="2" fill="#2D3436" />
+      <circle cx="88" cy="116" r="0.7" fill="white" />
+      {/* Googly eyes on the 7 */}
+      <circle cx="100" cy="116" r="4" fill="white" stroke="#2D3436" strokeWidth="1.5" />
+      <circle cx="101" cy="115" r="2" fill="#2D3436" />
+      <circle cx="102" cy="114" r="0.7" fill="white" />
+      {/* Little legs */}
+      <rect x="84" y="134" width="3" height="7" rx="1.5" fill="#FFD166" stroke="#D4930A" strokeWidth="1" />
+      <rect x="90" y="134" width="3" height="7" rx="1.5" fill="#FFD166" stroke="#D4930A" strokeWidth="1" />
+      <rect x="98" y="134" width="3" height="7" rx="1.5" fill="#FFD166" stroke="#D4930A" strokeWidth="1" />
+      <rect x="104" y="134" width="3" height="7" rx="1.5" fill="#FFD166" stroke="#D4930A" strokeWidth="1" />
+      {/* Little shoes */}
+      <ellipse cx="85.5" cy="141.5" rx="3" ry="1.5" fill="#D4930A" />
+      <ellipse cx="91.5" cy="141.5" rx="3" ry="1.5" fill="#D4930A" />
+      <ellipse cx="99.5" cy="141.5" rx="3" ry="1.5" fill="#D4930A" />
+      <ellipse cx="105.5" cy="141.5" rx="3" ry="1.5" fill="#D4930A" />
+      {/* Sparkles */}
+      <text x="76" y="112" fontSize="5" fill="#FFD166" opacity="0.7">&#10022;</text>
+      <text x="112" y="120" fontSize="4" fill="#FFD166" opacity="0.6">&#10022;</text>
+      <text x="80" y="138" fontSize="3" fill="#FFD166" opacity="0.5">&#10022;</text>
+    </g>
+  ),
+
   // Rename old pet dragon key
   'pet-dragon': () => (
     <g>

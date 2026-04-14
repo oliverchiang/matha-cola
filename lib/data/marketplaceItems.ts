@@ -116,6 +116,7 @@ export const MARKETPLACE_ITEMS: MarketplaceItem[] = [
   { id: 'pet-chicken', name: 'Big Fat Chicken', category: 'pet', price: 500, description: 'BAWK! The chonkiest chicken ever', rarity: 'mythical', svgLayerKey: 'pet-chicken' },
   { id: 'pet-unicorn', name: 'Baby Unicorn', category: 'pet', price: 2000, description: 'Sparkles and rainbows!', rarity: 'legendary', svgLayerKey: 'pet-unicorn' },
   { id: 'pet-poop', name: 'Mr. Poopy', category: 'pet', price: 100, description: 'Stinky but loveable!', rarity: 'epic', svgLayerKey: 'pet-poop' },
+  { id: 'pet-67', name: '67', category: 'pet', price: 2500, description: 'If you know, you know', rarity: 'legendary', svgLayerKey: 'pet-67' },
 ];
 
 export function getMarketplaceItem(id: string): MarketplaceItem | undefined {
