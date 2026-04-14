@@ -104,6 +104,7 @@ export const MARKETPLACE_ITEMS: MarketplaceItem[] = [
   { id: 'acc-dj-turntable', name: 'DJ Turntable', category: 'accessory', price: 2000, description: 'Drop the beat!', rarity: 'legendary', svgLayerKey: 'acc-dj-turntable' },
   { id: 'acc-rocket-ship', name: 'Rocket Ship', category: 'accessory', price: 3500, description: 'Moon math mission!', rarity: 'legendary', svgLayerKey: 'acc-rocket-ship' },
   { id: 'acc-golden-toilet', name: 'Golden Toilet', category: 'accessory', price: 4000, description: 'The throne of legends', rarity: 'legendary', svgLayerKey: 'acc-golden-toilet' },
+  { id: 'acc-ipad-pro', name: 'iPad Pro', category: 'accessory', price: 5000, description: 'The biggest screen energy', rarity: 'legendary', svgLayerKey: 'acc-ipad-pro' },
   { id: 'skin-rainbow', name: 'Rainbow', category: 'skinColor', price: 1500, description: 'Every colour at once!', rarity: 'legendary', svgLayerKey: 'skin-rainbow', previewColor: '#FF69B4' },
 
   // === PETS ===

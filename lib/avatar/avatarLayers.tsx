@@ -1347,6 +1347,40 @@ export const avatarLayers: Record<string, LayerRenderer> = {
     </g>
   ),
 
+  'acc-ipad-pro': () => (
+    <g>
+      {/* Massive iPad Pro held in front — bigger than the character */}
+      <rect x="10" y="78" width="80" height="56" rx="5" fill="#1a1a1a" stroke="#000" strokeWidth="3" />
+      <rect x="14" y="82" width="72" height="48" rx="3" fill="#0d0d2b" />
+      {/* Screen content — full math game UI */}
+      {/* App header */}
+      <rect x="14" y="82" width="72" height="10" rx="3" fill="#118AB2" />
+      <text x="50" y="90" textAnchor="middle" fontSize="6" fill="white" fontWeight="bold" fontFamily="sans-serif">MATHA COLA</text>
+      {/* Big equation */}
+      <text x="50" y="108" textAnchor="middle" fontSize="12" fill="white" fontWeight="bold" fontFamily="sans-serif">7 &times; 8 = ?</text>
+      {/* Answer buttons */}
+      <rect x="18" y="114" width="16" height="10" rx="3" fill="#06D6A0" />
+      <text x="26" y="121" textAnchor="middle" fontSize="6" fill="white" fontWeight="bold">56</text>
+      <rect x="38" y="114" width="16" height="10" rx="3" fill="#E63946" />
+      <text x="46" y="121" textAnchor="middle" fontSize="6" fill="white" fontWeight="bold">54</text>
+      <rect x="58" y="114" width="16" height="10" rx="3" fill="#F77F00" />
+      <text x="66" y="121" textAnchor="middle" fontSize="6" fill="white" fontWeight="bold">48</text>
+      {/* Timer bar */}
+      <rect x="18" y="96" width="54" height="3" rx="1.5" fill="#333" />
+      <rect x="18" y="96" width="36" height="3" rx="1.5" fill="#06D6A0" />
+      {/* Score */}
+      <text x="78" y="99" textAnchor="end" fontSize="5" fill="#FFD166" fontFamily="sans-serif">1250</text>
+      {/* Camera dot */}
+      <circle cx="50" cy="80" r="1.2" fill="#333" />
+      {/* Apple Pencil attached to side */}
+      <rect x="91" y="84" width="3" height="44" rx="1.5" fill="#CCC" stroke="#999" strokeWidth="0.8" />
+      <rect x="91" y="84" width="3" height="6" rx="1.5" fill="#999" />
+      {/* Pro sparkle */}
+      <text x="6" y="86" fontSize="5" fill="white" opacity="0.6">&#10022;</text>
+      <text x="88" y="130" fontSize="4" fill="white" opacity="0.5">&#10022;</text>
+    </g>
+  ),
+
   // ===================== NEW PET =====================
 
   'pet-poop': () => (
