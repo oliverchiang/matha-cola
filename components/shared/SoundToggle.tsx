@@ -35,7 +35,7 @@ export default function SoundToggle() {
     <motion.button
       whileTap={{ scale: 0.85 }}
       onClick={toggle}
-      className="fixed top-4 left-4 z-50 w-12 h-12 rounded-full bg-white/80 backdrop-blur-sm shadow-md
+      className="fixed bottom-4 left-4 z-50 w-12 h-12 rounded-full bg-white/80 backdrop-blur-sm shadow-md
         flex items-center justify-center cursor-pointer hover:bg-white transition-colors"
       aria-label={isMuted ? 'Unmute' : 'Mute'}
     >
