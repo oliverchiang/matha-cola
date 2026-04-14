@@ -227,7 +227,16 @@ export default function AvatarRenderer({ avatar, state = 'idle', size = 120 }: A
 
         {/* === ACCESSORIES (non-face) === */}
         {config.accessory && getAvatarLayer(getMarketplaceItem(config.accessory)?.svgLayerKey || '')}
-        {config.accessory2 && getAvatarLayer(getMarketplaceItem(config.accessory2)?.svgLayerKey || '')}
+        {config.accessory2 && (() => {
+          const layer = getAvatarLayer(getMarketplaceItem(config.accessory2!)?.svgLayerKey || '');
+          // Mirror accessory2 to the opposite side when both share a position zone
+          const pos1 = config.accessory ? accPosition(config.accessory) : null;
+          const pos2 = accPosition(config.accessory2!);
+          const needsMirror = pos1 !== null && pos1 === pos2;
+          return needsMirror
+            ? <g transform="translate(100, 0) scale(-1, 1)">{layer}</g>
+            : layer;
+        })()}
 
         {/* === PET (beside character, bounces on its own) === */}
         {config.pet && (
@@ -241,6 +250,51 @@ export default function AvatarRenderer({ avatar, state = 'idle', size = 120 }: A
       </svg>
     </motion.div>
   );
+}
+
+// Position zones for accessories — items in the same zone get mirrored when both equipped
+type AccZone = 'right-hand' | 'head' | 'back' | 'wings' | 'body' | 'around' | 'feet' | 'front' | 'ground' | 'shoulder';
+const accZones: Record<string, AccZone> = {
+  'acc-headphones': 'head',
+  'acc-gold-chain': 'body',
+  'acc-butterfly-wings': 'wings',
+  'acc-cape': 'back',
+  'acc-backpack': 'back',
+  'acc-sunglasses': 'head',
+  'acc-friendship-bracelet': 'body',
+  'acc-lanyard': 'body',
+  'acc-fidget-spinner': 'right-hand',
+  'acc-skateboard': 'right-hand',
+  'acc-basketball': 'right-hand',
+  'acc-soccer-ball': 'ground',
+  'acc-magic-wand': 'right-hand',
+  'acc-boba-tea': 'right-hand',
+  'acc-energy-drink': 'right-hand',
+  'acc-gaming-headset': 'head',
+  'acc-ring-light': 'around',
+  'acc-jetpack': 'back',
+  'acc-lightsaber': 'right-hand',
+  'acc-bubble-shield': 'around',
+  'acc-hoverboard': 'feet',
+  'acc-mech-suit': 'around',
+  'acc-lightning-aura': 'around',
+  'acc-portal-gun': 'right-hand',
+  'acc-drone': 'shoulder',
+  'acc-rainbow-trail': 'around',
+  'acc-flaming-sword': 'right-hand',
+  'acc-diamond-armor': 'body',
+  'acc-math-crown': 'head',
+  'acc-dj-turntable': 'front',
+  'acc-rocket-ship': 'front',
+  'acc-golden-toilet': 'front',
+  'acc-iphone': 'right-hand',
+  'acc-ipad': 'front',
+  'acc-ipad-pro': 'front',
+  'acc-stanley-cup': 'right-hand',
+  'acc-angel-wings': 'wings',
+};
+function accPosition(itemId: string): AccZone | null {
+  return accZones[itemId] ?? null;
 }
 
 function lighten(hex: string, pct: number): string { return adjust(hex, pct); }
