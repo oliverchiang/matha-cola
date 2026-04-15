@@ -34,7 +34,7 @@ import { Operation, Difficulty, TimesTable } from './types';
 
 /**
  * Calculate bottle caps earned per correct answer based on difficulty.
- * Easy/low tables = 1 cap, hard/mixed = up to 3 caps.
+ * Easy/low tables = 1 cap, hard/mixed = up to 5 caps.
  */
 export function getCapsPerCorrect(
   operation: Operation | null,
@@ -54,13 +54,13 @@ export function getCapsPerCorrect(
 
   // Word problems get extra reward since they're harder
   if (operation === 'word-problems') {
-    if (difficulty === 'hard') return 6;
+    if (difficulty === 'hard') return 8;
     if (difficulty === 'medium') return 4;
     return 3;
   }
 
   // Difficulty-based path
-  if (difficulty === 'hard') return 3;
+  if (difficulty === 'hard') return 5;
   if (difficulty === 'medium') return 2;
 
   // Easy or fallback
