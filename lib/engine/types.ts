@@ -1,6 +1,6 @@
 export type Operation = 'addition' | 'subtraction' | 'multiplication' | 'division' | 'mixed' | 'word-problems';
 
-export type Difficulty = 'easy' | 'medium' | 'hard';
+export type Difficulty = 'easy' | 'medium' | 'hard' | 'super-hard';
 
 export interface Question {
   id: number;

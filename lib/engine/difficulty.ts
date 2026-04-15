@@ -12,24 +12,28 @@ interface DifficultyConfig {
 
 const configs: Record<Exclude<Operation, 'mixed' | 'word-problems'>, Record<Difficulty, DifficultyConfig>> = {
   addition: {
-    easy:   { operand1: { min: 1, max: 10 },  operand2: { min: 1, max: 10 } },
-    medium: { operand1: { min: 10, max: 50 },  operand2: { min: 10, max: 50 } },
-    hard:   { operand1: { min: 50, max: 200 }, operand2: { min: 50, max: 200 } },
+    easy:         { operand1: { min: 1, max: 10 },    operand2: { min: 1, max: 10 } },
+    medium:       { operand1: { min: 10, max: 50 },   operand2: { min: 10, max: 50 } },
+    hard:         { operand1: { min: 50, max: 200 },  operand2: { min: 50, max: 200 } },
+    'super-hard': { operand1: { min: 500, max: 9999 }, operand2: { min: 500, max: 9999 } },
   },
   subtraction: {
-    easy:   { operand1: { min: 1, max: 10 },  operand2: { min: 1, max: 10 } },
-    medium: { operand1: { min: 20, max: 50 },  operand2: { min: 1, max: 25 } },
-    hard:   { operand1: { min: 100, max: 500 }, operand2: { min: 50, max: 250 } },
+    easy:         { operand1: { min: 1, max: 10 },     operand2: { min: 1, max: 10 } },
+    medium:       { operand1: { min: 20, max: 50 },    operand2: { min: 1, max: 25 } },
+    hard:         { operand1: { min: 100, max: 500 },  operand2: { min: 50, max: 250 } },
+    'super-hard': { operand1: { min: 1000, max: 9999 }, operand2: { min: 500, max: 5000 } },
   },
   multiplication: {
-    easy:   { operand1: { min: 1, max: 5 },  operand2: { min: 1, max: 5 } },
-    medium: { operand1: { min: 2, max: 10 }, operand2: { min: 2, max: 10 } },
-    hard:   { operand1: { min: 5, max: 12 }, operand2: { min: 5, max: 12 } },
+    easy:         { operand1: { min: 1, max: 5 },   operand2: { min: 1, max: 5 } },
+    medium:       { operand1: { min: 2, max: 10 },  operand2: { min: 2, max: 10 } },
+    hard:         { operand1: { min: 5, max: 12 },  operand2: { min: 5, max: 12 } },
+    'super-hard': { operand1: { min: 12, max: 50 }, operand2: { min: 12, max: 50 } },
   },
   division: {
-    easy:   { operand1: { min: 1, max: 5 },  operand2: { min: 1, max: 5 } },
-    medium: { operand1: { min: 2, max: 10 }, operand2: { min: 2, max: 10 } },
-    hard:   { operand1: { min: 5, max: 12 }, operand2: { min: 5, max: 12 } },
+    easy:         { operand1: { min: 1, max: 5 },   operand2: { min: 1, max: 5 } },
+    medium:       { operand1: { min: 2, max: 10 },  operand2: { min: 2, max: 10 } },
+    hard:         { operand1: { min: 5, max: 12 },  operand2: { min: 5, max: 12 } },
+    'super-hard': { operand1: { min: 12, max: 50 }, operand2: { min: 12, max: 50 } },
   },
 };
 
@@ -42,6 +46,7 @@ export function getDifficultyLabel(difficulty: Difficulty): string {
     case 'easy': return 'Easy';
     case 'medium': return 'Medium';
     case 'hard': return 'Hard';
+    case 'super-hard': return 'Super Hard';
   }
 }
 
@@ -51,6 +56,7 @@ export function getDifficultyDescription(operation: Operation, difficulty: Diffi
       easy: 'Small numbers, all operations',
       medium: 'Medium numbers, all operations',
       hard: 'Large numbers, all operations',
+      'super-hard': 'Huge numbers, all operations',
     }[difficulty];
   }
 
@@ -59,6 +65,7 @@ export function getDifficultyDescription(operation: Operation, difficulty: Diffi
       easy: 'Simple stories, small numbers',
       medium: 'Multi-step problems, rounding',
       hard: 'Complex stories, big numbers',
+      'super-hard': 'Multi-step nightmares!',
     }[difficulty];
   }
 

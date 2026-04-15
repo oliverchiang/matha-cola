@@ -31,7 +31,7 @@ import confetti from 'canvas-confetti';
 import { sounds } from '@/lib/sounds';
 
 const operations: Operation[] = ['addition', 'subtraction', 'multiplication', 'division', 'mixed', 'word-problems'];
-const difficulties: Difficulty[] = ['easy', 'medium', 'hard'];
+const difficulties: Difficulty[] = ['easy', 'medium', 'hard', 'super-hard'];
 const timesTables: TimesTable[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 'mixed'];
 
 export default function PlayPage() {

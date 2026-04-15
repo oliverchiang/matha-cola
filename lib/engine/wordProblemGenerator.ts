@@ -219,10 +219,81 @@ const hardTemplates: Template[] = [
   },
 ];
 
+// ==================== SUPER HARD (mental math beasts) ====================
+const superHardTemplates: Template[] = [
+  {
+    generate: () => {
+      const price = rand(125, 999), qty = rand(12, 50);
+      return { text: `A warehouse orders ${qty} laptops at $${price} each. What is the total cost?`, answer: price * qty, op1: price, op2: qty, operation: 'multiplication' };
+    },
+  },
+  {
+    generate: () => {
+      const a = rand(1000, 5000), b = rand(1000, 5000), c = rand(500, 2000);
+      return { text: `A company earned $${a} in January, $${b} in February, and $${c} in March. What are the total earnings?`, answer: a + b + c, op1: a, op2: b, operation: 'addition' };
+    },
+  },
+  {
+    generate: () => {
+      const total = rand(5000, 9999), spent1 = rand(1000, 3000), spent2 = rand(500, 2000);
+      return { text: `You start with $${total}. You spend $${spent1} on rent and $${spent2} on food. How much is left?`, answer: total - spent1 - spent2, op1: total, op2: spent1, operation: 'subtraction' };
+    },
+  },
+  {
+    generate: () => {
+      const rows = rand(15, 40), cols = rand(15, 40);
+      const broken = rand(10, 50);
+      return { text: `A stadium has ${rows} rows with ${cols} seats each. ${broken} seats are broken. How many usable seats are there?`, answer: rows * cols - broken, op1: rows, op2: cols, operation: 'multiplication' };
+    },
+  },
+  {
+    generate: () => {
+      const distance = rand(200, 800), speed = rand(40, 120);
+      const hours = Math.floor(distance / speed);
+      const remaining = distance - hours * speed;
+      return { text: `A train travels ${speed} km/h for ${hours} hours, covering ${hours * speed} km. It still has ${remaining} km to go. What is the total distance?`, answer: distance, op1: hours * speed, op2: remaining, operation: 'addition' };
+    },
+  },
+  {
+    generate: () => {
+      const workers = rand(25, 99), perWorker = rand(30, 80);
+      return { text: `A factory has ${workers} workers. Each worker assembles ${perWorker} parts per day. How many parts are made daily?`, answer: workers * perWorker, op1: workers, op2: perWorker, operation: 'multiplication' };
+    },
+  },
+  {
+    generate: () => {
+      const a = rand(200, 999), b = rand(200, 999);
+      const total = a + b;
+      return { text: `Two trains are ${total} km apart. One has travelled ${a} km. How far has the other train travelled?`, answer: b, op1: total, op2: a, operation: 'subtraction' };
+    },
+  },
+  {
+    generate: () => {
+      const perBox = rand(24, 48), boxes = rand(15, 40);
+      const total = perBox * boxes;
+      return { text: `${total} bottles are packed into boxes of ${perBox}. How many full boxes are there?`, answer: boxes, op1: total, op2: perBox, operation: 'division' };
+    },
+  },
+  {
+    generate: () => {
+      const length = rand(50, 200), width = rand(30, 100);
+      const perimeter = 2 * (length + width);
+      return { text: `A field is ${length}m long and ${width}m wide. How many metres of fence are needed to go all the way around?`, answer: perimeter, op1: length, op2: width, operation: 'addition' };
+    },
+  },
+  {
+    generate: () => {
+      const monthly = rand(150, 500), months = rand(7, 12), bonus = rand(500, 2000);
+      return { text: `You save $${monthly} per month for ${months} months and get a $${bonus} bonus. How much do you have?`, answer: monthly * months + bonus, op1: monthly, op2: months, operation: 'multiplication' };
+    },
+  },
+];
+
 const templatesByDifficulty: Record<Difficulty, Template[]> = {
   easy: easyTemplates,
   medium: mediumTemplates,
   hard: hardTemplates,
+  'super-hard': superHardTemplates,
 };
 
 export function generateWordProblems(difficulty: Difficulty, count: number = 10): Question[] {

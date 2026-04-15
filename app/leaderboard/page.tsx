@@ -19,12 +19,12 @@ const operations = [
 ];
 
 const difficulties: Record<string, { key: string; label: string }[]> = {
-  addition: [{ key: 'easy', label: 'Easy' }, { key: 'medium', label: 'Medium' }, { key: 'hard', label: 'Hard' }],
-  subtraction: [{ key: 'easy', label: 'Easy' }, { key: 'medium', label: 'Medium' }, { key: 'hard', label: 'Hard' }],
-  multiplication: [{ key: 'easy', label: 'Easy' }, { key: 'medium', label: 'Medium' }, { key: 'hard', label: 'Hard' }, { key: 'mixedx', label: 'Mixed Tables' }],
-  division: [{ key: 'easy', label: 'Easy' }, { key: 'medium', label: 'Medium' }, { key: 'hard', label: 'Hard' }],
-  mixed: [{ key: 'easy', label: 'Easy' }, { key: 'medium', label: 'Medium' }, { key: 'hard', label: 'Hard' }],
-  'word-problems': [{ key: 'easy', label: 'Easy' }, { key: 'medium', label: 'Medium' }, { key: 'hard', label: 'Hard' }],
+  addition: [{ key: 'easy', label: 'Easy' }, { key: 'medium', label: 'Medium' }, { key: 'hard', label: 'Hard' }, { key: 'super-hard', label: 'Super Hard' }],
+  subtraction: [{ key: 'easy', label: 'Easy' }, { key: 'medium', label: 'Medium' }, { key: 'hard', label: 'Hard' }, { key: 'super-hard', label: 'Super Hard' }],
+  multiplication: [{ key: 'easy', label: 'Easy' }, { key: 'medium', label: 'Medium' }, { key: 'hard', label: 'Hard' }, { key: 'super-hard', label: 'Super Hard' }, { key: 'mixedx', label: 'Mixed Tables' }],
+  division: [{ key: 'easy', label: 'Easy' }, { key: 'medium', label: 'Medium' }, { key: 'hard', label: 'Hard' }, { key: 'super-hard', label: 'Super Hard' }],
+  mixed: [{ key: 'easy', label: 'Easy' }, { key: 'medium', label: 'Medium' }, { key: 'hard', label: 'Hard' }, { key: 'super-hard', label: 'Super Hard' }],
+  'word-problems': [{ key: 'easy', label: 'Easy' }, { key: 'medium', label: 'Medium' }, { key: 'hard', label: 'Hard' }, { key: 'super-hard', label: 'Super Hard' }],
 };
 
 interface Entry {
