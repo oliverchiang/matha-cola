@@ -10,7 +10,7 @@ interface DifficultyConfig {
   operand2: Range;
 }
 
-const configs: Record<Exclude<Operation, 'mixed' | 'word-problems'>, Record<Difficulty, DifficultyConfig>> = {
+const configs: Record<Exclude<Operation, 'mixed' | 'word-problems' | 'word-based' | 'make-tens'>, Record<Difficulty, DifficultyConfig>> = {
   addition: {
     easy:         { operand1: { min: 1, max: 10 },    operand2: { min: 1, max: 10 } },
     medium:       { operand1: { min: 10, max: 50 },   operand2: { min: 10, max: 50 } },
@@ -37,7 +37,7 @@ const configs: Record<Exclude<Operation, 'mixed' | 'word-problems'>, Record<Diff
   },
 };
 
-export function getDifficultyConfig(operation: Exclude<Operation, 'mixed' | 'word-problems'>, difficulty: Difficulty): DifficultyConfig {
+export function getDifficultyConfig(operation: Exclude<Operation, 'mixed' | 'word-problems' | 'word-based' | 'make-tens'>, difficulty: Difficulty): DifficultyConfig {
   return configs[operation][difficulty];
 }
 
@@ -69,7 +69,25 @@ export function getDifficultyDescription(operation: Operation, difficulty: Diffi
     }[difficulty];
   }
 
-  const config = configs[operation as Exclude<Operation, 'mixed' | 'word-problems'>][difficulty];
+  if (operation === 'make-tens') {
+    return {
+      easy: 'Blank on the right',
+      medium: 'Blank mostly on the right',
+      hard: 'Blank on either side',
+      'super-hard': 'Any blank, trickier numbers',
+    }[difficulty];
+  }
+
+  if (operation === 'word-based') {
+    return {
+      easy: 'Double and half',
+      medium: 'Triple, quarter, more/less than',
+      hard: 'Times, sums, differences',
+      'super-hard': 'Multi-step verbal problems',
+    }[difficulty];
+  }
+
+  const config = configs[operation as Exclude<Operation, 'mixed' | 'word-problems' | 'word-based' | 'make-tens'>][difficulty];
   const op1 = `${config.operand1.min}-${config.operand1.max}`;
   const op2 = `${config.operand2.min}-${config.operand2.max}`;
   return `Numbers: ${op1} and ${op2}`;

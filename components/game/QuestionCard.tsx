@@ -12,6 +12,20 @@ interface QuestionCardProps {
 
 export default function QuestionCard({ question, userAnswer, feedback }: QuestionCardProps) {
   const isWordProblem = !!question.wordProblem;
+  const isMakeTens = question.operation === 'make-tens';
+
+  const blank = (
+    <div className="min-w-[80px] h-[72px] sm:h-[80px] border-b-4 border-bubble-blue flex items-center justify-center">
+      <motion.span
+        key={userAnswer}
+        initial={{ scale: 1.2 }}
+        animate={{ scale: 1 }}
+        className="text-bubble-blue"
+      >
+        {userAnswer || '?'}
+      </motion.span>
+    </div>
+  );
 
   return (
     <motion.div
@@ -45,6 +59,25 @@ export default function QuestionCard({ question, userAnswer, feedback }: Questio
             </div>
           </div>
         </>
+      ) : isMakeTens ? (
+        /* Make-tens: blank on left or right of the visible operand */
+        <div className="flex items-center justify-center gap-4 text-5xl sm:text-6xl font-bold text-dark">
+          {question.blankPosition === 'left' ? (
+            <>
+              {blank}
+              <span className="text-cola-red">+</span>
+              <span>{question.operand1}</span>
+            </>
+          ) : (
+            <>
+              <span>{question.operand1}</span>
+              <span className="text-cola-red">+</span>
+              {blank}
+            </>
+          )}
+          <span className="text-dark/40">=</span>
+          <span>{question.target}</span>
+        </div>
       ) : (
         /* Standard equation */
         <div className="flex items-center justify-center gap-4 text-5xl sm:text-6xl font-bold text-dark">
@@ -52,16 +85,7 @@ export default function QuestionCard({ question, userAnswer, feedback }: Questio
           <span className="text-cola-red">{getOperationSymbol(question.operation)}</span>
           <span>{question.operand2}</span>
           <span className="text-dark/40">=</span>
-          <div className="min-w-[80px] h-[72px] sm:h-[80px] border-b-4 border-bubble-blue flex items-center justify-center">
-            <motion.span
-              key={userAnswer}
-              initial={{ scale: 1.2 }}
-              animate={{ scale: 1 }}
-              className="text-bubble-blue"
-            >
-              {userAnswer || '?'}
-            </motion.span>
-          </div>
+          {blank}
         </div>
       )}
 

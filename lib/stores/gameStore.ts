@@ -1,6 +1,6 @@
 import { create } from 'zustand';
-import { GamePhase, Operation, Difficulty, TimesTable, MixedRange, Question, AnswerResult } from '@/lib/engine/types';
-import { generateQuestions, generateTimesTableQuestions } from '@/lib/engine/questionGenerator';
+import { GamePhase, Operation, Difficulty, TimesTable, MixedRange, MakeTarget, Question, AnswerResult } from '@/lib/engine/types';
+import { generateQuestions, generateTimesTableQuestions, generateMakeTensQuestions } from '@/lib/engine/questionGenerator';
 import { calculatePoints } from '@/lib/engine/scoring';
 import { ChallengeConfig } from '@/lib/engine/challengeTypes';
 
@@ -10,6 +10,7 @@ interface GameStore {
   difficulty: Difficulty | null;
   timesTable: TimesTable | null;
   mixedRange: MixedRange | null;
+  makeTarget: MakeTarget | null;
   questions: Question[];
   currentQuestionIndex: number;
   results: AnswerResult[];
@@ -25,6 +26,7 @@ interface GameStore {
   setDifficulty: (diff: Difficulty) => void;
   setTimesTable: (table: TimesTable) => void;
   setMixedRange: (range: MixedRange) => void;
+  setMakeTarget: (target: MakeTarget) => void;
   startCountdown: () => void;
   startPlaying: () => void;
   submitAnswer: (userAnswer: number) => void;
@@ -39,6 +41,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   difficulty: null,
   timesTable: null,
   mixedRange: null,
+  makeTarget: null,
   questions: [],
   currentQuestionIndex: 0,
   results: [],
@@ -53,14 +56,22 @@ export const useGameStore = create<GameStore>((set, get) => ({
   setOperation: (operation) => {
     if (operation === 'multiplication') {
       set({ operation, phase: 'selectTimesTable' });
+    } else if (operation === 'make-tens') {
+      set({ operation, phase: 'selectTarget' });
     } else {
       set({ operation, phase: 'selectDifficulty' });
     }
   },
 
   setDifficulty: (difficulty) => {
-    const { operation } = get();
+    const { operation, makeTarget } = get();
     if (!operation) return;
+    if (operation === 'make-tens') {
+      if (!makeTarget) return;
+      const questions = generateMakeTensQuestions(makeTarget, difficulty);
+      set({ difficulty, questions, phase: 'countdown' });
+      return;
+    }
     const questions = generateQuestions(operation, difficulty);
     set({ difficulty, questions, phase: 'countdown' });
   },
@@ -77,6 +88,10 @@ export const useGameStore = create<GameStore>((set, get) => ({
   setMixedRange: (mixedRange) => {
     const questions = generateTimesTableQuestions('mixed', 10, mixedRange);
     set({ mixedRange, questions, phase: 'countdown' });
+  },
+
+  setMakeTarget: (makeTarget) => {
+    set({ makeTarget, phase: 'selectDifficulty' });
   },
 
   startCountdown: () => {
@@ -124,6 +139,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       difficulty: config.difficulty,
       timesTable: config.timesTable,
       mixedRange: config.mixedRange,
+      makeTarget: config.makeTarget ?? null,
       questions,
       currentQuestionIndex: 0,
       results: [],
@@ -144,6 +160,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       difficulty: null,
       timesTable: null,
       mixedRange: null,
+      makeTarget: null,
       questions: [],
       currentQuestionIndex: 0,
       results: [],
@@ -160,8 +177,14 @@ export const useGameStore = create<GameStore>((set, get) => ({
   goBack: () => {
     const { phase, operation, timesTable } = get();
     if (phase === 'selectDifficulty') {
-      set({ phase: 'selectOperation', operation: null });
+      if (operation === 'make-tens') {
+        set({ phase: 'selectTarget', makeTarget: null });
+      } else {
+        set({ phase: 'selectOperation', operation: null });
+      }
     } else if (phase === 'selectTimesTable') {
+      set({ phase: 'selectOperation', operation: null });
+    } else if (phase === 'selectTarget') {
       set({ phase: 'selectOperation', operation: null });
     } else if (phase === 'selectMixedRange') {
       set({ phase: 'selectTimesTable', timesTable: null, mixedRange: null });

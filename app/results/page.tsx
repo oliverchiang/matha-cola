@@ -152,7 +152,13 @@ export default function ResultsPage() {
           <div className="text-sm font-medium text-dark/50 mb-2">Question Review</div>
           <div className="bg-white rounded-2xl shadow-md overflow-hidden divide-y divide-dark/5">
             {store.results.map((result, i) => {
-              const symbol = getOperationSymbol(result.question.operation);
+              const q = result.question;
+              const isMakeTens = q.operation === 'make-tens';
+              const equation = isMakeTens
+                ? (q.blankPosition === 'left'
+                    ? `${q.answer} + ${q.operand1} = ${q.target}`
+                    : `${q.operand1} + ${q.answer} = ${q.target}`)
+                : `${q.operand1} ${getOperationSymbol(q.operation)} ${q.operand2} = ${q.answer}`;
               return (
                 <div
                   key={i}
@@ -167,7 +173,7 @@ export default function ResultsPage() {
                     }
                   </div>
                   <div className="flex-1 font-medium text-dark">
-                    {result.question.operand1} {symbol} {result.question.operand2} = {result.question.answer}
+                    {equation}
                   </div>
                   {!result.correct && (
                     <div className="text-sm text-cola-red/70">

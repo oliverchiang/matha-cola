@@ -1,4 +1,4 @@
-import { Operation, Difficulty, TimesTable, MixedRange, Question } from './types';
+import { Operation, Difficulty, TimesTable, MixedRange, MakeTarget, Question } from './types';
 
 export type ChallengeStatus = 'pending' | 'completed';
 
@@ -7,6 +7,7 @@ export interface ChallengeConfig {
   difficulty: Difficulty | null;
   timesTable: TimesTable | null;
   mixedRange: MixedRange | null;
+  makeTarget?: MakeTarget | null;
 }
 
 export interface ChallengeResult {

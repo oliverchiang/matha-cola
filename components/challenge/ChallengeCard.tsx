@@ -21,9 +21,18 @@ function describeConfig(c: Challenge): string {
       ? 'Mixed Times Tables'
       : `${c.config.timesTable}x Table`;
   }
-  const op = c.config.operation.charAt(0).toUpperCase() + c.config.operation.slice(1);
+  if (c.config.operation === 'make-tens' && c.config.makeTarget) {
+    const t = c.config.makeTarget === 'mixed' ? 'Mixed' : `${c.config.makeTarget}s`;
+    const diff = c.config.difficulty ? ` (${c.config.difficulty})` : '';
+    return `Make ${t}${diff}`;
+  }
+  const opLabel = c.config.operation === 'word-based'
+    ? 'Word Math'
+    : c.config.operation === 'word-problems'
+      ? 'Word Problems'
+      : c.config.operation.charAt(0).toUpperCase() + c.config.operation.slice(1);
   const diff = c.config.difficulty ? ` (${c.config.difficulty})` : '';
-  return `${op}${diff}`;
+  return `${opLabel}${diff}`;
 }
 
 export default function ChallengeCard({ challenge, currentProfileId, onAccept, onView, index }: ChallengeCardProps) {

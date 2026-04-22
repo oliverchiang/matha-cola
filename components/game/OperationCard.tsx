@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { Operation } from '@/lib/engine/types';
-import { Plus, Minus, X, Divide, Sparkles, BookOpen } from 'lucide-react';
+import { Plus, Minus, X, Divide, Sparkles, BookOpen, Target, MessageCircle } from 'lucide-react';
 import { sounds } from '@/lib/sounds';
 
 interface OperationCardProps {
@@ -18,6 +18,8 @@ const operationConfig: Record<Operation, { label: string; color: string; bg: str
   division:       { label: 'Division',       color: 'text-white', bg: 'bg-op-division',       icon: Divide },
   mixed:            { label: 'Mixed',          color: 'text-white', bg: 'bg-cola-red',           icon: Sparkles },
   'word-problems':  { label: 'Word Problems',  color: 'text-white', bg: 'bg-op-division',       icon: BookOpen },
+  'make-tens':      { label: 'Make Tens',      color: 'text-white', bg: 'bg-bubble-blue',        icon: Target },
+  'word-based':     { label: 'Word Math',      color: 'text-white', bg: 'bg-op-multiplication',  icon: MessageCircle },
 };
 
 export default function OperationCard({ operation, onClick, index }: OperationCardProps) {

@@ -1,13 +1,14 @@
-import { Question, Operation, Difficulty, TimesTable, MixedRange } from './types';
+import { Question, Operation, Difficulty, TimesTable, MixedRange, MakeTarget } from './types';
 import { getDifficultyConfig } from './difficulty';
 import { generateWordProblems } from './wordProblemGenerator';
+import { generateWordBasedQuestions } from './wordBasedGenerator';
 
 function randomInt(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function generateSingleQuestion(
-  operation: Exclude<Operation, 'mixed' | 'word-problems'>,
+  operation: Exclude<Operation, 'mixed' | 'word-problems' | 'word-based' | 'make-tens'>,
   difficulty: Difficulty,
   id: number
 ): Question {
@@ -40,18 +41,22 @@ function generateSingleQuestion(
   }
 }
 
-const singleOperations: Exclude<Operation, 'mixed' | 'word-problems'>[] = ['addition', 'subtraction', 'multiplication', 'division'];
+const singleOperations: Exclude<Operation, 'mixed' | 'word-problems' | 'word-based' | 'make-tens'>[] = ['addition', 'subtraction', 'multiplication', 'division'];
 
 export function generateQuestions(operation: Operation, difficulty: Difficulty, count: number = 10): Question[] {
   if (operation === 'word-problems') {
     return generateWordProblems(difficulty, count);
   }
 
+  if (operation === 'word-based') {
+    return generateWordBasedQuestions(difficulty, count);
+  }
+
   const questions: Question[] = [];
 
   if (operation === 'mixed') {
     // Guarantee at least 2 of each, remaining are random
-    const ops: Exclude<Operation, 'mixed' | 'word-problems'>[] = [];
+    const ops: Exclude<Operation, 'mixed' | 'word-problems' | 'word-based' | 'make-tens'>[] = [];
     for (const op of singleOperations) {
       ops.push(op, op);
     }
@@ -67,7 +72,7 @@ export function generateQuestions(operation: Operation, difficulty: Difficulty, 
       questions.push(generateSingleQuestion(ops[i], difficulty, i));
     }
   } else {
-    const op = operation as Exclude<Operation, 'mixed' | 'word-problems'>;
+    const op = operation as Exclude<Operation, 'mixed' | 'word-problems' | 'word-based' | 'make-tens'>;
     for (let i = 0; i < count; i++) {
       questions.push(generateSingleQuestion(op, difficulty, i));
     }
@@ -120,11 +125,53 @@ export function generateTimesTableQuestions(timesTable: TimesTable, count: numbe
   return questions;
 }
 
-export function getOperationSymbol(operation: Exclude<Operation, 'mixed' | 'word-problems'>): string {
+export function getOperationSymbol(operation: Question['operation']): string {
   switch (operation) {
     case 'addition': return '+';
     case 'subtraction': return '-';
     case 'multiplication': return '\u00d7';
     case 'division': return '\u00f7';
+    case 'make-tens': return '+';
   }
+}
+
+const MAKE_TARGETS: number[] = [10, 20, 30, 40, 50];
+
+function resolveMakeTarget(selected: MakeTarget): number {
+  if (selected === 'mixed') {
+    return MAKE_TARGETS[Math.floor(Math.random() * MAKE_TARGETS.length)];
+  }
+  return selected;
+}
+
+export function generateMakeTensQuestions(target: MakeTarget, difficulty: Difficulty, count: number = 10): Question[] {
+  const questions: Question[] = [];
+
+  for (let i = 0; i < count; i++) {
+    const t = resolveMakeTarget(target);
+
+    // Operand range: always 1..t-1 so the missing addend is positive
+    const operand1 = randomInt(1, t - 1);
+    const missing = t - operand1;
+
+    // Blank position by difficulty:
+    //   easy: always right-blank
+    //   medium: mostly right, occasional left (~30%)
+    //   hard/super-hard: roughly even split
+    let blankPosition: 'left' | 'right' = 'right';
+    if (difficulty === 'medium' && Math.random() < 0.3) blankPosition = 'left';
+    if ((difficulty === 'hard' || difficulty === 'super-hard') && Math.random() < 0.5) blankPosition = 'left';
+
+    questions.push({
+      id: i,
+      operand1,         // the visible operand
+      operand2: missing, // the answer (shown as the blank)
+      operation: 'make-tens',
+      answer: missing,
+      target: t,
+      blankPosition,
+    });
+  }
+
+  return questions;
 }

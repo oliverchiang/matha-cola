@@ -60,6 +60,22 @@ export function getCapsPerCorrect(
     return 3;
   }
 
+  // Make-tens: inverse thinking, slightly higher than base addition
+  if (operation === 'make-tens') {
+    if (difficulty === 'super-hard') return 35;
+    if (difficulty === 'hard') return 6;
+    if (difficulty === 'medium') return 3;
+    return 1;
+  }
+
+  // Word-based: verbal operators, similar to word problems but slightly lower
+  if (operation === 'word-based') {
+    if (difficulty === 'super-hard') return 40;
+    if (difficulty === 'hard') return 7;
+    if (difficulty === 'medium') return 4;
+    return 2;
+  }
+
   // Difficulty-based path
   if (difficulty === 'super-hard') return 30;
   if (difficulty === 'hard') return 5;

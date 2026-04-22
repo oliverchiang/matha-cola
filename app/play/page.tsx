@@ -11,10 +11,11 @@ import { ChallengeConfig } from '@/lib/engine/challengeTypes';
 import ChallengePickerModal from '@/components/challenge/ChallengePickerModal';
 import { getStarCount, getEncouragingMessage, getCapsPerCorrect } from '@/lib/engine/scoring';
 import { getOperationSymbol } from '@/lib/engine/questionGenerator';
-import { Operation, Difficulty, TimesTable } from '@/lib/engine/types';
+import { Operation, Difficulty, TimesTable, MakeTarget } from '@/lib/engine/types';
 import OperationCard from '@/components/game/OperationCard';
 import DifficultyCard from '@/components/game/DifficultyCard';
 import TimesTableCard from '@/components/game/TimesTableCard';
+import MakeTargetCard from '@/components/game/MakeTargetCard';
 import MixedRangeSelector from '@/components/game/MixedRangeSelector';
 import CountdownOverlay from '@/components/game/CountdownOverlay';
 import ProgressBar from '@/components/game/ProgressBar';
@@ -30,9 +31,10 @@ import BubbleBackground from '@/components/shared/BubbleBackground';
 import confetti from 'canvas-confetti';
 import { sounds } from '@/lib/sounds';
 
-const operations: Operation[] = ['addition', 'subtraction', 'multiplication', 'division', 'mixed', 'word-problems'];
+const operations: Operation[] = ['addition', 'subtraction', 'multiplication', 'division', 'mixed', 'word-problems', 'make-tens', 'word-based'];
 const difficulties: Difficulty[] = ['easy', 'medium', 'hard', 'super-hard'];
 const timesTables: TimesTable[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 'mixed'];
+const makeTargets: MakeTarget[] = [10, 20, 30, 40, 50, 'mixed'];
 
 export default function PlayPage() {
   const router = useRouter();
@@ -89,7 +91,9 @@ export default function PlayPage() {
 
     const key = store.timesTable
       ? `multiplication_${store.timesTable}x`
-      : `${store.operation}_${store.difficulty}`;
+      : store.makeTarget
+        ? `make-tens_${store.makeTarget}_${store.difficulty}`
+        : `${store.operation}_${store.difficulty}`;
     const correct = store.results.filter(r => r.correct).length;
 
     (async () => {
@@ -128,7 +132,7 @@ export default function PlayPage() {
         await profileStore.refreshProfile(profile.id);
       }
     })();
-  }, [store.phase, store.operation, store.difficulty, store.timesTable, store.score, store.results, store.activeChallengeId, profileStore, challengeStore, profile]);
+  }, [store.phase, store.operation, store.difficulty, store.timesTable, store.makeTarget, store.score, store.results, store.activeChallengeId, profileStore, challengeStore, profile]);
 
   // Celebration confetti when finished
   useEffect(() => {
@@ -357,7 +361,13 @@ export default function PlayPage() {
             <div className="text-sm font-medium text-dark/50 mb-2">Question Review</div>
             <div className="bg-white rounded-2xl shadow-md overflow-hidden divide-y divide-dark/5">
               {store.results.map((result, i) => {
-                const symbol = getOperationSymbol(result.question.operation);
+                const q = result.question;
+                const isMakeTens = q.operation === 'make-tens';
+                const equation = isMakeTens
+                  ? (q.blankPosition === 'left'
+                      ? `${q.answer} + ${q.operand1} = ${q.target}`
+                      : `${q.operand1} + ${q.answer} = ${q.target}`)
+                  : `${q.operand1} ${getOperationSymbol(q.operation)} ${q.operand2} = ${q.answer}`;
                 return (
                   <div
                     key={i}
@@ -372,7 +382,7 @@ export default function PlayPage() {
                       }
                     </div>
                     <div className="flex-1 font-medium text-dark">
-                      {result.question.operand1} {symbol} {result.question.operand2} = {result.question.answer}
+                      {equation}
                     </div>
                     {!result.correct && (
                       <div className="text-sm text-cola-red/70">
@@ -454,6 +464,7 @@ export default function PlayPage() {
                 difficulty: store.difficulty,
                 timesTable: store.timesTable,
                 mixedRange: store.mixedRange,
+                makeTarget: store.makeTarget,
               };
               const correct = store.results.filter(r => r.correct).length;
               challengeStore.createChallenge({
@@ -524,12 +535,58 @@ export default function PlayPage() {
                 ))}
               </div>
               <div className="grid grid-cols-2 gap-4 w-full">
-                {operations.slice(4).map((op, i) => (
+                {operations.slice(4, 6).map((op, i) => (
                   <OperationCard
                     key={op}
                     operation={op}
                     onClick={() => store.setOperation(op)}
                     index={4 + i}
+                  />
+                ))}
+              </div>
+              <div className="grid grid-cols-2 gap-4 w-full">
+                {operations.slice(6).map((op, i) => (
+                  <OperationCard
+                    key={op}
+                    operation={op}
+                    onClick={() => store.setOperation(op)}
+                    index={6 + i}
+                  />
+                ))}
+              </div>
+            </motion.div>
+          )}
+
+          {store.phase === 'selectTarget' && (
+            <motion.div
+              key="target"
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -50 }}
+              className="w-full flex flex-col items-center gap-6"
+            >
+              <motion.button
+                onClick={() => store.goBack()}
+                whileTap={{ scale: 0.9 }}
+                className="self-start flex items-center gap-1 text-dark/50 hover:text-dark/80 font-medium cursor-pointer"
+              >
+                <ArrowLeft size={20} /> Back
+              </motion.button>
+
+              <h2 className="text-3xl sm:text-4xl font-bold text-dark text-center">
+                Pick Your <span className="text-bubble-blue">Target!</span>
+              </h2>
+              <p className="text-dark/60 text-center -mt-2">
+                Find the missing number that makes the total
+              </p>
+
+              <div className="grid grid-cols-3 gap-3 w-full">
+                {makeTargets.map((t, i) => (
+                  <MakeTargetCard
+                    key={String(t)}
+                    target={t}
+                    onClick={() => store.setMakeTarget(t)}
+                    index={i}
                   />
                 ))}
               </div>
