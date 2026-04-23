@@ -36,7 +36,12 @@ export default function ObfuscatedNumber({
   const base = seedToNumber(seed);
 
   return (
-    <span className={className} aria-label={str} role="img">
+    <span
+      className={className}
+      aria-label={str}
+      role="img"
+      style={{ whiteSpace: 'nowrap' }}
+    >
       {[...str].map((ch, i) => {
         const s = base + i * 7.13;
         const rotate = (rand(s) - 0.5) * 18; // ±9deg
