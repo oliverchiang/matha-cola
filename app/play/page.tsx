@@ -9,7 +9,7 @@ import { useProfileStore } from '@/lib/stores/profileStore';
 import { useChallengeStore } from '@/lib/stores/challengeStore';
 import { ChallengeConfig } from '@/lib/engine/challengeTypes';
 import ChallengePickerModal from '@/components/challenge/ChallengePickerModal';
-import { getStarCount, getEncouragingMessage, getCapsPerCorrect } from '@/lib/engine/scoring';
+import { getStarCount, getEncouragingMessage, getCapsPerCorrect, getQuestionTimeLimitMs } from '@/lib/engine/scoring';
 import { getOperationSymbol } from '@/lib/engine/questionGenerator';
 import { Operation, Difficulty, TimesTable, MakeTarget } from '@/lib/engine/types';
 import OperationCard from '@/components/game/OperationCard';
@@ -21,6 +21,7 @@ import CountdownOverlay from '@/components/game/CountdownOverlay';
 import ProgressBar from '@/components/game/ProgressBar';
 import StreakCounter from '@/components/game/StreakCounter';
 import QuestionCard from '@/components/game/QuestionCard';
+import QuestionTimer from '@/components/game/QuestionTimer';
 import NumberPad from '@/components/game/NumberPad';
 import GameTimer, { formatTime } from '@/components/game/GameTimer';
 import AvatarRenderer from '@/components/avatar/AvatarRenderer';
@@ -92,7 +93,7 @@ export default function PlayPage() {
     const key = store.timesTable
       ? `multiplication_${store.timesTable}x`
       : store.makeTarget
-        ? `make-tens_${store.makeTarget}_${store.difficulty}`
+        ? `make-tens_${store.makeTarget}`
         : `${store.operation}_${store.difficulty}`;
     const correct = store.results.filter(r => r.correct).length;
 
@@ -199,6 +200,39 @@ export default function PlayPage() {
       setFeedback(null);
     }, correct ? 800 : 1500);
   }, [feedback, store, profileStore]);
+
+  // Forfeit the current question (timeout or tab-switch). Counted as wrong,
+  // streak resets, no caps awarded — same outcome as a wrong answer but with
+  // a null userAnswer so the review screen can show "Time ran out" / similar.
+  const forceWrong = useCallback(() => {
+    if (store.phase !== 'playing') return;
+    if (feedback) return;
+    setFeedback('wrong');
+    sounds.wrong();
+    if (feedbackTimeout.current) clearTimeout(feedbackTimeout.current);
+    feedbackTimeout.current = setTimeout(() => {
+      store.submitAnswer(null);
+      setUserAnswer('');
+      setFeedback(null);
+    }, 1500);
+  }, [feedback, store]);
+
+  // If the tab is hidden mid-question (screenshot → Google Lens, app swap to
+  // ChatGPT, etc.), forfeit the current question.
+  useEffect(() => {
+    if (store.phase !== 'playing') return;
+    const onVisibility = () => {
+      if (document.visibilityState === 'hidden') forceWrong();
+    };
+    document.addEventListener('visibilitychange', onVisibility);
+    return () => document.removeEventListener('visibilitychange', onVisibility);
+  }, [store.phase, forceWrong]);
+
+  const questionTimeLimit = getQuestionTimeLimitMs(
+    store.operation,
+    store.difficulty,
+    store.timesTable,
+  );
 
   // Keyboard input
   useEffect(() => {
@@ -386,7 +420,9 @@ export default function PlayPage() {
                     </div>
                     {!result.correct && (
                       <div className="text-sm text-cola-red/70">
-                        You said {result.userAnswer}
+                        {result.userAnswer === null
+                          ? 'Time ran out'
+                          : `You said ${result.userAnswer}`}
                       </div>
                     )}
                   </div>
@@ -698,6 +734,13 @@ export default function PlayPage() {
                 </div>
                 <GameTimer startTime={store.gameStartTime} />
               </div>
+
+              <QuestionTimer
+                durationMs={questionTimeLimit}
+                resetKey={store.questions[store.currentQuestionIndex]?.id ?? store.currentQuestionIndex}
+                paused={!!feedback}
+                onTimeout={forceWrong}
+              />
 
               {/* Bottle cap earned animation */}
               <AnimatePresence>

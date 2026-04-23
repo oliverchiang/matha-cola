@@ -61,12 +61,7 @@ export function getCapsPerCorrect(
   }
 
   // Make-tens: inverse thinking, slightly higher than base addition
-  if (operation === 'make-tens') {
-    if (difficulty === 'super-hard') return 35;
-    if (difficulty === 'hard') return 6;
-    if (difficulty === 'medium') return 3;
-    return 1;
-  }
+  if (operation === 'make-tens') return 3;
 
   // Word-based: verbal operators, similar to word problems but slightly lower
   if (operation === 'word-based') {
@@ -85,6 +80,38 @@ export function getCapsPerCorrect(
   // Mixed operation gets a bump even on easy
   if (operation === 'mixed') return 2;
   return 1;
+}
+
+/**
+ * Per-question time limit in ms. Tight enough that a round-trip through
+ * Google Lens / ChatGPT is not realistic, generous enough that a kid who
+ * knows the answer has time to type it.
+ */
+export function getQuestionTimeLimitMs(
+  operation: Operation | null,
+  difficulty: Difficulty | null,
+  timesTable: TimesTable | null,
+): number {
+  if (operation === 'word-problems' || operation === 'word-based') {
+    if (difficulty === 'super-hard') return 25000;
+    if (difficulty === 'hard') return 20000;
+    if (difficulty === 'medium') return 16000;
+    return 15000;
+  }
+  if (operation === 'make-tens') return 10000;
+  if (operation === 'multiplication' && timesTable !== null) {
+    if (timesTable === 'mixed') return 8000;
+    const t = timesTable as number;
+    if (t <= 5) return 9000;
+    return 8000;
+  }
+  switch (difficulty) {
+    case 'easy': return 10000;
+    case 'medium': return 8000;
+    case 'hard': return 7000;
+    case 'super-hard': return 6000;
+    default: return 10000;
+  }
 }
 
 export function getEncouragingMessage(score: number, correct: number, total: number): string {

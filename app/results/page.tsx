@@ -177,7 +177,9 @@ export default function ResultsPage() {
                   </div>
                   {!result.correct && (
                     <div className="text-sm text-cola-red/70">
-                      You said {result.userAnswer}
+                      {result.userAnswer === null
+                        ? 'Time ran out'
+                        : `You said ${result.userAnswer}`}
                     </div>
                   )}
                 </div>

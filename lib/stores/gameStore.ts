@@ -29,7 +29,7 @@ interface GameStore {
   setMakeTarget: (target: MakeTarget) => void;
   startCountdown: () => void;
   startPlaying: () => void;
-  submitAnswer: (userAnswer: number) => void;
+  submitAnswer: (userAnswer: number | null) => void;
   startFromChallenge: (config: ChallengeConfig, challengeId: string, questions: Question[]) => void;
   reset: () => void;
   goBack: () => void;
@@ -64,14 +64,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
   },
 
   setDifficulty: (difficulty) => {
-    const { operation, makeTarget } = get();
+    const { operation } = get();
     if (!operation) return;
-    if (operation === 'make-tens') {
-      if (!makeTarget) return;
-      const questions = generateMakeTensQuestions(makeTarget, difficulty);
-      set({ difficulty, questions, phase: 'countdown' });
-      return;
-    }
     const questions = generateQuestions(operation, difficulty);
     set({ difficulty, questions, phase: 'countdown' });
   },
@@ -91,7 +85,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
   },
 
   setMakeTarget: (makeTarget) => {
-    set({ makeTarget, phase: 'selectDifficulty' });
+    const questions = generateMakeTensQuestions(makeTarget);
+    set({ makeTarget, questions, phase: 'countdown' });
   },
 
   startCountdown: () => {
@@ -106,7 +101,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const { questions, currentQuestionIndex, results, score, streak, bestStreak, questionStartTime } = get();
     const question = questions[currentQuestionIndex];
     const timeMs = Date.now() - questionStartTime;
-    const correct = userAnswer === question.answer;
+    const correct = userAnswer !== null && userAnswer === question.answer;
     const newStreak = correct ? streak + 1 : 0;
     const points = calculatePoints(correct, timeMs, streak);
 
@@ -177,11 +172,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   goBack: () => {
     const { phase, operation, timesTable } = get();
     if (phase === 'selectDifficulty') {
-      if (operation === 'make-tens') {
-        set({ phase: 'selectTarget', makeTarget: null });
-      } else {
-        set({ phase: 'selectOperation', operation: null });
-      }
+      set({ phase: 'selectOperation', operation: null });
     } else if (phase === 'selectTimesTable') {
       set({ phase: 'selectOperation', operation: null });
     } else if (phase === 'selectTarget') {
@@ -195,6 +186,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
         } else {
           set({ phase: 'selectTimesTable', timesTable: null, questions: [] });
         }
+      } else if (operation === 'make-tens') {
+        set({ phase: 'selectTarget', makeTarget: null, questions: [] });
       } else {
         set({ phase: 'selectDifficulty', difficulty: null, questions: [] });
       }

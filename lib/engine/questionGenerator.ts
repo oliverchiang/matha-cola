@@ -144,7 +144,7 @@ function resolveMakeTarget(selected: MakeTarget): number {
   return selected;
 }
 
-export function generateMakeTensQuestions(target: MakeTarget, difficulty: Difficulty, count: number = 10): Question[] {
+export function generateMakeTensQuestions(target: MakeTarget, count: number = 10): Question[] {
   const questions: Question[] = [];
 
   for (let i = 0; i < count; i++) {
@@ -154,13 +154,8 @@ export function generateMakeTensQuestions(target: MakeTarget, difficulty: Diffic
     const operand1 = randomInt(1, t - 1);
     const missing = t - operand1;
 
-    // Blank position by difficulty:
-    //   easy: always right-blank
-    //   medium: mostly right, occasional left (~30%)
-    //   hard/super-hard: roughly even split
-    let blankPosition: 'left' | 'right' = 'right';
-    if (difficulty === 'medium' && Math.random() < 0.3) blankPosition = 'left';
-    if ((difficulty === 'hard' || difficulty === 'super-hard') && Math.random() < 0.5) blankPosition = 'left';
+    // Blank position: roughly even split between left and right for variety.
+    const blankPosition: 'left' | 'right' = Math.random() < 0.5 ? 'left' : 'right';
 
     questions.push({
       id: i,
