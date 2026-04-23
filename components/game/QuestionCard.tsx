@@ -3,7 +3,6 @@
 import { motion } from 'framer-motion';
 import { Question } from '@/lib/engine/types';
 import { getOperationSymbol } from '@/lib/engine/questionGenerator';
-import ObfuscatedNumber from './ObfuscatedNumber';
 
 interface QuestionCardProps {
   question: Question;
@@ -67,24 +66,24 @@ export default function QuestionCard({ question, userAnswer, feedback }: Questio
             <>
               {blank}
               <span className="text-cola-red">+</span>
-              <ObfuscatedNumber value={question.operand1} seed={`${question.id}-a`} />
+              <span>{question.operand1}</span>
             </>
           ) : (
             <>
-              <ObfuscatedNumber value={question.operand1} seed={`${question.id}-a`} />
+              <span>{question.operand1}</span>
               <span className="text-cola-red">+</span>
               {blank}
             </>
           )}
           <span className="text-dark/40">=</span>
-          <ObfuscatedNumber value={question.target ?? 0} seed={`${question.id}-t`} />
+          <span>{question.target ?? 0}</span>
         </div>
       ) : (
         /* Standard equation */
         <div className="flex items-center justify-center gap-4 text-5xl sm:text-6xl font-bold text-dark">
-          <ObfuscatedNumber value={question.operand1} seed={`${question.id}-a`} />
+          <span>{question.operand1}</span>
           <span className="text-cola-red">{getOperationSymbol(question.operation)}</span>
-          <ObfuscatedNumber value={question.operand2} seed={`${question.id}-b`} />
+          <span>{question.operand2}</span>
           <span className="text-dark/40">=</span>
           {blank}
         </div>
