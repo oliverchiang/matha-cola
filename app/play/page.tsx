@@ -9,7 +9,7 @@ import { useProfileStore } from '@/lib/stores/profileStore';
 import { useChallengeStore } from '@/lib/stores/challengeStore';
 import { ChallengeConfig } from '@/lib/engine/challengeTypes';
 import ChallengePickerModal from '@/components/challenge/ChallengePickerModal';
-import { getStarCount, getEncouragingMessage, getCapsPerCorrect, getQuestionTimeLimitMs } from '@/lib/engine/scoring';
+import { getStarCount, getEncouragingMessage, getCapsPerCorrect } from '@/lib/engine/scoring';
 import { getOperationSymbol } from '@/lib/engine/questionGenerator';
 import { Operation, Difficulty, TimesTable, MakeTarget } from '@/lib/engine/types';
 import OperationCard from '@/components/game/OperationCard';
@@ -21,7 +21,6 @@ import CountdownOverlay from '@/components/game/CountdownOverlay';
 import ProgressBar from '@/components/game/ProgressBar';
 import StreakCounter from '@/components/game/StreakCounter';
 import QuestionCard from '@/components/game/QuestionCard';
-import QuestionTimer from '@/components/game/QuestionTimer';
 import NumberPad from '@/components/game/NumberPad';
 import GameTimer, { formatTime } from '@/components/game/GameTimer';
 import AvatarRenderer from '@/components/avatar/AvatarRenderer';
@@ -227,12 +226,6 @@ export default function PlayPage() {
     document.addEventListener('visibilitychange', onVisibility);
     return () => document.removeEventListener('visibilitychange', onVisibility);
   }, [store.phase, forceWrong]);
-
-  const questionTimeLimit = getQuestionTimeLimitMs(
-    store.operation,
-    store.difficulty,
-    store.timesTable,
-  );
 
   // Keyboard input
   useEffect(() => {
@@ -734,13 +727,6 @@ export default function PlayPage() {
                 </div>
                 <GameTimer startTime={store.gameStartTime} />
               </div>
-
-              <QuestionTimer
-                durationMs={questionTimeLimit}
-                resetKey={store.questions[store.currentQuestionIndex]?.id ?? store.currentQuestionIndex}
-                paused={!!feedback}
-                onTimeout={forceWrong}
-              />
 
               {/* Bottle cap earned animation */}
               <AnimatePresence>
