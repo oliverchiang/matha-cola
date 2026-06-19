@@ -54,7 +54,7 @@ export function getCapsPerCorrect(
 
   // Word problems get extra reward since they're harder
   if (operation === 'word-problems') {
-    if (difficulty === 'ultra-hard') return 70;
+    if (difficulty === 'ultra-hard') return 110;
     if (difficulty === 'super-hard') return 45;
     if (difficulty === 'hard') return 8;
     if (difficulty === 'medium') return 4;
@@ -66,7 +66,7 @@ export function getCapsPerCorrect(
 
   // Word-based: verbal operators, similar to word problems but slightly lower
   if (operation === 'word-based') {
-    if (difficulty === 'ultra-hard') return 60;
+    if (difficulty === 'ultra-hard') return 90;
     if (difficulty === 'super-hard') return 40;
     if (difficulty === 'hard') return 7;
     if (difficulty === 'medium') return 4;
@@ -74,7 +74,7 @@ export function getCapsPerCorrect(
   }
 
   // Difficulty-based path
-  if (difficulty === 'ultra-hard') return 50;
+  if (difficulty === 'ultra-hard') return 80;
   if (difficulty === 'super-hard') return 30;
   if (difficulty === 'hard') return 5;
   if (difficulty === 'medium') return 2;
