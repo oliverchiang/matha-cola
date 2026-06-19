@@ -16,6 +16,8 @@ const operations = [
   { key: 'division', label: 'Division' },
   { key: 'mixed', label: 'Mixed' },
   { key: 'word-problems', label: 'Word Problems' },
+  { key: 'word-based', label: 'Word Math' },
+  { key: 'make-tens', label: 'Make Tens' },
 ];
 
 const standardDifficulties = [
@@ -35,6 +37,17 @@ const difficulties: Record<string, { key: string; label: string }[]> = {
   division: standardDifficulties,
   mixed: standardDifficulties,
   'word-problems': standardDifficulties,
+  'word-based': standardDifficulties,
+  // Make Tens is ranked by target total, not difficulty. The category key is
+  // `make-tens_<target>`, so these keys must match the save keys exactly.
+  'make-tens': [
+    { key: '10', label: '10' },
+    { key: '20', label: '20' },
+    { key: '30', label: '30' },
+    { key: '40', label: '40' },
+    { key: '50', label: '50' },
+    { key: 'mixed', label: 'Mixed' },
+  ],
 };
 
 interface Entry {
