@@ -78,6 +78,17 @@ export default function QuestionCard({ question, userAnswer, feedback }: Questio
           <span className="text-dark/40">=</span>
           <span>{question.target ?? 0}</span>
         </div>
+      ) : question.operand3 !== undefined ? (
+        /* Three-operand equation (ultra-hard) — smaller font + wrap so big numbers fit */
+        <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-3xl sm:text-4xl font-bold text-dark">
+          <span>{question.operand1}</span>
+          <span className="text-cola-red">{getOperationSymbol(question.operation)}</span>
+          <span>{question.operand2}</span>
+          <span className="text-cola-red">{getOperationSymbol(question.operation)}</span>
+          <span>{question.operand3}</span>
+          <span className="text-dark/40">=</span>
+          {blank}
+        </div>
       ) : (
         /* Standard equation */
         <div className="flex items-center justify-center gap-4 text-5xl sm:text-6xl font-bold text-dark">

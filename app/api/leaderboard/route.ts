@@ -39,6 +39,12 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Missing fields' }, { status: 400 });
   }
 
+  // Anti-cheat: a full game in under 20s is not humanly possible. Silently
+  // drop the submission so cheats never reach the leaderboard.
+  if (timeMs < 20000) {
+    return NextResponse.json({ skipped: true });
+  }
+
   const id = crypto.randomUUID();
   await sql`
     INSERT INTO leaderboard_entries (id, profile_id, profile_name, avatar, category, score, time_ms)

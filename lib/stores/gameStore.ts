@@ -24,6 +24,8 @@ interface GameStore {
 
   setOperation: (op: Operation) => void;
   setDifficulty: (diff: Difficulty) => void;
+  startMultiplicationDifficultyMode: () => void;
+  playAgain: () => void;
   setTimesTable: (table: TimesTable) => void;
   setMixedRange: (range: MixedRange) => void;
   setMakeTarget: (target: MakeTarget) => void;
@@ -68,6 +70,40 @@ export const useGameStore = create<GameStore>((set, get) => ({
     if (!operation) return;
     const questions = generateQuestions(operation, difficulty);
     set({ difficulty, questions, phase: 'countdown' });
+  },
+
+  // Multiplication "Mixed Difficulty" mode: play by difficulty instead of a
+  // specific times table. Leaves timesTable null so the score is saved under
+  // `multiplication_<difficulty>`.
+  startMultiplicationDifficultyMode: () => {
+    set({ phase: 'selectDifficulty', timesTable: null, mixedRange: null });
+  },
+
+  // Replay the current mode with fresh questions. Always a solo game (any
+  // active challenge is cleared).
+  playAgain: () => {
+    const { operation, difficulty, timesTable, mixedRange, makeTarget } = get();
+    let questions: Question[] = [];
+    if (timesTable) {
+      questions = generateTimesTableQuestions(timesTable, 10, mixedRange ?? undefined);
+    } else if (makeTarget) {
+      questions = generateMakeTensQuestions(makeTarget);
+    } else if (operation && difficulty) {
+      questions = generateQuestions(operation, difficulty);
+    }
+    set({
+      phase: 'countdown',
+      questions,
+      currentQuestionIndex: 0,
+      results: [],
+      score: 0,
+      streak: 0,
+      bestStreak: 0,
+      questionStartTime: 0,
+      gameStartTime: 0,
+      gameEndTime: 0,
+      activeChallengeId: null,
+    });
   },
 
   setTimesTable: (timesTable) => {
@@ -172,7 +208,12 @@ export const useGameStore = create<GameStore>((set, get) => ({
   goBack: () => {
     const { phase, operation, timesTable } = get();
     if (phase === 'selectDifficulty') {
-      set({ phase: 'selectOperation', operation: null });
+      // Multiplication's difficulty screen is reached via the times-table screen.
+      if (operation === 'multiplication') {
+        set({ phase: 'selectTimesTable', difficulty: null });
+      } else {
+        set({ phase: 'selectOperation', operation: null });
+      }
     } else if (phase === 'selectTimesTable') {
       set({ phase: 'selectOperation', operation: null });
     } else if (phase === 'selectTarget') {
@@ -183,6 +224,9 @@ export const useGameStore = create<GameStore>((set, get) => ({
       if (operation === 'multiplication') {
         if (timesTable === 'mixed') {
           set({ phase: 'selectMixedRange', questions: [] });
+        } else if (timesTable === null) {
+          // Mixed Difficulty mode
+          set({ phase: 'selectDifficulty', difficulty: null, questions: [] });
         } else {
           set({ phase: 'selectTimesTable', timesTable: null, questions: [] });
         }

@@ -18,13 +18,23 @@ const operations = [
   { key: 'word-problems', label: 'Word Problems' },
 ];
 
+const standardDifficulties = [
+  { key: 'easy', label: 'Easy' },
+  { key: 'medium', label: 'Medium' },
+  { key: 'hard', label: 'Hard' },
+  { key: 'super-hard', label: 'Super Hard' },
+  { key: 'ultra-hard', label: 'Ultra Hard' },
+];
+
 const difficulties: Record<string, { key: string; label: string }[]> = {
-  addition: [{ key: 'easy', label: 'Easy' }, { key: 'medium', label: 'Medium' }, { key: 'hard', label: 'Hard' }, { key: 'super-hard', label: 'Super Hard' }],
-  subtraction: [{ key: 'easy', label: 'Easy' }, { key: 'medium', label: 'Medium' }, { key: 'hard', label: 'Hard' }, { key: 'super-hard', label: 'Super Hard' }],
-  multiplication: [{ key: 'easy', label: 'Easy' }, { key: 'medium', label: 'Medium' }, { key: 'hard', label: 'Hard' }, { key: 'super-hard', label: 'Super Hard' }, { key: 'mixedx', label: 'Mixed Tables' }],
-  division: [{ key: 'easy', label: 'Easy' }, { key: 'medium', label: 'Medium' }, { key: 'hard', label: 'Hard' }, { key: 'super-hard', label: 'Super Hard' }],
-  mixed: [{ key: 'easy', label: 'Easy' }, { key: 'medium', label: 'Medium' }, { key: 'hard', label: 'Hard' }, { key: 'super-hard', label: 'Super Hard' }],
-  'word-problems': [{ key: 'easy', label: 'Easy' }, { key: 'medium', label: 'Medium' }, { key: 'hard', label: 'Hard' }, { key: 'super-hard', label: 'Super Hard' }],
+  addition: standardDifficulties,
+  subtraction: standardDifficulties,
+  // Multiplication is ranked by difficulty (Mixed Difficulty mode); per-times-table
+  // scores live on the personal Scores page, not the leaderboard.
+  multiplication: standardDifficulties,
+  division: standardDifficulties,
+  mixed: standardDifficulties,
+  'word-problems': standardDifficulties,
 };
 
 interface Entry {

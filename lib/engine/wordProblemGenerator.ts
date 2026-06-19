@@ -289,11 +289,66 @@ const superHardTemplates: Template[] = [
   },
 ];
 
+// ==================== ULTRA HARD (multi-step, big numbers) ====================
+const ultraHardTemplates: Template[] = [
+  {
+    generate: () => {
+      const price = rand(1200, 9999), qty = rand(25, 99);
+      return { text: `A retailer orders ${qty} TVs at $${price} each. What is the total cost?`, answer: price * qty, op1: price, op2: qty, operation: 'multiplication' };
+    },
+  },
+  {
+    generate: () => {
+      const a = rand(10000, 99999), b = rand(10000, 99999), c = rand(10000, 99999);
+      return { text: `A charity raised $${a}, $${b}, and $${c} over three years. What is the grand total?`, answer: a + b + c, op1: a, op2: b, operation: 'addition' };
+    },
+  },
+  {
+    generate: () => {
+      const total = rand(500000, 999999), a = rand(50000, 150000), b = rand(50000, 150000);
+      return { text: `A city budget is $${total}. It spends $${a} on roads and $${b} on schools. How much is left?`, answer: total - a - b, op1: total, op2: a, operation: 'subtraction' };
+    },
+  },
+  {
+    generate: () => {
+      const rows = rand(40, 120), cols = rand(40, 120), broken = rand(50, 300);
+      return { text: `An arena has ${rows} rows of ${cols} seats. ${broken} seats are out of order. How many usable seats remain?`, answer: rows * cols - broken, op1: rows, op2: cols, operation: 'multiplication' };
+    },
+  },
+  {
+    generate: () => {
+      const perCrate = rand(48, 144), crates = rand(30, 90);
+      const total = perCrate * crates;
+      return { text: `${total} bottles are packed into crates of ${perCrate}. How many full crates are there?`, answer: crates, op1: total, op2: perCrate, operation: 'division' };
+    },
+  },
+  {
+    generate: () => {
+      const monthly = rand(1500, 5000), months = 12, bonus = rand(5000, 20000);
+      return { text: `You save $${monthly} per month for a year and receive a $${bonus} bonus. How much do you have?`, answer: monthly * months + bonus, op1: monthly, op2: months, operation: 'multiplication' };
+    },
+  },
+  {
+    generate: () => {
+      const rate = rand(120, 480), hours = rand(12, 40);
+      return { text: `A press prints ${rate} pages per minute for ${hours} minutes. How many pages are printed?`, answer: rate * hours, op1: rate, op2: hours, operation: 'multiplication' };
+    },
+  },
+  {
+    generate: () => {
+      const a = rand(100000, 499999), b = rand(100000, 499999);
+      const total = a + b;
+      return { text: `Two factories produced ${total} units together. One made ${a}. How many did the other make?`, answer: b, op1: total, op2: a, operation: 'subtraction' };
+    },
+  },
+];
+
 const templatesByDifficulty: Record<Difficulty, Template[]> = {
   easy: easyTemplates,
   medium: mediumTemplates,
   hard: hardTemplates,
   'super-hard': superHardTemplates,
+  'ultra-hard': ultraHardTemplates,
 };
 
 export function generateWordProblems(difficulty: Difficulty, count: number = 10): Question[] {

@@ -229,12 +229,60 @@ const superHardTemplates: Template[] = [
   },
 ];
 
+// ==================== ULTRA HARD ====================
+const ultraHardTemplates: Template[] = [
+  {
+    // "double a plus triple b minus c"
+    generate: () => {
+      const a = rand(10, 40), b = rand(10, 40), c = rand(5, 30);
+      return { text: `What is double ${a} plus triple ${b} minus ${c}?`, answer: 2 * a + 3 * b - c, op1: a, op2: b, operation: 'addition' };
+    },
+  },
+  {
+    // "half of a plus double b"
+    generate: () => {
+      const half = rand(10, 50), a = half * 2, b = rand(10, 50);
+      return { text: `What is half of ${a} plus double ${b}?`, answer: half + 2 * b, op1: a, op2: b, operation: 'addition' };
+    },
+  },
+  {
+    // "a times b minus c times d"
+    generate: () => {
+      const a = rand(4, 12), b = rand(4, 12), c = rand(2, 8), d = rand(2, 8);
+      const answer = a * b - c * d;
+      return { text: `What is ${a} times ${b} minus ${c} times ${d}?`, answer, op1: a, op2: b, operation: 'multiplication' };
+    },
+  },
+  {
+    // "a quarter of n, then times m"
+    generate: () => {
+      const q = rand(10, 40), n = q * 4, m = rand(3, 9);
+      return { text: `What is a quarter of ${n}, times ${m}?`, answer: q * m, op1: n, op2: m, operation: 'multiplication' };
+    },
+  },
+  {
+    // "triple a minus double b"
+    generate: () => {
+      const a = rand(20, 60), b = rand(5, Math.floor((3 * a) / 2));
+      return { text: `What is triple ${a} minus double ${b}?`, answer: 3 * a - 2 * b, op1: a, op2: b, operation: 'subtraction' };
+    },
+  },
+  {
+    // "the sum of a, b and c"
+    generate: () => {
+      const a = rand(20, 80), b = rand(20, 80), c = rand(20, 80);
+      return { text: `What is the sum of ${a}, ${b} and ${c}?`, answer: a + b + c, op1: a, op2: b, operation: 'addition' };
+    },
+  },
+];
+
 function getTemplates(difficulty: Difficulty): Template[] {
   switch (difficulty) {
     case 'easy': return easyTemplates;
     case 'medium': return mediumTemplates;
     case 'hard': return hardTemplates;
     case 'super-hard': return superHardTemplates;
+    case 'ultra-hard': return ultraHardTemplates;
   }
 }
 

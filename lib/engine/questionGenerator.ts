@@ -18,9 +18,20 @@ function generateSingleQuestion(
     case 'addition': {
       const a = randomInt(config.operand1.min, config.operand1.max);
       const b = randomInt(config.operand2.min, config.operand2.max);
+      if (config.operand3) {
+        const c = randomInt(config.operand3.min, config.operand3.max);
+        return { id, operand1: a, operand2: b, operand3: c, operation, answer: a + b + c };
+      }
       return { id, operand1: a, operand2: b, operation, answer: a + b };
     }
     case 'subtraction': {
+      if (config.operand3) {
+        // a is drawn from the large range so a - b - c stays positive
+        const a = randomInt(config.operand1.min, config.operand1.max);
+        const b = randomInt(config.operand2.min, config.operand2.max);
+        const c = randomInt(config.operand3.min, config.operand3.max);
+        return { id, operand1: a, operand2: b, operand3: c, operation, answer: a - b - c };
+      }
       let a = randomInt(config.operand1.min, config.operand1.max);
       let b = randomInt(config.operand2.min, config.operand2.max);
       if (a < b) [a, b] = [b, a];

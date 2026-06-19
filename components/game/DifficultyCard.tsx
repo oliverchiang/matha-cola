@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import { Difficulty, Operation } from '@/lib/engine/types';
 import { getDifficultyDescription } from '@/lib/engine/difficulty';
-import { Smile, Brain, Flame, Skull } from 'lucide-react';
+import { Smile, Brain, Flame, Skull, Bomb } from 'lucide-react';
 import { sounds } from '@/lib/sounds';
 
 interface DifficultyCardProps {
@@ -18,6 +18,7 @@ const difficultyConfig: Record<Difficulty, { label: string; color: string; bg: s
   medium:        { label: 'Medium',     color: 'text-white', bg: 'bg-fizz-yellow', icon: Brain },
   hard:          { label: 'Hard',       color: 'text-white', bg: 'bg-cola-red',    icon: Flame },
   'super-hard':  { label: 'Super Hard', color: 'text-white', bg: 'bg-dark',        icon: Skull },
+  'ultra-hard':  { label: 'Ultra Hard', color: 'text-white', bg: 'bg-op-division', icon: Bomb },
 };
 
 export default function DifficultyCard({ difficulty, operation, onClick, index }: DifficultyCardProps) {

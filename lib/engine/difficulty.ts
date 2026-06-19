@@ -8,6 +8,8 @@ interface Range {
 interface DifficultyConfig {
   operand1: Range;
   operand2: Range;
+  // When present, the question uses a third operand (ultra-hard addition/subtraction).
+  operand3?: Range;
 }
 
 const configs: Record<Exclude<Operation, 'mixed' | 'word-problems' | 'word-based' | 'make-tens'>, Record<Difficulty, DifficultyConfig>> = {
@@ -16,24 +18,30 @@ const configs: Record<Exclude<Operation, 'mixed' | 'word-problems' | 'word-based
     medium:       { operand1: { min: 10, max: 50 },   operand2: { min: 10, max: 50 } },
     hard:         { operand1: { min: 50, max: 200 },  operand2: { min: 50, max: 200 } },
     'super-hard': { operand1: { min: 500, max: 9999 }, operand2: { min: 500, max: 9999 } },
+    // Three 5-6 digit numbers, e.g. 51231 + 12315 + 567986
+    'ultra-hard': { operand1: { min: 10000, max: 999999 }, operand2: { min: 10000, max: 999999 }, operand3: { min: 10000, max: 999999 } },
   },
   subtraction: {
     easy:         { operand1: { min: 1, max: 10 },     operand2: { min: 1, max: 10 } },
     medium:       { operand1: { min: 20, max: 50 },    operand2: { min: 1, max: 25 } },
     hard:         { operand1: { min: 100, max: 500 },  operand2: { min: 50, max: 250 } },
     'super-hard': { operand1: { min: 1000, max: 9999 }, operand2: { min: 500, max: 5000 } },
+    // a - b - c, ranges keep the result positive (b + c <= 400000 < a)
+    'ultra-hard': { operand1: { min: 500000, max: 999999 }, operand2: { min: 10000, max: 200000 }, operand3: { min: 10000, max: 200000 } },
   },
   multiplication: {
     easy:         { operand1: { min: 1, max: 5 },   operand2: { min: 1, max: 5 } },
     medium:       { operand1: { min: 2, max: 10 },  operand2: { min: 2, max: 10 } },
     hard:         { operand1: { min: 5, max: 12 },  operand2: { min: 5, max: 12 } },
     'super-hard': { operand1: { min: 12, max: 50 }, operand2: { min: 12, max: 50 } },
+    'ultra-hard': { operand1: { min: 25, max: 99 }, operand2: { min: 12, max: 99 } },
   },
   division: {
     easy:         { operand1: { min: 1, max: 5 },   operand2: { min: 1, max: 5 } },
     medium:       { operand1: { min: 2, max: 10 },  operand2: { min: 2, max: 10 } },
     hard:         { operand1: { min: 5, max: 12 },  operand2: { min: 5, max: 12 } },
     'super-hard': { operand1: { min: 12, max: 50 }, operand2: { min: 12, max: 50 } },
+    'ultra-hard': { operand1: { min: 12, max: 50 }, operand2: { min: 25, max: 99 } },
   },
 };
 
@@ -47,6 +55,7 @@ export function getDifficultyLabel(difficulty: Difficulty): string {
     case 'medium': return 'Medium';
     case 'hard': return 'Hard';
     case 'super-hard': return 'Super Hard';
+    case 'ultra-hard': return 'Ultra Hard';
   }
 }
 
@@ -57,6 +66,7 @@ export function getDifficultyDescription(operation: Operation, difficulty: Diffi
       medium: 'Medium numbers, all operations',
       hard: 'Large numbers, all operations',
       'super-hard': 'Huge numbers, all operations',
+      'ultra-hard': 'Monster numbers, all operations',
     }[difficulty];
   }
 
@@ -66,6 +76,7 @@ export function getDifficultyDescription(operation: Operation, difficulty: Diffi
       medium: 'Multi-step problems, rounding',
       hard: 'Complex stories, big numbers',
       'super-hard': 'Multi-step nightmares!',
+      'ultra-hard': 'Brutal multi-step monsters!',
     }[difficulty];
   }
 
@@ -75,6 +86,7 @@ export function getDifficultyDescription(operation: Operation, difficulty: Diffi
       medium: 'Blank mostly on the right',
       hard: 'Blank on either side',
       'super-hard': 'Any blank, trickier numbers',
+      'ultra-hard': 'Any blank, trickier numbers',
     }[difficulty];
   }
 
@@ -84,6 +96,7 @@ export function getDifficultyDescription(operation: Operation, difficulty: Diffi
       medium: 'Triple, quarter, more/less than',
       hard: 'Times, sums, differences',
       'super-hard': 'Multi-step verbal problems',
+      'ultra-hard': 'Fiendish multi-step verbal',
     }[difficulty];
   }
 

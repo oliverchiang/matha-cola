@@ -20,6 +20,8 @@ const difficultyLabels: Record<string, string> = {
   easy: 'Easy',
   medium: 'Medium',
   hard: 'Hard',
+  'super-hard': 'Super Hard',
+  'ultra-hard': 'Ultra Hard',
 };
 
 const operationColors: Record<string, string> = {

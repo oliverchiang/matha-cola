@@ -3,7 +3,7 @@
 import { useEffect, useCallback, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Home, Check, X, Swords } from 'lucide-react';
+import { ArrowLeft, Home, Check, X, Swords, Shuffle, RotateCcw } from 'lucide-react';
 import { useGameStore } from '@/lib/stores/gameStore';
 import { useProfileStore } from '@/lib/stores/profileStore';
 import { useChallengeStore } from '@/lib/stores/challengeStore';
@@ -32,7 +32,7 @@ import confetti from 'canvas-confetti';
 import { sounds } from '@/lib/sounds';
 
 const operations: Operation[] = ['addition', 'subtraction', 'multiplication', 'division', 'mixed', 'word-problems', 'make-tens', 'word-based'];
-const difficulties: Difficulty[] = ['easy', 'medium', 'hard', 'super-hard'];
+const difficulties: Difficulty[] = ['easy', 'medium', 'hard', 'super-hard', 'ultra-hard'];
 const timesTables: TimesTable[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 'mixed'];
 const makeTargets: MakeTarget[] = [10, 20, 30, 40, 50, 'mixed'];
 
@@ -235,7 +235,7 @@ export default function PlayPage() {
       if (e.key >= '0' && e.key <= '9') {
         sounds.numpad(e.key);
         setUserAnswer(prev => {
-          if (prev.length >= 6) return prev;
+          if (prev.length >= 7) return prev;
           return prev + e.key;
         });
       } else if (e.key === 'Backspace') {
@@ -264,7 +264,7 @@ export default function PlayPage() {
   const handleDigit = (digit: string) => {
     if (feedback) return;
     setUserAnswer(prev => {
-      if (prev.length >= 6) return prev;
+      if (prev.length >= 7) return prev;
       return prev + digit;
     });
   };
@@ -390,11 +390,14 @@ export default function PlayPage() {
               {store.results.map((result, i) => {
                 const q = result.question;
                 const isMakeTens = q.operation === 'make-tens';
+                const sym = getOperationSymbol(q.operation);
                 const equation = isMakeTens
                   ? (q.blankPosition === 'left'
                       ? `${q.answer} + ${q.operand1} = ${q.target}`
                       : `${q.operand1} + ${q.answer} = ${q.target}`)
-                  : `${q.operand1} ${getOperationSymbol(q.operation)} ${q.operand2} = ${q.answer}`;
+                  : q.operand3 !== undefined
+                    ? `${q.operand1} ${sym} ${q.operand2} ${sym} ${q.operand3} = ${q.answer}`
+                    : `${q.operand1} ${sym} ${q.operand2} = ${q.answer}`;
                 return (
                   <div
                     key={i}
@@ -431,6 +434,20 @@ export default function PlayPage() {
             transition={{ delay: 1.2 }}
             className="w-full mt-2 pb-4 flex flex-col gap-3"
           >
+            {/* Play Again — replays the same mode with fresh questions (always a solo game) */}
+            <AnimatedButton
+              onClick={() => {
+                sounds.click();
+                store.playAgain();
+                scoreSaved.current = false;
+                setCapsEarnedThisGame(0);
+                setChallengeSent(false);
+              }}
+              className="w-full bg-success text-white font-bold text-lg py-4 rounded-2xl shadow-lg flex items-center justify-center gap-2"
+            >
+              <RotateCcw size={22} /> Play Again
+            </AnimatedButton>
+
             {/* Challenge button — only if >1 profile and not already a challenge game */}
             {!store.activeChallengeId && !challengeSent && (
               <AnimatedButton
@@ -675,6 +692,24 @@ export default function PlayPage() {
               <h2 className="text-3xl sm:text-4xl font-bold text-dark text-center">
                 Pick Your <span className="text-op-multiplication">Times Table!</span>
               </h2>
+
+              {/* Mixed Difficulty mode — play by difficulty instead of a single table */}
+              <motion.button
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={() => { sounds.click(); store.startMultiplicationDifficultyMode(); }}
+                className="w-full bg-op-division text-white rounded-2xl p-4 flex items-center gap-3 shadow-lg cursor-pointer"
+              >
+                <div className="w-11 h-11 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
+                  <Shuffle size={24} strokeWidth={2.5} />
+                </div>
+                <div className="text-left">
+                  <div className="text-lg font-bold">Mixed Difficulty</div>
+                  <div className="text-sm opacity-80">Random questions — pick Easy to Ultra Hard</div>
+                </div>
+              </motion.button>
 
               <div className="grid grid-cols-3 gap-3 w-full">
                 {timesTables.map((table, i) => (

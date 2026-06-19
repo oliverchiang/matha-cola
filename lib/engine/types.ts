@@ -1,6 +1,6 @@
 export type Operation = 'addition' | 'subtraction' | 'multiplication' | 'division' | 'mixed' | 'word-problems' | 'make-tens' | 'word-based';
 
-export type Difficulty = 'easy' | 'medium' | 'hard' | 'super-hard';
+export type Difficulty = 'easy' | 'medium' | 'hard' | 'super-hard' | 'ultra-hard';
 
 export type MakeTarget = 10 | 20 | 30 | 40 | 50 | 'mixed';
 
@@ -8,6 +8,8 @@ export interface Question {
   id: number;
   operand1: number;
   operand2: number;
+  // Present only for 3-operand ultra-hard addition/subtraction (e.g. a + b + c).
+  operand3?: number;
   operation: Exclude<Operation, 'mixed' | 'word-problems' | 'word-based'>;
   answer: number;
   wordProblem?: string;
